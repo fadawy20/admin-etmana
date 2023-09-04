@@ -9,6 +9,7 @@ import { OpendailogService } from 'src/app/Services/opendailog.service';
   styleUrls: ['./screen-haeder.component.scss'],
 })
 export class ScreenHaederComponent implements OnInit {
+  @Input() hasHeader: boolean = true;
   @Input() table: any;
   @Input() pageName: string = '';
   @Output() CreateHandler: EventEmitter<boolean> = new EventEmitter();

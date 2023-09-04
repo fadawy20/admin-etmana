@@ -81,6 +81,9 @@ export const AppRoutes = {
     },
     collection : {
       main : 'collection',
+    },
+    payments : {
+      main : 'payments',
     }
   },
 };

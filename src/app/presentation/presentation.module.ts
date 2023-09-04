@@ -159,6 +159,10 @@ const routes: Routes = [
             (m) => m.ProfileUserModule
           ),
       },
+
+      {
+        path : AppRoutes.dashboard.payments.main, loadComponent : ()=> import ('./payments/payments.component').then((m)=> m.PaymentsComponent)
+      },
     ],
   },
 ];

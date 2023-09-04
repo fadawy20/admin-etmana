@@ -183,5 +183,33 @@ export class SideBarService {
 
       ],
     },
+    {
+      displayName: 'Financial',
+      iconName: 'icon-Group-28-6',
+      children: [
+        {
+          namePermission: 'cms',
+          displayName: 'Payment',
+          route: '/Dashboard/payments',
+          iconName: 'chevron_right',
+          parent: 'Financial',
+        },
+        {
+          namePermission: 'cms',
+          displayName: 'Invoice',
+          route: '/Dashboard/banner',
+          iconName: 'chevron_right',
+          parent: 'Financial',
+        },
+        {
+          namePermission: 'cms',
+          displayName: 'Refunds',
+          route: '/Dashboard/collection',
+          iconName: 'chevron_right',
+          parent: 'Financial',
+        },
+
+      ],
+    },
   ];
 }

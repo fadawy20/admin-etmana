@@ -70,6 +70,7 @@ export class DataTableComponent implements OnInit {
   @Output() isStatusChanged: EventEmitter<object> = new EventEmitter();
   @Output() isOpenProfileUser: EventEmitter<object> = new EventEmitter();
   @Output() OpenNewTab: EventEmitter<object> = new EventEmitter();
+  @Output() itemsSelected: EventEmitter<any[]> = new EventEmitter<any[]>();
 
 
   @ViewChildren('menu')
@@ -119,7 +120,7 @@ export class DataTableComponent implements OnInit {
   checkSelection(data: any) {
     this.selectedItems = data;
     console.log(this.selectedItems);
-
+    this.itemsSelected.emit(data);
   }
 
   deleteSelected() {

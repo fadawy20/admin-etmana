@@ -1,0 +1,30 @@
+
+::ng-deep .p-dropdown{
+  width: 100%;
+}
+.apply-filter {
+  background-color: #0f183d;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 12px;
+  border: 1px solid #0f183d;
+  border-radius: 5px;
+}
+.apply-filter:hover {
+  background-color: #0f183d;
+  color: #ffffff;
+  border: 1px solid #0f183d;
+}
+.cancel-filter {
+  background-color: transparent;
+  color: #0f183d;
+  font-size: 13px;
+  padding: 12px;
+  border: 1px solid #0f183d;
+  border-radius: 5px;
+}
+.cancel-filter:hover {
+  background-color: transparent;
+  color: #0f183d;
+  border: 1px solid #0f183d;
+}
