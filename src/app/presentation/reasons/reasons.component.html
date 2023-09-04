@@ -1,0 +1,116 @@
+<div class="wrapper">
+  <div class="my-3">
+    <app-screen-haeder
+      [pageName]="'REASONS'"
+      (CreateHandler)="openCreateDialog($event)"
+      [firstLetter]="'R'"
+      [title]="'EASONS'"
+      [filterOfNames]="filterOfNames"
+      (showFilterField2)="showFilterFieldFn($event)"
+    ></app-screen-haeder>
+  </div>
+  <form *ngIf="showFilterField" [formGroup]="filterField" >
+    <div class="row my-3">
+      <div class="col-md-4 d-flex align-items-center gap-3" *ngFor="let item of filterOfNames">
+        <div class="w-100">
+          <label for="">{{item === 'description_ar' ? 'Description Ar':'Description En'}}</label><br>
+          <input type="text" [formControlName]="item" class="w-100" pInputText  [placeholder]="item === 'description_ar' ? 'Description Ar':'Description En'"
+           >
+        </div>
+      </div>
+    </div>
+    <div class=" d-flex justify-content-end align-items-baseline gap-3">
+      <button type="submit" (click)="getFilterAction()"  class="apply-filter btn">Apply Filter</button>
+    <button (click)="resetForm()" class="cancel-filter btn">Cancel</button>
+
+    </div>
+  </form>
+  <app-data-table
+    (isEditBtnClicked)="EditHandler($event)"
+    (isDeleteBtnClicked)="DeleteHandler($event)"
+    [loadingIndicator]="loadingIndicator"
+    [showActionCol]="true"
+    [showDetailsAction]="false"
+    [showDeleteAction]="true"
+    [showEditAction]="true"
+    [tableHeaders]="tableHeader"
+    [tableData]="data$ | async"
+    [hidePagintation]="false"
+    [page]="page"
+    [tableColumn]="tableHeader"
+    #table
+  >
+  </app-data-table>
+</div>
+<p-dialog
+  [style]="{ width: '30vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+  [modal]="true"
+  [header]="editModeOn ? 'Edit Reason ' : 'Create Reason'"
+  [(visible)]="display"
+  [draggable]="false"
+  [closable]="false"
+>
+  <form class="form" [formGroup]="reasonForm">
+    <!-- AR -->
+    <div class="Arabic_Title">
+      <div class="mb-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Arabic Description</mat-label>
+          <input type="text" matInput formControlName="description_ar" />
+        </mat-form-field>
+        <small
+          class="text-danger"
+          *ngIf="
+            submitted && reasonForm.get('description_ar')?.hasError('required')
+          "
+        >
+          Arabic description is required
+        </small>
+      </div>
+    </div>
+    <!-- AR -->
+
+    <!-- EN -->
+    <div class="English_Title">
+      <div class="mb-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>English Description</mat-label>
+          <input type="text" matInput formControlName="description_en" />
+        </mat-form-field>
+        <small
+          class="text-danger"
+          *ngIf="
+            submitted && reasonForm.get('description_en')?.hasError('required')
+          "
+        >
+          English description is required
+        </small>
+      </div>
+    </div>
+    <!-- EN -->
+
+    <!-- buttons -->
+    <app-add-button
+      class="w-100"
+      [isLoading]="btnLoader"
+      (click)="submit()"
+      [title]="editModeOn ? 'EDIT' : 'CREATE'"
+    >
+    </app-add-button>
+    <button type="button" class="btn btn-light w-100" (click)="cancel()">
+      Cancel
+    </button>
+    <!-- buttons -->
+  </form>
+</p-dialog>
+<p-toast></p-toast>
+
+<p-confirmDialog
+  [style]="{ width: '30vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+>
+</p-confirmDialog>
+

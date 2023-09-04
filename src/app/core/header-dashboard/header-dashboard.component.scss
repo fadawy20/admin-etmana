@@ -1,0 +1,99 @@
+@mixin inputs-places {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flags
+{
+  margin-left: 250px;
+}
+.header_side {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 1rem;
+  width: 100%;
+  background-color: transparent !important;
+  padding: 10px 0px;
+}
+
+.mat-toolbar {
+  background: #fff;
+  color: #000;
+  position: fixed;
+  left: 0%;
+  z-index: 2;
+}
+
+.info {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 5px;
+}
+.greetings {
+  color: #9fa3b2;
+  font-size: 11px !important;
+}
+
+.userName {
+  color: #0e1740;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fa-bell {
+  border-radius: 50%;
+  color: #9fa3b2;
+  opacity: 1;
+}
+
+.notification {
+  border: none;
+  background-color: #f5f9f9;
+  padding: 5px;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  // border-left: 1px solid #a0a3b1;
+  // border-right: 1px solid #a0a3b1;
+}
+
+.user_image {
+  width: 40px;
+}
+
+.vertical_lign {
+  background-color: #a0a3b1;
+  width: 1px;
+  height: 25px;
+}
+
+::ng-deep {
+  .p-inputtext {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1rem;
+    color: #495057;
+    background: #f5f9f9;
+    padding: 0.75rem 1rem;
+    border: 0px solid #ced4da;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 6px;
+    text-align: left;
+  }
+  .p-inputtext::placeholder {
+    color: #d8dae0 !important;
+  }
+  .p-inputtext.p-inputtext-sm {
+    font-size: 0.875rem;
+    padding: 15px 12px;
+    width: 100%;
+  }
+  .p-input-icon-right > i:last-of-type {
+    color: #9fa3b2;
+  }
+}

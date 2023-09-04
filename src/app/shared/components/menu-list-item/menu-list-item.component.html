@@ -1,0 +1,59 @@
+<a mat-list-item [ngStyle]="{ 'padding-left': depth * 12 + 'px' }" [routerLink]="item.route"
+  (click)="onItemSelected(item)" [ngClass]="{
+  active: item.route ? router.isActive(item.route, true) : false,
+  expanded: expanded
+  }" style="transition: all 0.1s ease" class="menu-list-item"
+  [class.onHideMenu]="!opened" [class.link]="!opened">
+  <div class="icon-item">
+    <div class="d-flex align-items-center justify-content-center gap-3">
+      <!-- <mat-icon class="icon text-dark">{{ item?.iconName }}</mat-icon> -->
+      <!--  -->
+      <p class="fs-4 ">
+        <span
+         class="icon" [ngClass]="item?.iconName"></span>
+      </p>
+      <p style="transition: all 0.5s ease" class=" fs-6 link"
+        [class.opacity]="opened" [class.hide]="!opened">
+        {{ item.displayName }}
+      </p>
+    </div>
+    <span fxFlex *ngIf="item.children && item.children.length" class="icon-arrow
+      pt-2">
+      <span fxFlex></span>
+      <mat-icon [@indicatorRotate]="expanded ? 'expanded' : 'collapsed'"
+        style="transition: all 0.1s ease" [class.opacity]="opened"
+        [class.hide]="!opened">
+        expand_more
+      </mat-icon>
+    </span>
+  </div>
+</a>
+<div *ngIf="expanded" style="transition: all 0.1s ease" [class.opacity]="opened"
+  [class.hide]="!opened">
+  <app-menu-list-item
+    *ngFor="let child of item.children"
+    appElementDirective
+    [item]="child"
+    [depth]="depth + 1"
+  >
+  </app-menu-list-item>
+  <!-- <ul [ngClass]=" 'activePArent' ? parentListName === 'PRODUCT_CATALOG' || parentListName ==='SETTING' : '' "
+  class="item_list list-unstyled d-flex flex-column
+    custom-drop-down">
+    <li *ngFor="let item of item.children" (click)="onItemSelected(item)"
+      [ngClass]="{
+      subMemuActive: item.route ? router.isActive(item.route, true) : false,
+      expanded: expanded
+      }" style="cursor: pointer; padding-left: 20px;" class="item_sub_list
+      py-2">
+      <div class="d-flex align-items-center justify-content-sm-start">
+        <p style="transition: all 0.5s ease" class="fs-6 link"
+          [class.opacity]="opened" [class.hide]="!opened">
+          {{ item.displayName }}
+        </p>
+      </div>
+    </li>
+  </ul> -->
+
+
+</div>

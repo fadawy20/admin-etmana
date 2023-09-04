@@ -1,0 +1,64 @@
+<div class="wrapper">
+  <app-screen-haeder [firstLetter]="'R'" [title]="'EPORTS'" [showFilter]="false" [showCreateBtn]="false" [hide]="false">
+  </app-screen-haeder>
+
+  <div class="report-form">
+    <form [formGroup]="reportForm" class="form">
+
+      <div class="row">
+
+        <!-- Report Type -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label>Report Type</label>
+            <!-- <button (click)="click()">Click To Show value </button> -->
+            <p-dropdown [options]="reportsType" formControlName="type" class="w-100 " placeholder="Select a Report Type"
+              optionLabel="type" (onChange)="testChange($event)" [showClear]="false"></p-dropdown>
+            <small class="text-danger" *ngIf="submitted &&
+              reportForm.get('type')?.hasError('required')">
+              Report Type is required
+            </small>
+          </div>
+        </div>
+        <!-- Report Type -->
+
+        <!-- date from -->
+        <div class="col-md-3 ">
+          <label>Date From</label>
+          <p-calendar formControlName="date_from" [showIcon]="true" placeholder="Date From"></p-calendar>
+          <br>
+          <small class="text-danger" *ngIf="
+            submitted &&
+            reportForm.get('date_from')?.hasError('required')
+            ">
+            Date is required</small>
+        </div>
+        <!-- date from -->
+
+        <!-- date from -->
+        <div class="col-md-3 ">
+          <label>Date To</label>
+          <p-calendar formControlName="date_to" [showIcon]="true" placeholder="Date From"></p-calendar>
+          <br>
+          <small class="text-danger" *ngIf="
+            submitted &&
+            reportForm.get('date_to')?.hasError('required')
+            ">
+            Date is required</small>
+        </div>
+        <!-- date from -->
+
+        <div class="col-12">
+          <div class="d-flex align-items-center justify-content-end">
+            <button pButton type="button" icon="pi pi-download" label="Download the Report Sheet"
+              [loading]="loadingIndicator" (click)="applyReport()" class="submit btn my-3 py-3"></button>
+          </div>
+        </div>
+
+      </div>
+
+
+    </form>
+  </div>
+
+</div>

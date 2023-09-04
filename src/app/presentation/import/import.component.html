@@ -1,0 +1,193 @@
+<div class="wrapper">
+  <div class="my-3">
+    <app-screen-haeder
+      (CreateHandler)="showCreateModal($event)"
+      (uploadHandler)="uploadCreateModal($event)"
+      [firstLetter]="'I'"
+      [title]="'MPORTS'"
+    ></app-screen-haeder>
+  </div>
+
+  <app-data-table
+    (isEditBtnClicked)="EditHandler($event)"
+    (isDeleteBtnClicked)="DeleteHandler($event)"
+    (sendTablePageSize)="handlePageSize($event)"
+    (isDetailsBtnClicked)="displayImports($event)"
+    [loadingIndicator]="loadingIndicator"
+    [showActionCol]="true"
+    [showDetailsAction]="true"
+    [showDeleteAction]="false"
+    [showEditAction]="false"
+    [tableHeaders]="tableHeader"
+    [tableData]="data$ | async"
+    [totalItems]="length"
+    [tableColumn]="tableHeader"
+    [page]="page"
+    #table
+    (isBulkExportBtnClicked)="handleBulkExportedData($event)"
+  >
+  </app-data-table>
+</div>
+<p-dialog
+  [style]="{ width: '40vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+  [modal]="true"
+  [header]="editModeOn ? 'Update Prodcut' : 'Update Prodcut'"
+  [(visible)]="displayUpload"
+  [draggable]="false"
+  [closable]="false"
+>
+  <div>
+    <form class="form w-100">
+      <!-- <mat-form-field class="w-100">
+        <mat-label>ahmed</mat-label>
+        <mat-select
+          msInfiniteScroll
+          (infiniteScroll)="handleScrollEvent()"
+          [complete]="next === null"
+          threshold="1px"
+          (selectionChange)="getAttributes($event)"
+          [(ngModel)]="attrId"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <mat-option
+            *ngFor="let option of importSetData"
+            [value]="option.id"
+            >{{ option.title_en }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field> -->
+
+      <div class="file-text text-center my-1">
+        <!-- <a *ngIf="!showError" [href]="nameOfFile" class="text-primary fs-6">{{
+          nameOfFile
+        }}</a> -->
+        <p>Please Download Our Sheet</p>
+        <a
+          *ngIf="!showError && false"
+          [href]="nameOfFile"
+          class="text-primary fs-6"
+          >{{ nameOfFile }}</a
+        >
+      </div>
+
+      <!-- buttons -->
+      <div
+        class="btns d-flex align-items-center justify-content-center gap-2 flex-row-reverse"
+      >
+        <div class="upload-file position-relative">
+          <span class="text-white"
+            ><i class="fa-solid fa-upload pe-2"></i>Upload</span
+          >
+          <input
+            required
+            type="file"
+            multiple
+            (change)="onFileSelectForUplaod($event)"
+            style="cursor: pointer"
+          />
+          <app-loading [loader]="loader"></app-loading>
+        </div>
+
+        <app-download
+          [icon]="'pi pi-download'"
+          [isLoading]="btnLoader"
+          class="justify-content-start"
+          [title]="'DownLoad'"
+          (click)="downloadFileForUpload()"
+        >
+        </app-download>
+        <app-cancel-button
+          class="w-25 mx-2"
+          (click)="cancelAction()"
+        ></app-cancel-button>
+      </div>
+      <!-- buttons -->
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [style]="{ width: '40vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+  [modal]="true"
+  [header]="editModeOn ? 'Add New  Imports ' : 'Add New Imports'"
+  [(visible)]="display"
+  [draggable]="false"
+  [closable]="false"
+>
+  <div>
+    <form class="form w-100">
+      <mat-form-field class="w-100">
+        <mat-label>Attribte Set</mat-label>
+        <mat-select
+          msInfiniteScroll
+          (infiniteScroll)="handleScrollEvent()"
+          [complete]="next === null"
+          threshold="1px"
+          (selectionChange)="getAttributes($event)"
+          [(ngModel)]="attrId"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <mat-option
+            *ngFor="let option of importSetData"
+            [value]="option.id"
+            >{{ option.title_en }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <div class="file-text text-center my-1">
+        <a *ngIf="!showError" [href]="nameOfFile" class="text-primary fs-6">{{
+          nameOfFile
+        }}</a>
+        <p *ngIf="showError" class="text-danger">Please Select Attribute Set</p>
+      </div>
+
+      <!-- buttons -->
+      <div
+        class="btns d-flex align-items-center justify-content-center gap-2 flex-row-reverse"
+      >
+        <div class="upload-file position-relative">
+          <span class="text-white"
+            ><i class="fa-solid fa-upload pe-2"></i>Upload</span
+          >
+          <input
+            [disabled]="!isDisabled"
+            required
+            type="file"
+            multiple
+            (change)="onFileSelect($event)"
+            style="cursor: pointer"
+          />
+          <app-loading [loader]="loader"></app-loading>
+        </div>
+
+        <app-download
+          [icon]="'pi pi-download'"
+          [isLoading]="btnLoader"
+          class="justify-content-start"
+          [title]="'DownLoad'"
+          (click)="downloadFile()"
+        >
+        </app-download>
+        <app-cancel-button
+          class="w-25 mx-2"
+          (click)="cancelAction()"
+        ></app-cancel-button>
+      </div>
+      <!-- buttons -->
+    </form>
+  </div>
+</p-dialog>
+
+<p-toast></p-toast>
+
+<p-confirmDialog
+  [style]="{ width: '30vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+>
+</p-confirmDialog>

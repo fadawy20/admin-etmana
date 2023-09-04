@@ -1,0 +1,191 @@
+<div class="dataTable mt-4 rounded bg-white shadow">
+  <p-table [rowHover]="true" id="myTable" [columns]="tableHeaders" [loading]="loadingIndicator"
+    styleClass="p-datatable-striped" [value]="tableData" responsiveLayout="scroll" [rowHover]="true"
+    [resizableColumns]="true" [globalFilterFields]="tableColumn" totalRecords="totalRecords"
+    [(selection)]="selectedItems" (selectionChange)="checkSelection($event)" #dataTable>
+    <ng-template pTemplate="header" let-columns class="showing">
+      <tr style="cursor: pointer">
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+        <th *ngIf="checkValues">Values</th>
+        <th *ngIf="orderCount">Orders</th>
+        <th *ngIf="activeStatusOrder">Status</th>
+        <th *ngIf="showImage">{{ imageHeader }}</th>
+        <th *ngIf="viewStatus">Validation</th>
+        <th *ngIf="activeStatus">Status</th>
+        <th *ngIf="showToggleStatus">Status</th>
+        <th pFrozenColumn *ngIf="showActionCol" class="p-0">
+          <span *ngIf="selectedItems.length === 0"> Actions </span>
+          <span *ngIf="selectedItems.length !== 0">
+            <app-delete-button (click)="deleteSelected()"></app-delete-button>
+            <!-- <button pButton class="deleteButton" (click)="deleteSelected()" type="button" icon="pi pi-trash"
+              iconPos="left" label="Delete">
+            </button> -->
+          </span>
+        </th>
+      </tr>
+      <!-- <tr class="columnFilter">
+
+      <th *ngFor="let item of tableColumn">
+          <p-columnFilter type="text" [field]="item.field"></p-columnFilter>
+      </th>
+      </tr> -->
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr style="cursor: pointer">
+        <td>
+          <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+        </td>
+
+        <td *ngFor="let col of columns" (click)="showProfile(rowData)">
+          <span *ngIf="rowData && rowData[col.field]">
+            {{ rowData[col.field] }}</span>
+
+        </td>
+        <td *ngIf="showImage" class="w-25">
+          <p *ngIf="!rowData.cover">-</p>
+          <button (click)="ExpandImage(rowData.cover)" class="btn p-0 m-0 border-none">
+            <img [src]="rowData.cover" *ngIf="rowData.cover" alt="image" class="w-25" />
+          </button>
+        </td>
+        <td *ngIf="activeStatus">
+          <p *ngIf="rowData.status" style="color: #00a599">Active</p>
+          <p *ngIf="!rowData.status" style="color: #4e4e4e">In-Active</p>
+        </td>
+        <td *ngIf="checkValues">
+          <button *ngIf="rowData.isCheckedType" (click)="check(rowData)" type="button"
+            class="btn btn-outline-primary check-all-btn">
+            Check All
+          </button>
+        </td>
+
+        <td *ngIf="orderCount">
+          <button (click)="viewOrderDetails(rowData?.id)" type="button" class="btn btn-outline-primary order-count">
+            {{rowData?.orders_count}} orders
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+              <g id="Group_13316" data-name="Group 13316" transform="translate(0 18) rotate(-90)">
+                <rect id="Rectangle_2100" data-name="Rectangle 2100" width="18" height="18" transform="translate(0)"
+                  fill="#fff" opacity="0" />
+                <path id="Path_38000" data-name="Path 38000" d="M6,0V6H0" transform="translate(9 2.5) rotate(45)"
+                  fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5" />
+              </g>
+            </svg>
+          </button>
+        </td>
+        <td *ngIf="activeStatusOrder">
+          <p *ngIf="rowData.status" style="color: #00a599">Active</p>
+          <p *ngIf="!rowData.status" style="color: #4e4e4e">In-Active</p>
+        </td>
+
+        <!-- toggle status actions -->
+
+        <!-- toggle status actions -->
+        <!-- status table data -->
+        <td *ngIf="viewStatus">
+          <div class="setting">
+            <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+              class="btn w-100" [style.background-color]="rowData.backGroundColor" [style.color]="rowData.color">
+              <p class="userName d-flex justify-content-between align-items-center gap-1">
+                <span>{{ rowData.Status }}</span>
+                <span><i class="fa-solid fa-chevron-down"></i></span>
+              </p>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li *ngIf="hidePunlishOption">
+                <button class="btn w-100 text-dark d-flex justify-content-between align-items-center"
+                  (click)="changeStatus(1, rowData.id)">
+                  <span>New</span> <i class="pi pi-bookmark fs-5"></i>
+                </button>
+              </li>
+              <hr *ngIf="hidePunlishOption" />
+              <li>
+                <button class="btn w-100 text-primary d-flex justify-content-between align-items-center"
+                  (click)="changeStatus(2, rowData.id)">
+                  <span> Approved </span>
+                  <i class="pi pi-check-circle fs-5"></i>
+                </button>
+              </li>
+              <hr *ngIf="hidePunlishOption" />
+              <li *ngIf="hidePunlishOption">
+                <button class="btn w-100 text-success d-flex justify-content-between align-items-center"
+                  (click)="changeStatus(4, rowData.id)">
+                  <span> Published </span> <i class="pi pi-send fs-5"></i>
+                </button>
+              </li>
+              <hr />
+              <li>
+                <button class="btn w-100 text-danger d-flex justify-content-between align-items-center"
+                  (click)="changeStatus(3, rowData.id)">
+                  <span> Rejected </span>
+                  <i class="pi pi-times-circle fs-5"></i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </td>
+        <!-- status table data -->
+        <!-- THIS IS WILL HERE OF CREATE COLLECTION AND PROMOTION ==> THAT IS FOR YOU -->
+        <td *ngIf="showToggleStatus">
+          <div class="switch d-flex align-items-center justify-content-center ms-3">
+            <p-inputSwitch (onChange)="switchStatus($event, rowData.id)" class="me-2"
+              [(ngModel)]="rowData.status"></p-inputSwitch>
+            <p class="lead" *ngIf="rowData.status === true ">Active</p>
+            <p class="lead" *ngIf="rowData.status === false">in-Active</p>
+          </div>
+        </td>
+        <td *ngIf="showActionCol" pFrozenColumn>
+          <div class="actions">
+            <button *ngIf="showSettingAction" class="btn btn-setting" (click)="setting(rowData)">
+              <h4>
+                <i class="fa-solid fa-gear"></i>
+              </h4>
+            </button>
+            <button *ngIf="showDetailsAction" class="btn btn-details" (click)="viewDetails(rowData)">
+              <h4>
+                <i class="fa-solid fa-circle-info pt-3"></i>
+              </h4>
+            </button>
+            <button *ngIf="showEditAction || rowData.checkStatus === 'NEW'" class="btn btn-edit"
+              (click)="edit(rowData)">
+              <h4>
+                <i class="fa-solid fa-pen-to-square"></i>
+              </h4>
+            </button>
+            <button *ngIf="showDeleteAction" class="btn btn-delete" (click)="Delete(rowData)">
+              <h4 class="text-danger">
+                <i class="fa-solid fa-trash-can"></i>
+              </h4>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length + 1">No records found</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <div *ngIf="hidePagintation" class="row d-flex justify-content-center align-items-center pagenator-export-wrapper">
+    <div class="col-md-3">
+      <button class="btn btn-export d-flex align-items-center justify-content-center" (click)="exportedSelected()">
+        <h4 class="m-0"><i class="pi pi-upload me-2"></i> Export</h4>
+      </button>
+    </div>
+    <div class="col-md-9">
+      <p-paginator appendTo="body" class="paginator" [rows]="50" #p (onPageChange)="setMyPagination($event)"
+        [totalRecords]="totalItems" [rowsPerPageOptions]="[5, 15, 50, 100]"></p-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- expand image in dialog -->
+<p-dialog [style]="{ width: '60vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="555555555555"
+  [modal]="true" [header]="" [(visible)]="display" [draggable]="false" [closable]="true">
+  <img [src]="imageUrl" alt="image" class="w-100 rounded-1" /></p-dialog>

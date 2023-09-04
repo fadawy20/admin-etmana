@@ -1,0 +1,14 @@
+<mat-form-field appearance="fill">
+  <mat-label>Select</mat-label>
+  <mat-select
+    msInfiniteScroll
+    (infiniteScroll)="getNextBatch()"
+    [complete]="next === null"
+    threshold="1px"
+    [multiple]="flag"
+  >
+    <mat-option *ngFor="let option of data" [value]="option">{{
+      option.title_en
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>

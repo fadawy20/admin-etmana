@@ -1,0 +1,96 @@
+<mat-toolbar>
+  <!-- <div class="d-flex justify-content-between align-items-center"> -->
+
+
+    <div class="header_side">
+      <div class="flags d-flex align-items-center gap-2 justify-content-start">
+        <img [src]="selectedFlag === 'eg' ? '../../assets/images/egypt.png':'../../assets/images/saudi-arabia.png' " class="w-50" >
+        <mat-select [(value)]="selectedFlag" [ngClass]="selectedFlag" >
+
+            <mat-option value="eg" (click)="selectFlag('eg')">
+              <img
+                width="25"
+                height="20"
+                src="../../assets/images/egypt.png"
+              />
+            </mat-option>
+
+            <mat-option value="sa" (click)="selectFlag('sa')">
+              <img
+                width="25"
+                height="20"
+                src="../../assets/images/saudi-arabia.png"
+              />
+            </mat-option>
+
+          </mat-select>
+      </div>
+      <div class="vertical_lign"></div>
+      <!-- notification -->
+      <button class="notification">
+        <i class="fa-regular fa-bell"></i>
+      </button>
+
+      <div class="vertical_lign"></div>
+
+      <!-- setting -->
+      <div class="setting">
+        <button
+          type="button"
+          class="btn p-0 d-flex justify-content-center align-items-center"
+          (click)="menu.toggle($event)"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/146/146035.png"
+            alt="User Image"
+            class="user_image"
+          />
+          <div class="info">
+            <p class="greetings">{{username}}</p>
+            <p class="userName">
+              My Account <i class="fa-solid fa-chevron-down"></i>
+            </p>
+          </div>
+        </button>
+        <p-menu
+          #menu
+          name="label"
+          [popup]="true"
+          ngDefaultControl
+          [(ngModel)]="selectedMenu"
+          [model]="items"
+        ></p-menu>
+      </div>
+
+      <!-- <div class="row d-flex justify-content-center align-items-center">
+              <div class="col-md-6">
+                  <span class="p-input-icon-right">
+                      <i class="pi pi-search"></i>
+                      <input type="text" class="p-inputtext-sm" pInputText placeholder="Search" />
+                  </span>
+              </div>
+              <div class="col-md-1 d-flex justify-content-center">
+                  <button class="notification">
+                  <i class="fa-regular fa-bell"></i>
+                </button>
+              </div>
+              <div class="col-md-5">
+                  <div class="setting">
+                      <button type="button" class="btn btn-outline-info" (click)="menu.toggle($event)">
+                        <div class="row d-flex justify-content-center align-items-center">
+                          <div class="col-md-4 p-2">
+                            <img src="https://cdn-icons-png.flaticon.com/512/146/146035.png" width="100%" alt="">
+                          </div>
+                          <div class="col-md-8 d-flex flex-column align-items-start justify-content-start">
+                            <span class="greetings">Hello Essam</span>
+                            <h6 class="userName">My Account <i class="fa-solid fa-chevron-down"></i></h6>
+                          </div>
+                        </div>
+                      </button>
+                      <p-menu #menu name="label" [popup]="true" ngDefaultControl [(ngModel)]="selectedMenu" [model]="items"></p-menu>
+                  </div>
+              </div>
+          </div> -->
+    </div>
+  <!-- </div> -->
+</mat-toolbar>

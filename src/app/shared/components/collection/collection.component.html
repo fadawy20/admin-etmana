@@ -1,0 +1,170 @@
+<div class="container-fluid">
+  <div class="col-md-12">
+    <p-dialog [style]="{ width: '80vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [closable]="false"
+      [(visible)]="collectionShown" [draggable]="false" [closable]="false" [modal]="true" position="right">
+      <form [formGroup]="collectionForm" class="d-flex align-item">
+        <div class="col-md-8">
+          <input type="search" class="searchINput w-100 mt-2" placeholder="Type Here Your Collection Name"
+            formControlName="title_en" />
+          <small class="text-danger" *ngIf="
+              submitted && collectionForm.get('title_en')?.hasError('required')
+            ">
+            collection title is required
+          </small>
+        </div>
+        <div class="d-flex my-3 col-md-4">
+          <button class="btn cancelBtn fs-5 p-2 mx-2 w-50" (click)="closeDialog()">
+            Cancel
+          </button>
+          <button (click)="createCollection()" class="btn createBtn fs-5 p-2 w-75">Create</button>
+        </div>
+      </form>
+
+      <!-- THIS IS WILL SHOW IN CMS ONLY THAT WAS UPLOAD SHEET-->
+      <!-- <div *ngIf="showUploadSheet" class="d-flex mb-4">
+        <div class="col-md-4"> <button class="btn cancelBtn fw-500 p-2 mx-2 w-75" (click)="closeDialog()">
+            <img style="width: 9%;" src="../../../../assets/images/paperclip-in-vertical-position.png" alt="">
+            Download Sheet Template
+            <i class="fa-solid fa-download sideLeft"></i>
+          </button></div> -->
+      <!-- <div class="col-md-4">  <button
+        class="btn cancelBtn fw-500 p-2 mx-2 w-75"
+
+      >
+      <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        Upload Sheet
+      </button>
+      <input
+
+      required
+      type="file"
+      multiple
+      (change)="onFileSelect($event)"
+      style="cursor: pointer"
+    /></div> -->
+      <!--
+    <div class="upload-file position-relative col-md-4 w-25">
+      <span class="text-white"
+        ><i class="fa-solid fa-upload pe-2"></i>Upload </span
+      >
+      <input
+
+        required
+        type="file"
+        multiple
+        (change)="onFileSelectForUplaod($event)"
+        style="cursor: pointer"
+      />
+      <app-loading [loader]="loader"></app-loading>
+    </div> -->
+      <!-- <div class="ms-4" *ngIf="uploadCorrect">
+          <img src="../../../../assets/images/correct.png" alt="" style="width: 90%;">
+        </div> -->
+      <!-- </div> -->
+
+
+
+      <div class="d-flex col-md-12">
+        <div class="">
+          <input type="text" name="sesrchProduct" placeholder="Product Name" [(ngModel)]="ProductNameValue"
+            (keyup)="checkProductSearchValue()" id="sesrchProduct" #ProductName class="sesrchProduct btn p-2" />
+          <input type="text" placeholder="SKU" [(ngModel)]="ProductSKUValue" (keyup)="checkProductSearchValue()"
+            name="searchProduct2" id="searchProduct2" #ProductSKU class="searchProduct2 mx-2 btn p-2" />
+        </div>
+        <div class="">
+          <!-- Product Brand input -->
+          <mat-form-field class="select-form dropDown w-100 border-0">
+            <mat-select class="" msInfiniteScroll (infiniteScroll)="handleBrandScrollEvent()" #ProductBrand
+              [(ngModel)]="ProductBrandValue" (valueChange)="checkProductSearchValue()" placeholder="Brand">
+              <mat-option *ngFor="let option of brandsData" [value]="option.id">{{ option.title_en }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <button class="btn searchbtn p-2 mx-2 px-3" (click)="
+              searchInProducts(
+                ProductName.value,
+                ProductSKU.value,
+                ProductBrand.value
+              )
+            ">
+            Search
+          </button>
+          <button class="btn clearbtn p-2" (click)="ClearAllValueSearch()">
+            <svg id="Group_13645" data-name="Group 13645" xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+              viewBox="0 0 28 28">
+              <rect id="Rectangle_27540" data-name="Rectangle 27540" width="28" height="28" fill="#9fa3b2"
+                opacity="0" />
+              <g id="Group_13752" data-name="Group 13752" transform="translate(7.014 5.018)">
+                <path id="Icon_material-delete" data-name="Icon material-delete"
+                  d="M8.5,20.468a2,2,0,0,0,2,2h7.984a2,2,0,0,0,2-2V8.492H8.5ZM21.472,5.5H17.979l-1-1h-4.99l-1,1H7.5v2H21.472Z"
+                  transform="translate(-7.5 -4.5)" fill="#d92059" />
+                <line id="Line_112" data-name="Line 112" y2="11.525" transform="translate(3.493 3.837)" fill="none"
+                  stroke="#fff" stroke-linecap="round" stroke-width="1" />
+                <line id="Line_114" data-name="Line 114" y2="7.687" transform="translate(6.986 3.837)" fill="none"
+                  stroke="#fff" stroke-linecap="round" stroke-width="1" />
+                <line id="Line_113" data-name="Line 113" y2="11.525" transform="translate(10.479 3.837)" fill="none"
+                  stroke="#fff" stroke-linecap="round" stroke-width="1" />
+              </g>
+            </svg>
+            Clear
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <div>
+            <app-custom-data-table [tableData]="data$ | async" [tableHeaders]="tableHeader" responsiveLayout="scroll"
+              (handleSelectedProduct)="getSelectItem($event)" [totalItems]="totalItems"
+              (sendTablePageSize)="handleProductsPageSize($event)">
+            </app-custom-data-table>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="rightSide p-2">
+            <div class="header d-flex justify-content-between">
+              <h3 class="fw-bold">Review Selection</h3>
+              <span class="text-muted">{{ selectedProducts.length }} Items</span>
+            </div>
+            <div class="addItem mt-2" *ngIf="selectedProducts.length === 0">
+              <div class="text-center py-4 addItemContent">
+                <i class="fa-solid fa-plus mx-2"></i> <span>Add Item</span>
+                <p class="text-muted selectItem">Select From The Grid</p>
+              </div>
+            </div>
+            <div class="rev-content" [ngStyle]="
+                selectedProducts.length > 0
+                  ? { height: '400px', 'overflow-y': 'scroll' }
+                  : {}
+              ">
+              <div class="row my-1" *ngFor="let product of selectedProducts; let i = index">
+                <div class="col-md-3">
+                  <div class="d-flex justify-content-center align-items-center prod-img ps-2">
+                    <img [src]="product?.image" alt="Logo" />
+                  </div>
+                </div>
+                <div class="col-md-9 pe-0 m-0">
+                  <div class="brandname">Brand Name</div>
+                  <div class="d-flex justify-content-between align-items-center my-1">
+                    <div class="fw-bolder name-pro fw-bold">
+                      {{ product?.name }}
+                    </div>
+                  </div>
+                  <div class="d-flex">
+                    <h6 class="SKUWORD">SKU</h6>
+                    <p class="skuData">{{ product?.sku }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </p-dialog>
+  </div>
+</div>
+
+
+
+<p-toast></p-toast>

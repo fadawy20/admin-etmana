@@ -1,0 +1,199 @@
+@import "../inventory-levels/inventory-levels.component.scss";
+
+.sales {
+  min-width: 350px;
+  .content {
+    padding: 5px;
+
+    .photo {
+      max-width: 195px;
+      padding: 10px;
+      max-height: 195px;
+      margin: 0 auto;
+
+      .resp {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        padding: 5px;
+        background-color: #f5f9f9;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+      }
+    }
+
+    .info {
+      list-style: none;
+      li {
+        margin-bottom: 5px;
+        border-bottom: 1px solid rgba($color: #ccc, $alpha: 0.7);
+        .name {
+          .head {
+            position: relative;
+            a {
+              text-decoration: none;
+              color: #0e1740;
+            }
+
+            &::before {
+              content: "";
+              position: absolute;
+              top: 50%;
+              left: -20px;
+              width: 7px;
+              height: 7px;
+              border-radius: 50%;
+              -webkit-border-radius: 50%;
+              -moz-border-radius: 50%;
+              -ms-border-radius: 50%;
+              -o-border-radius: 50%;
+              background-color: #5f2d79;
+              transform: translateY(-50%);
+              -webkit-transform: translateY(-50%);
+              -moz-transform: translateY(-50%);
+              -ms-transform: translateY(-50%);
+              -o-transform: translateY(-50%);
+            }
+          }
+          .rate {
+            font-size: 12px;
+            padding-right: 10px;
+          }
+        }
+        p {
+          font-size: 10px;
+          color: #7c828a;
+          padding-bottom: 2px;
+        }
+        &:nth-child(2) {
+          .name {
+            .head {
+              &::before {
+                content: "";
+                background-color: #0e1740;
+              }
+            }
+          }
+        }
+        &:nth-child(3) {
+          .name {
+            .head {
+              &::before {
+                content: "";
+                background-color: #00a599;
+              }
+            }
+          }
+        }
+        &:last-of-type {
+          .name {
+            .head {
+              &::before {
+                content: "";
+                background-color: #fab118;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .income,
+    .sold,
+    .total-sales {
+      height: 80px;
+      padding: 10px 10px 5px;
+      overflow: hidden;
+      background: #efeaf1 0% 0% no-repeat padding-box;
+      border-radius: 10px;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      -ms-border-radius: 10px;
+      -o-border-radius: 10px;
+      .head {
+        a {
+          text-decoration: none;
+          color: #0e1740;
+          font-size: 12px;
+        }
+        span {
+          color: #5f2d79;
+          font-size: 10px;
+        }
+      }
+
+      .images {
+        width: 100%;
+        height: 40px;
+        img {
+          width: 100px;
+          height: 100%;
+          background-size: cover;
+          position: relative;
+          right: -8px;
+        }
+        .salary {
+          color: #5f2d79;
+          font-weight: 500;
+          font-size: 15px;
+        }
+      }
+    }
+
+    .sold {
+      background-color: #feefd0;
+      .head {
+        span {
+          color: #0e1740;
+        }
+      }
+      .salary {
+        height: 40px;
+        line-height: 40px;
+        color: #2c3341;
+        font-size: 15px;
+        font-weight: 700;
+      }
+    }
+
+    .total-sales {
+      background-color: #e5f6f4;
+      .head {
+        a {
+          color: #0e1740;
+        }
+      }
+      .images {
+        position: relative;
+        .salary {
+          height: 40px;
+          line-height: 40px;
+          color: #00a599;
+          font-size: 15px;
+          font-weight: 600;
+        }
+        img {
+          position: absolute;
+          top: -8px;
+          right: 10px;
+        }
+      }
+    }
+    .salesTotal{
+      .w-50{
+        width: 45% !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+label {
+  color: #0e1740 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.form-control {
+  line-height: 1.8 !important;
+}
+
+// this is will change width to 100%
+p-dropdown {
+  ::ng-deep {
+    .p-dropdown {
+      width: 100% !important;
+    }
+  }
+}
+
+small {
+  font-size: 90% !important;
+  font-weight: 600 !important;
+}

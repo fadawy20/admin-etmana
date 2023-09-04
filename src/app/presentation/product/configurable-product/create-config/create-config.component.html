@@ -1,0 +1,376 @@
+<div class="wrapper">
+  <div class="header">
+    <div class="d-flex align-items-center justify-content-lg-start">
+      <div class="d-flex">
+        <button class="ml-2 back" pButton type="button" icon="pi pi-chevron-left" iconPos="right"
+          (click)="navigate()"></button>
+        <h2><span>A</span>dd new products</h2>
+      </div>
+
+      <div class="switch d-flex align-items-center ms-3">
+        <p-inputSwitch class="me-2" [(ngModel)]="ProductVisibility"
+          (onChange)="testProductStatus($event)"></p-inputSwitch>
+        <p class="lead" *ngIf="ProductVisibility === true">Active</p>
+        <p class="lead" *ngIf="ProductVisibility === false">in-Active</p>
+      </div>
+    </div>
+    <div class="toggle_type">
+      <button class="ml-2 simple" pButton type="button" icon="pi pi-chevron-down" label="Configurable" iconPos="right"
+        (click)="btnCrud.toggle($event)"></button>
+      <p-menu #btnCrud name="label" [popup]="true" ngDefaultControl [model]="createItems" appendTo="body"></p-menu>
+    </div>
+  </div>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-4">
+        <!-- Upload  -->
+        <form id="file-upload-form" class="uploader">
+          <input id="file-upload" type="file" (change)="uploadCoverIamge($event)" />
+          <label class="label" for="file-upload" id="file-drag">
+            <img *ngIf="viewImage" [src]="url" class="w-100" style="height: 300px; object-fit: cover" />
+            <div class="file-text text-center">
+              <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" *ngIf="!viewImage"></i>
+              <p *ngIf="!viewImage">upload your product cover here</p>
+            </div>
+          </label>
+        </form>
+        <!-- Upload  -->
+        <div class="covers">
+          <!-- Upload  -->
+          <form id="file-upload-form" class="uploader">
+            <input id="file-upload1" type="file" (change)="uploadIamgeSub1($event)" />
+            <label class="label-cover" for="file-upload1" id="file-drag">
+              <img *ngIf="viewFirstSubImage" [src]="firstSubUrl" class="w-100" />
+              <div class="file-text text-center">
+                <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!viewFirstSubImage"></i>
+              </div>
+            </label>
+          </form>
+          <!-- Upload  -->
+
+          <!-- Upload  -->
+          <form id="file-upload-form" class="uploader">
+            <input id="file-upload2" type="file" (change)="uploadIamgeSub2($event)" />
+            <label class="label-cover" for="file-upload2" id="file-drag">
+              <img *ngIf="viewSecondSubImage" [src]="secondSubUrl" class="w-100" />
+              <div class="file-text text-center">
+                <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!viewSecondSubImage"></i>
+              </div>
+            </label>
+          </form>
+          <!-- Upload  -->
+
+          <!-- Upload  -->
+          <form id="file-upload-form" class="uploader">
+            <input id="file-upload3" type="file" (change)="uploadIamgeSub3($event)" />
+            <label class="label-cover" for="file-upload3" id="file-drag">
+              <img *ngIf="viewThirdSubImage" [src]="thirdSubUrl" class="w-100" />
+              <div class="file-text text-center">
+                <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!viewThirdSubImage"></i>
+              </div>
+            </label>
+          </form>
+          <!-- Upload  -->
+
+          <!-- Upload  -->
+          <form id="file-upload-form" class="uploader">
+            <input id="file-upload4" type="file" (change)="uploadIamgeSub4($event)" />
+            <label class="label-cover" for="file-upload4" id="file-drag">
+              <img *ngIf="viewFourthSubImage" [src]="fourthSubUrl" class="w-100" />
+              <div class="file-text text-center">
+                <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!viewFourthSubImage"></i>
+              </div>
+            </label>
+          </form>
+          <!-- Upload  -->
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <!-- tabs buttons -->
+        <div class="tabs">
+          <button class="btn" [ngClass]="
+              !_productForm.productForm.dirty && tabName === 'info'
+                ? 'active'
+                : _productForm.productForm.dirty && tabName === 'info'
+                ? 'active_filled'
+                : !_productForm.productForm.dirty && tabName !== 'info'
+                ? ''
+                : 'not_active_filled'
+            " (click)="clickTab('info')">
+            Product Info
+          </button>
+          <div class="hr"></div>
+          <button [disabled]="!isDisabled" class="btn" [ngClass]="
+              !_productForm.fuilfilmentForm.dirty && tabName === 'fulifilment'
+                ? 'active'
+                : _productForm.fuilfilmentForm.dirty &&
+                  tabName === 'fulifilment'
+                ? 'active_filled'
+                : !_productForm.fuilfilmentForm.dirty &&
+                  tabName !== 'fulifilment'
+                ? ''
+                : 'not_active_filled'
+            " (click)="clickTab('fulifilment')">
+            Fulifilment
+          </button>
+          <div class="hr"></div>
+          <button [disabled]="!isDisabled" class="btn" (click)="clickTab('marketing')" [ngClass]="
+              !_productForm.marketingForm.dirty && tabName === 'marketing'
+                ? 'active'
+                : _productForm.marketingForm.dirty && tabName === 'marketing'
+                ? 'active_filled'
+                : !_productForm.marketingForm.dirty && tabName !== 'marketing'
+                ? ''
+                : 'not_active_filled'
+            ">
+            Marketing info
+          </button>
+        </div>
+        <!-- tabs buttons -->
+
+        <!-- info -->
+        <app-config-info-tap #tab [images]="images" (onCategoryScroll)="handleCategoriesScrollEvent()"
+          [categoryData]="categoryData" [categoryNext]="categoryNext" (onSellerScroll)="handleSellerScrollEvent()"
+          [sellersData]="sellersData" [sellertNxet]="sellertNxet" (onBrandScroll)="handleBrandScrollEvent()"
+          [brandsData]="brandsData" [brandNext]="brandNext" [attributeSetsData]="attributeSetsData"
+          (onAttSetScroll)="handleScrollEvent()" [AttributesValues]="AttributesValues"
+          (handleAttSetValues)="setValue($event)" [next]="next" *ngIf="tabName === 'info'"
+          (addToGrid)="addToGrid($event)" (getAttrSetID)="getAttrId($event)" (handleTabName)="changeTabName($event)"
+          [submitted]="submitted">
+        </app-config-info-tap>
+        <!-- info -->
+
+        <!-- fulfilment -->
+        <app-config-fulfilment-tap #tab (handleTabName)="changeTabName($event)" *ngIf="tabName === 'fulifilment'">
+        </app-config-fulfilment-tap>
+        <!-- fulfilment -->
+
+        <!-- markrting -->
+        <app-config-marketing-tap #tab (onProductScroll)="handleProductScrollEvent()" [productData]="productData"
+          [productNext]="productNext" *ngIf="tabName === 'marketing'"></app-config-marketing-tap>
+        <!-- markrting -->
+      </div>
+      <div class="col-md-12" *ngIf="tabName === 'info'">
+        <div class="dataTable mt-4 rounded bg-white shadow" *ngIf="variationsDisplay.length !== 0">
+          <p-table id="myTable" [loading]="loadingIndicator" styleClass="p-datatable-striped" responsiveLayout="scroll"
+            [rowHover]="true" [resizableColumns]="true" [value]="variationsDisplay">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>#</th>
+                <th *ngFor="let variation of variationsDisplay[0].variation">
+                  {{ variation.title }}
+                </th>
+                <th>Image</th>
+                <th>SKU</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Cost</th>
+                <th>Barcode</th>
+                <th>Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-variations let-i="rowIndex">
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td *ngFor="let item of variations.variation">
+                  <p *ngIf="item.code">
+                    <p-colorPicker [(ngModel)]="item.code"></p-colorPicker>
+                  </p>
+                  <p *ngIf="item.code == null">{{ item.value_en }}</p>
+                </td>
+                <td>
+                  <form id="file-upload-form" class="uploader" style="cursor: pointer" (click)="openPopupImage(i)">
+                    <!-- <input [id]="'upload'+i" type="file" (change)="uploadImageVariation(i, $event)" /> -->
+                    <!-- <label class="label-cover" [for]="'upload'+i" id="file-drag"> -->
+                    <img *ngIf="variations.viewImage" [src]="variations.url" class="variation-image" />
+                    <div class="file-text text-center">
+                      <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!variations.viewImage"></i>
+                    </div>
+                    <!-- </label> -->
+                  </form>
+                  <!-- <form
+                    id="file-upload-form"
+                    class="uploader"
+                    style="cursor: pointer"
+                  >
+                    <input
+                      [id]="'upload' + i"
+                      type="file"
+                      (change)="uploadImageVariation(i, $event)"
+                    />
+                    <label
+                      class="label-cover"
+                      [for]="'upload' + i"
+                      id="file-drag"
+                    >
+                      <img
+                        *ngIf="variations.viewImage"
+                        [src]="variations.url"
+                        class="w-100"
+                      />
+                      <div class="file-text text-center">
+                        <i
+                          class="pi pi-camera"
+                          style="font-size: 15px; color: #9fa3b2"
+                          *ngIf="!variations.viewImage"
+                        ></i>
+                      </div>
+                    </label>
+                  </form> -->
+                </td>
+                <td>{{ variations.sku }}</td>
+                <td>
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>price</mat-label>
+                    <input matInput placeholder="price..." [(ngModel)]="variations.price" />
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Cost</mat-label>
+                    <input matInput placeholder="Cost..." [(ngModel)]="variations.cost_price" />
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>quantity</mat-label>
+                    <input matInput placeholder="quantity..." [(ngModel)]="variations.quantity" />
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Barcode</mat-label>
+                    <input matInput placeholder="Barcode..." [(ngModel)]="variations.barcode" />
+                  </mat-form-field>
+                </td>
+                <td>
+                  <button class="btn-delete">
+                    <h4 class="text-danger">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </h4>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-end">
+        <app-cancel-button *ngIf="variationsDisplay.length !== 0 && tabName === 'info'" class="mx-2"
+          (click)="reset()"></app-cancel-button>
+        <app-add-button *ngIf="variationsDisplay.length !== 0 && tabName === 'info'" class="w-25 float-start"
+          [title]="'Save Product'" (click)="saveProduct()">
+        </app-add-button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<p-toast></p-toast>
+
+<p-dialog [style]="{ width: '50vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000"
+  [modal]="true" header="Add Or Remove Photo" [(visible)]="showImage" [draggable]="false" [closable]="true">
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Upload  -->
+      <form id="file-upload-form" class="uploader">
+        <input id="file-upload5" type="file" (change)="uploadImageVariation1($event)" />
+        <label class="label" for="file-upload5" id="file-drag">
+          <img *ngIf="variationsDisplay[indexImage]?.viewImage" [src]="variationsDisplay[indexImage]?.url" class="w-100"
+            style="height: 300px; object-fit: cover" />
+          <div class="file-text text-center">
+            <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2"
+              *ngIf="!variationsDisplay[indexImage]?.viewImage"></i>
+            <p *ngIf="!variationsDisplay[indexImage]?.viewImage">
+              upload your product cover here
+            </p>
+          </div>
+        </label>
+      </form>
+      <!-- Upload  -->
+      <div class="covers">
+        <!-- Upload  -->
+        <form id="file-upload-form" class="uploader" *ngFor="let item of [1, 2, 3, 4]">
+          <input id="sub-file-upload{{ item }}" type="file" (change)="subImage(item, $event)" />
+          <label class="label-cover" for="sub-file-upload{{ item }}" id="file-drag">
+            <img *ngIf="variationsDisplay[indexImage]?.images[item]?.url"
+              [src]="variationsDisplay[indexImage]?.images[item]?.url" class="w-100" />
+            <div class="file-text text-center">
+              <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2"
+                *ngIf="!variationsDisplay[indexImage]?.images[item]?.url"></i>
+            </div>
+          </label>
+        </form>
+        <!-- Upload  -->
+
+        <!-- Upload  -->
+        <!-- <form id="file-upload-form" class="uploader">
+          <input
+            id="file-upload2"
+            type="file"
+            (change)="uploadIamgeSub2($event)"
+          />
+          <label class="label-cover" for="file-upload2" id="file-drag">
+            <img
+              *ngIf="viewSecondSubImage"
+              [src]="secondSubUrl"
+              class="w-100"
+            />
+            <div class="file-text text-center">
+              <i
+                class="pi pi-camera"
+                style="font-size: 15px; color: #9fa3b2"
+                *ngIf="!viewSecondSubImage"
+              ></i>
+            </div>
+          </label>
+        </form> -->
+        <!-- Upload  -->
+
+        <!-- Upload  -->
+        <!-- <form id="file-upload-form" class="uploader">
+          <input
+            id="file-upload3"
+            type="file"
+            (change)="uploadIamgeSub3($event)"
+          />
+          <label class="label-cover" for="file-upload3" id="file-drag">
+            <img *ngIf="viewThirdSubImage" [src]="thirdSubUrl" class="w-100" />
+            <div class="file-text text-center">
+              <i
+                class="pi pi-camera"
+                style="font-size: 15px; color: #9fa3b2"
+                *ngIf="!viewThirdSubImage"
+              ></i>
+            </div>
+          </label>
+        </form> -->
+        <!-- Upload  -->
+
+        <!-- Upload  -->
+        <!-- <form id="file-upload-form" class="uploader">
+          <input
+            id="file-upload4"
+            type="file"
+            (change)="uploadIamgeSub4($event)"
+          />
+          <label class="label-cover" for="file-upload4" id="file-drag">
+            <img
+              *ngIf="viewFourthSubImage"
+              [src]="fourthSubUrl"
+              class="w-100"
+            />
+            <div class="file-text text-center">
+              <i
+                class="pi pi-camera"
+                style="font-size: 15px; color: #9fa3b2"
+                *ngIf="!viewFourthSubImage"
+              ></i>
+            </div>
+          </label>
+        </form> -->
+      </div>
+    </div>
+  </div>
+</p-dialog>

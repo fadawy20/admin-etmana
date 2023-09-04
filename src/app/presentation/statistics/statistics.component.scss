@@ -1,0 +1,116 @@
+.wrapper {
+  padding-right: 1.5rem;
+  padding-top: 1.5rem;
+  padding-top: 0.5rem;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    .head {
+      text-transform: uppercase;
+      color: #0e1740;
+      position: relative;
+      &::after {
+        content: "";
+        background-color: #48a299;
+        width: 20%;
+        height: 3px;
+        position: absolute;
+        left: 0%;
+        top: 100%;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  .filters-list {
+    list-style-type: none;
+    margin: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 1.5rem;
+    border: 0.5px solid #d8dadf;
+    border-radius: 9px;
+    padding: 3px;
+    position: relative;
+    li {
+      padding: 0;
+      cursor: pointer;
+      color: #0e1740;
+      text-transform: capitalize;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s ease-in-out;
+      &.activeFilter {
+        color: var(--main-color);
+      }
+    }
+    .year-picker {
+      position: relative;
+      .year {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 30px;
+        width: 80px;
+
+        ::ng-deep {
+          .p-inputtext {
+            position: relative;
+            cursor: pointer;
+            background-color: transparent;
+            height: 35px;
+            color: transparent;
+            box-shadow: none;
+            top: -5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.activeFilter {
+  background-color: #0e1740;
+  border-radius: 5px;
+  padding: 5px !important;
+  color: #ffffff !important;
+}
+
+.dashboard-main {
+  grid-template-areas:
+    "funnel funnel funnel funnel sales sales sales"
+    "levels levels users users sales sales sales"
+    "categories categories promotion promotion order order order"
+    "categories categories seller seller seller seller seller";
+  gap: 10px;
+}
+
+.sales-funnel {
+  grid-area: funnel;
+}
+.sales {
+  grid-area: sales;
+}
+.inventory-levels {
+  grid-area: levels;
+  min-width: 320px;
+}
+.online-users {
+  grid-area: users;
+  min-width: 320px;
+}
+.performing-categories {
+  grid-area: categories;
+}
+.promotion {
+  grid-area: promotion;
+}
+.order-status {
+  grid-area: order;
+}
+.performing-seller {
+  grid-area: seller;
+}

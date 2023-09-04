@@ -1,0 +1,170 @@
+<div class="wrapper">
+  <div class="my-3">
+    <app-screen-haeder (CreateHandler)="openCreateDialog($event)" [firstLetter]="'C'" [title]="'USTOMERS'"
+      (searchValue)="search($event)" [filterOfNames]="filterOfNames"
+      (showFilterField2)="showFilterFieldFn($event)"></app-screen-haeder>
+  </div>
+
+  <form *ngIf="showFilterField" [formGroup]="filterField">
+    <div class="row my-3">
+      <div class="col-md-4 d-flex align-items-center gap-3 my-3"
+        *ngFor="let item of ['first_name', 'last_name', 'email', 'phone']">
+        <div class="w-100">
+          <label for="">{{
+            item === "first_name"
+            ? "First Name"
+            : item === "last_name"
+            ? "Last Name"
+            : item === "email"
+            ? "E-mail"
+            : "Phone Number"
+            }}</label><br />
+          <input type="text" [formControlName]="item" class="w-100" pInputText [placeholder]="
+              item === 'first_name'
+                ? 'First Name'
+                : item === 'last_name'
+                ? 'Last Name'
+                : item === 'email'
+                ? 'E-mail'
+                : 'Phone Number'
+            " />
+        </div>
+      </div>
+      <div class="col-md-4 my-3">
+        <label>is Blocked</label>
+        <div class="switch d-flex align-items-center my-2">
+          <p-inputSwitch (onChange)="switchStatus($event)" class="me-2" formControlName="is_blocked"></p-inputSwitch>
+          <p class="lead" *ngIf="checkStatusFilter === true">Active</p>
+          <p class="lead" *ngIf="checkStatusFilter === false">in-Active</p>
+        </div>
+      </div>
+      <div class="col-md-4 my-3">
+        <label>is Subscribed</label>
+        <div class="switch d-flex align-items-center my-2">
+          <p-inputSwitch (onChange)="switchStatus($event)" class="me-2" formControlName="is_subscribed"></p-inputSwitch>
+          <p class="lead" *ngIf="checkStatusFilter === true">Active</p>
+          <p class="lead" *ngIf="checkStatusFilter === false">in-Active</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end align-items-baseline gap-3">
+      <button type="submit" (click)="getFilterAction()" class="apply-filter btn">
+        Apply Filter
+      </button>
+      <button (click)="resetFormColumn()" class="cancel-filter btn">
+        Reset
+      </button>
+    </div>
+  </form>
+  <app-data-table [selectedItems]="selectedItems" (isBulkExportBtnClicked)="handleBulkExportedData($event)"
+    (isBulkDeleteBtnClicked)="handleBulkDeleteUser($event)" (isEditBtnClicked)="EditHandler($event)"
+    (isOpenProfileUser)="openProfile($event)" (isDeleteBtnClicked)="DeleteHandler($event)"
+    (sendTablePageSize)="handlePageSize($event)" [loadingIndicator]="loadingIndicator" [showActionCol]="true"
+    [showDetailsAction]="false" [showDeleteAction]="true" [showEditAction]="true" [tableHeaders]="tableHeader"
+    [tableData]="data$ | async" [totalItems]="length" [activeStatusOrder]="true" [orderCount]="true"
+    [tableColumn]="tableHeader" [page]="page">
+  </app-data-table>
+
+  <p-dialog [style]="{ width: '40vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000"
+    [modal]="true" [header]="editModeOn ? 'Edit Customer' : 'Create an account'" [(visible)]="display"
+    [draggable]="false" [closable]="true">
+    <form [formGroup]="clientForm">
+      <div class="row">
+        <div class="col-md-6">
+          <label class="my-1 ms-1" for="first_name">First Name</label>
+          <input class="inputText d-block w-100" placeholder="Type here" formControlName="first_name" pInputText />
+          <div>
+            <small class="text-danger position-relative mt-1" style="left: 0" *ngIf="
+                submitted && clientForm.get('first_name')?.hasError('required')
+              ">
+              First Name is required</small>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="my-1 ms-1" for="last_name">Last Name</label>
+          <input class="inputTextLastName d-block w-100" placeholder="Type here" formControlName="last_name"
+            pInputText />
+          <div>
+            <small class="text-danger position-relative mt-1" *ngIf="
+                submitted && clientForm.get('last_name')?.hasError('required')
+              ">
+              Last Name is required</small>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <label class="d-block my-1 ms-1" for="Email">Email Address</label>
+          <input class="d-block w-100 mb-2" placeholder="Type here" formControlName="email" pInputText />
+          <small class="text-danger" *ngIf="submitted && clientForm.get('email')?.hasError('email')">
+            Email Address is Invalid
+          </small>
+        </div>
+
+        <div>
+          <label for="phone" class="ms-1"> Phone number</label>
+
+          <div class="d-flex align-items-center w-100 gap-3">
+            <div class="d-flex country align-items-center">
+              <ng-container *ngIf="country == 'eg'; else elseBlock">
+                <div class="photo">
+                  <img src="assets/images/egypt.png" alt="" />
+                </div>
+                <span class="mx-2"> +2 </span>
+              </ng-container>
+              <ng-template #elseBlock>
+                <div class="photo">
+                  <img src="assets/images/saudi-arabia.png" alt="" />
+                </div>
+                <span class="mx-2"> +966 </span>
+              </ng-template>
+            </div>
+
+            <input class="d-block w-100" placeholder="phone" formControlName="phone" pInputText />
+          </div>
+          <div>
+            <small class="text-danger" *ngIf="submitted && clientForm.get('phone')?.hasError('required')">
+              phone Number is Required
+            </small>
+            <small class="text-danger" *ngIf="submitted && clientForm.get('phone')?.hasError('pattern')">
+              phone Number is Invalid
+            </small>
+          </div>
+        </div>
+
+        <div>
+          <label for="password" class="my-1 ms-1">password</label>
+
+          <div class="position-relative">
+            <input [type]="!showPassword ? 'password' : 'text'" class="d-block col-md-12 ms-1" placeholder="password"
+              formControlName="password" pInputText />
+            <button *ngIf="!showPassword" class="btn-eye" type="button" (click)="showPassword = !showPassword">
+              <i *ngIf="!showPassword" class="fa-regular fa-eye-slash"></i>
+            </button>
+            <button *ngIf="showPassword" class="btn-eye" type="button" (click)="showPassword = !showPassword">
+              <i *ngIf="showPassword" class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <small class="text-danger" *ngIf="
+              submitted && clientForm.get('password')?.hasError('required')
+            ">
+            Password is Required
+          </small>
+        </div>
+        <app-add-button class="w-100" [isLoading]="btnLoader" (click)="submit()"
+          [title]="editModeOn ? 'EDIT' : 'CREATE'">
+        </app-add-button>
+
+        <div class="massege-login">
+          Already have an account?
+          <a routerLink="/login" class="login">login</a>
+        </div>
+      </div>
+    </form>
+  </p-dialog>
+
+  <p-toast></p-toast>
+
+  <p-confirmDialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+    [baseZIndex]="10000">
+  </p-confirmDialog>
+</div>

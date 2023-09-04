@@ -1,0 +1,194 @@
+.btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #acb0b4;
+  padding: 0px 10px;
+  // margin-top: 1rem;
+  h3 {
+    transition: all 0.4s ease;
+    font-weight: 300;
+    span {
+      padding-left: 5px;
+    }
+  }
+}
+
+.btn-export {
+  background: #d8dae0;
+  width: 196px;
+  height: 48px;
+  text-align: center;
+  color: #7f828e;
+  transform: scale(0.8) !important;
+  &:hover {
+    background: transparent;
+    border: 1px solid #7f828e;
+  }
+}
+
+.pagenator-export-wrapper {
+  background: #f5f5f7;
+  border-radius: 0 0 25px 25px;
+  max-width: 100%;
+  margin: 0;
+}
+
+.paginator {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-radius: 0 0 20px 20px;
+}
+
+.ng-star-inserted h4 {
+  margin: 0;
+}
+
+.btn {
+  transition: all 0.4s ease;
+}
+
+.check-all-btn {
+  background-color: #00a599;
+  color: white;
+  border: 1px solid #00a599;
+  opacity: 1;
+  transform: 1s all ease-in;
+  padding: 3px 10px;
+  margin: 5px 0;
+  &:hover {
+    border: 1px solid #00a599;
+    color: #00a599;
+    background-color: #f7f7f7;
+  }
+}
+
+.btn-details:enabled:hover h3 {
+  color: #4e4e4e !important;
+}
+
+.btn-edit:enabled:hover h4 {
+  color: var(--mainColor) !important;
+}
+
+.btn-delete:enabled:hover h4 {
+  color: var(--darkRed) !important;
+}
+
+.btn-setting:enabled:hover h4 {
+  color: #09c !important;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dataTable {
+  border: #0f183d solid 1px;
+  border-radius: 12px !important;
+}
+.dataTable {
+  width: 100%;
+}
+:host ::ng-deep {
+  #myTable {
+    .p-datatable-thead {
+      background: #0e1740;
+    }
+    .p-datatable .p-datatable-thead > tr > th {
+      color: #ffff;
+      text-transform: capitalize;
+      font-weight: 400 !important;
+      background: inherit;
+    }
+    td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 50px;
+      padding: 0px 17px !important;
+      border-right: 1px solid rgba(209, 209, 209, 0.479) !important;
+    }
+    .p-datatable-responsive-scroll > .p-datatable-wrapper {
+      border-radius: 10px;
+    }
+    .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(2n) {
+      background: #f5f9f9;
+    }
+    .p-datatable.p-datatable-striped .p-datatable-tbody {
+      text-align: center;
+    }
+    .p-datatable-resizable .p-datatable-thead > tr > th,
+    .p-datatable-resizable .p-datatable-tfoot > tr > td,
+    .p-datatable-resizable .p-datatable-tbody > tr > td {
+      text-align: center;
+    }
+  }
+  .p-component-overlay {
+    background-color: rgba(204, 204, 204, 0.4);
+    transition-duration: 0.2s;
+  }
+  .p-paginator {
+    background-color: transparent;
+    transform: scale(0.8) !important;
+    transform-origin: right;
+  }
+  .p-paginator-page,
+  .p-paginator-next,
+  .p-paginator-last,
+  .p-paginator-first,
+  .p-paginator-prev,
+  .p-paginator-current,
+  .p-paginator .p-dropdown {
+    background: white !important;
+    border-radius: 10px !important;
+    border: none;
+    color: #0e1740 !important;
+  }
+  .p-paginator .p-dropdown {
+    background: white !important;
+    border-radius: 10px !important;
+    border: #0f183d solid 1px;
+  }
+  .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #5f2d79 !important;
+    color: white !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  :host ::ng-deep {
+    .p-datatable .p-datatable-thead > tr > th {
+      text-align: left;
+      padding: 1rem 1rem;
+      border: 1px solid #dee2e6;
+      border-width: 0 0 1px 0;
+      font-weight: 700;
+      color: #343a40;
+      background: #f8f9fa;
+      transition: box-shadow 0.2s;
+      font-size: 13px;
+    }
+  }
+}
+
+.deleteButton {
+  background: var(--deleteBtn);
+  padding: 7px 10px !important;
+  margin: 0 !important;
+  font-size: 1rem;
+  border: var(--deleteBtn);
+  &:hover {
+    color: var(--deleteBtn);
+    background: white;
+  }
+}
+.sku {
+  width: 53px !important;
+  display: inline-block;
+  overflow: hidden;
+}

@@ -1,0 +1,120 @@
+@mixin inputs-places {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.apply-filter
+{
+  background-color: #0F183D;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 11px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 9%;
+}
+.apply-filter:hover
+{
+  background-color: #0F183D;
+  color: #FFFFFF;
+  border:1px solid #0F183D;
+}
+.cancel-filter
+{
+  background-color: transparent;
+    color: #0F183D;
+    font-size: 13px;
+    padding: 10px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 6%;
+}
+.cancel-filter:hover
+{
+  background-color: transparent;
+  color: #0F183D;
+  border:1px solid #0F183D;
+}
+
+.wrapper {
+  padding: 1.5rem;
+}
+.col-md-4
+{
+  margin: 8px 0px;
+  label
+  {
+    margin: 2px;
+  }
+}
+::ng-deep {
+  form .p-dropdown
+  {
+    width: 100% !important;
+  }
+  .p-calendar {
+    width: 100% !important;
+  }
+  .cancel {
+    background: transparent;
+    color: #0f183d;
+    border-color: #0f183d;
+    margin: 10px 0px;
+    // width: 100%;
+    border-radius: 10px;
+    font-weight: 600 !important;
+    .p-button-label {
+      font-weight: 600;
+    }
+    &:enabled:hover {
+      background: #0f183d !important;
+      color: white;
+      border-color: #0f183d;
+    }
+  }
+}
+
+.upload-file {
+  width: 14vw;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #00a599 !important;
+  border-radius: 8px;
+  position: relative;
+  margin: 10px 0 0;
+  text-align: center;
+  padding: 0 !important;
+  margin-right: 30px;
+
+  input {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+.imguploaded {
+  width: 50px;
+  height: 50px;
+}
+#label {
+  color: #9fa3b2;
+}
+.texturl {
+  color: #9fa3b2;
+  font-size: 15px;
+  text-overflow: ellipsis;
+}
+
+.uploadData {
+  border-bottom: 2px solid #eee !important;
+  padding-bottom: 0.4rem;
+}

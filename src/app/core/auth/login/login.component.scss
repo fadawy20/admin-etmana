@@ -1,0 +1,50 @@
+.login {
+  background-image: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(117, 19, 93, 0.73)),
+    url(../../../../assets/images/pexels-ksenia-chernaya-3965545.jpg);
+  height: 100vh;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden !important;
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    .form {
+      width: 30%;
+      .image img {
+        width: 40%;
+      }
+      .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        h2 {
+          color: var(--textColor);
+        }
+        .icon {
+          color: var(--iconColor) !important;
+        }
+        h4 {
+          color: var(--darkGray);
+        }
+      }
+      .forget_pasword {
+        text-align: right;
+        a {
+          text-decoration: none;
+          color: var(--textColor);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .form {
+    width: 100% !important;
+  }
+}

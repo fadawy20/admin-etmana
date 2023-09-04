@@ -1,0 +1,9 @@
+<svg id="Group_13645" data-name="Group 13645" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <rect id="Rectangle_27540" data-name="Rectangle 27540" width="28" height="28" fill="#9fa3b2" opacity="0"/>
+  <g id="Group_13752" data-name="Group 13752" transform="translate(7.014 5.018)">
+    <path id="Icon_material-delete" data-name="Icon material-delete" d="M8.5,20.468a2,2,0,0,0,2,2h7.984a2,2,0,0,0,2-2V8.492H8.5ZM21.472,5.5H17.979l-1-1h-4.99l-1,1H7.5v2H21.472Z" transform="translate(-7.5 -4.5)" fill="#d92059"/>
+    <line id="Line_112" data-name="Line 112" y2="11.525" transform="translate(3.493 3.837)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+    <line id="Line_114" data-name="Line 114" y2="7.687" transform="translate(6.986 3.837)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+    <line id="Line_113" data-name="Line 113" y2="11.525" transform="translate(10.479 3.837)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  </g>
+</svg>

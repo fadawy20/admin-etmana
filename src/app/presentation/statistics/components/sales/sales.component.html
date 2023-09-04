@@ -1,0 +1,82 @@
+<div class="sales inventor">
+  <div class="content">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="photo">
+          <p-chart type="doughnut" [data]="data" [options]="chartOptions" [style]="{ width: '100%' }"></p-chart>
+        </div>
+      </div>
+      <div class="col-md-6 px-0">
+        <ul class="info px-0 mx-0">
+          <li *ngFor="let sales of salesData">
+            <div class="name d-flex justify-content-between">
+              <div class="head">
+                <a href="javascript:void(0)">{{ sales.name }}</a>
+              </div>
+              <div class="rate">{{ sales.percentage }}%</div>
+            </div>
+            <p>
+              {{ sales.total_items }} items / {{currency}}
+              {{ sales.total_price | number}}
+            </p>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-12 mb-3">
+        <div class="row salesTotal">
+          <div class="total-sales col-6 w-50 ms-2">
+            <div class="head d-flex justify-content-between">
+              <a href="javascript:void(0)"> Total Sales Amount </a>
+            </div>
+
+            <div class="images my-0 mt-0">
+              <span class="salary">{{currency}} {{ allSales.total_sales_amount | number}}</span>
+              <img src="../../../../../assets/images/Repeat Grid 26.svg" alt="" />
+            </div>
+
+
+
+          </div>
+          <div class="total-sales col-6 ms-4 w-50">
+            <div class="head d-flex justify-content-between">
+              <a href="javascript:void(0)"> Actual Sales Amount </a>
+            </div>
+
+            <div class="images my-0 mt-0">
+              <span class="salary">{{currency}} {{ allSales.total_completed_sales | number}}</span>
+              <img src="../../../../../assets/images/Repeat Grid 26.svg" alt="" />
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-md-6">
+        <div class="income">
+          <div class="head d-flex justify-content-between">
+            <a href="javascript:void(0)"> Total Sold SKUs </a>
+            <span *ngIf="allSales.total_sold_skus > 0">+56%</span>
+          </div>
+
+          <div class="images my-0 mt-0">
+            <span class="salary">{{ allSales.total_sold_skus | number }}</span>
+            <img src="../../../../../assets/images/Path 3.svg" alt="" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="sold">
+          <div class="head">
+            <a href="javascript:void(0)"> Total Refund </a>
+            <span *ngIf="allSales.total_refund > 0">+56%</span>
+          </div>
+
+          <div class="salary mt-0">
+            {{currency}} {{ allSales.total_refund | number }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

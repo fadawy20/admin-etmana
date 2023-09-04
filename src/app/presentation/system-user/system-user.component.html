@@ -1,0 +1,245 @@
+<div class="wrapper">
+    <h2><span>S</span>ystem Users</h2>
+
+    <div class="header">
+      <div  class="allSearch">
+        <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" #ColumnVal pInputText size="50" placeholder="Search"
+          (input)="search(ColumnVal.value)" [(ngModel)]="searchValue" style="width:auto">
+      </div>
+      <div class="header-Btns">
+        <!-- create -->
+        <div  class="crud">
+          <button class="ml-2 create text-white" pButton type="button" icon="pi pi-plus-circle"
+            label="Create" iconPos="right"
+            (click)="createUser()"></button>
+
+        </div>
+        <div   class="d-flex align-items-center
+          justify-content-end">
+          <button  class="setting-btn" pButton type="button"
+            icon="pi pi-filter" label="Filter" (click)="this.showFilterField=!this.showFilterField"
+            iconPos="left"></button>
+
+          <div  class="vertical_lign"></div>
+          <button  class="setting-btn" pButton type="button"
+            icon="pi pi-sort-amount-down" label="Sort"
+            iconPos="left"></button>
+          <div  class="vertical_lign"></div>
+          <button  class="setting-btn" pButton type="button"
+            icon="pi pi-cog" label="Columns" iconPos="left"></button>
+        </div>
+        <!-- create -->
+
+    </div>
+
+
+  </div>
+
+  <form *ngIf="showFilterField" [formGroup]="filterField">
+    <div class="row my-3">
+      <div class="col-md-4 d-flex align-items-center gap-3 my-3" *ngFor="let item of ['name','email','phone']">
+        <div class="w-100">
+          <label for="">{{item ==='name' ? 'Name': item ==='email' ? 'E-mail':'Phone Number'}}</label><br>
+          <input type="text" [formControlName]="item" class="w-100" pInputText  [placeholder]="
+          item ==='name' ? 'Name': item ==='email' ? 'E-mail':'Phone Number'
+          "
+           >
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label >Status Active</label><br>
+        <p-dropdown [options]="visibility" formControlName="is_active"  placeholder="Chosse Status" optionLabel="name"></p-dropdown>
+      </div>
+
+    </div>
+    <div class=" d-flex justify-content-end align-items-baseline gap-3">
+      <button type="submit" (click)="getFilterAction()" class="apply-filter btn">Apply Filter</button>
+      <button (click)="resetFormColumn()" class="cancel-filter btn">Reset</button>
+
+      </div>
+  </form>
+  <app-data-table
+    (isEditBtnClicked)="EditHandler($event)"
+    (isBulkExportBtnClicked)="handleBulkExportedData($event)"
+    (isDeleteBtnClicked)="DeleteHandler($event)"
+    (sendTablePageSize)="handlePageSize($event)"
+    [loadingIndicator]="loadingIndicator"
+    [tableData]="data$ | async"
+    [showActionCol]="true"
+    [showDetailsAction]="false"
+    [showDeleteAction]="true"
+    [showEditAction]="true"
+    [tableHeaders]="tableHeader"
+    [totalItems]="length"
+    [page]="page"
+    [tableColumn]="tableHeader"
+    #table
+  >
+  </app-data-table>
+</div>
+
+<p-dialog
+  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+  [modal]="true"
+  [header]="editModeOn ? 'Edit User' : 'Create New User'"
+  [(visible)]="display"
+  [draggable]="false"
+  [closable]="false"
+>
+  <div class="cancel" (click)="cancel()">
+    <img src="assets/images/Group 2574.svg" alt="" />
+  </div>
+  <div class="switch d-flex align-items-center mt-3">
+    <p-inputSwitch class="me-2" [(ngModel)]="Status"></p-inputSwitch>
+    <p class="lead" style="color: #00a599" *ngIf="Status == true">Active</p>
+    <p class="lead" *ngIf="Status == false">in-Active</p>
+  </div>
+  <form class="form py-2" [formGroup]="UserForm">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="FirstName">First Name</label>
+          <input
+            id="FirstName"
+            type="text"
+            class="form-control"
+            placeholder="Type here"
+            formControlName="first_name"
+          />
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted && UserForm.get('first_name')?.hasError('required')
+            "
+          >
+            First Name is Required
+          </small>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            id="lastName"
+            type="text"
+            class="form-control"
+            placeholder="Type here"
+            formControlName="last_name"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && UserForm.get('last_name')?.hasError('required')"
+          >
+            Last Name is Required
+          </small>
+        </div>
+      </div>
+
+      <div class="col-md-6 mt-4 py-2">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            id="email"
+            type="email"
+            class="form-control"
+            placeholder="Type here"
+            formControlName="email"
+          />
+          <small
+            class="text-danger"
+            *ngIf="submitted && UserForm.get('email')?.hasError('required')"
+          >
+            Email Address is Required
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="submitted && UserForm.get('email')?.hasError('email')"
+          >
+            Email Address is Invalid
+          </small>
+        </div>
+      </div>
+
+      <div class="col-md-6 mt-4 py-2">
+        <div class="form-group">
+          <label for="Password">Password</label>
+          <div class="gene-password">
+            <span *ngIf="isCopy">copy</span>
+            <img
+              src="assets/images/Group 15830.svg"
+              (click)="copyPassword()"
+              alt=""
+            />
+            <button type="button" (click)="genePawword()">Generate</button>
+            <input
+              id="Password"
+              type="password"
+              class="form-control"
+              placeholder="Type here"
+              formControlName="password"
+            />
+          </div>
+          <small
+            class="text-danger"
+            *ngIf="submitted && UserForm.get('password')?.hasError('required')"
+          >
+            Password is Required
+          </small>
+        </div>
+      </div>
+
+      <div class="col-md-12 mt-4">
+        <div class="form-group">
+          <label>Permission Group</label>
+          <br />
+          <p-dropdown
+            placeholder="Select a Permission Group"
+            [options]="role"
+            optionLabel="name"
+            formControlName="permissionGroup"
+          ></p-dropdown
+          ><br />
+          <small
+            class="text-danger"
+            *ngIf="
+              submitted && UserForm.get('permissionGroup')?.hasError('required')
+            "
+          >
+            Permission Group is required</small
+          >
+        </div>
+      </div>
+
+      <div class="col-md-6 py-3 mt-4">
+        <p-checkbox
+          name="checked"
+          formControlName="change_password"
+          value="true"
+          [(ngModel)]="checked"
+          [binary]="true"
+          inputId="binary"
+        ></p-checkbox>
+        <label for="binary" style="cursor: pointer" class="ms-2"
+          >Require Change Password</label
+        >
+      </div>
+
+      <div class="col-md-6 mt-4">
+        <button class="createUser w-100" (click)="submit()">
+          {{ editModeOn ? "EDIT" : "Create an acount" }}
+        </button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+
+<p-toast></p-toast>
+<p-confirmDialog
+  [style]="{ width: '30vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+>
+</p-confirmDialog>

@@ -1,0 +1,94 @@
+<!-- fulfilment tap -->
+<div class="fulfilment-form mt-3">
+  <form action="" [formGroup]="_SimpleProductFormService.fuilfilmentForm">
+    <div class="row">
+      <!-- Package Quantity -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Package Quantity</mat-label>
+          <input matInput placeholder="Quantity..." formControlName='set_quantity' />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="submitted &&
+        _SimpleProductFormService.fuilfilmentForm
+          .get('set_quantity')
+          ?.hasError('pattern')">
+          Please Enter Number Only
+        </small>
+      </div>
+      <!-- Package Quantity -->
+
+      <!-- Warehouse Name & Location  -->
+      <div class="col-md-4">
+        <div class=" mb-2 w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Warehouse Name & Location</mat-label>
+            <input matInput placeholder="Quantity..." formControlName='warehouse_location' />
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Warehouse Name & Location -->
+
+      <!-- Storage Conditions -->
+      <div class="col-md-4">
+        <div class=" mb-2 w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Storage Conditions</mat-label>
+            <mat-select multiple formControlName='storage_conditions'>
+              <mat-option *ngFor="let item of storageData" [value]="item.id">
+                {{item.title_en}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Storage Conditions -->
+
+      <!-- Trucking  -->
+      <div class="col-md-4">
+        <div class=" mb-2 w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Trucking</mat-label>
+            <mat-select formControlName='trucking'>
+              <mat-option value="1">Motorcycle</mat-option>
+              <mat-option value="2">Car</mat-option>
+              <mat-option value="3">Van</mat-option>
+              <mat-option value="4">Truck</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Trucking -->
+
+      <!-- Weight -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Weight</mat-label>
+          <input matInput placeholder="Weight..." formControlName="weight" />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="submitted && _SimpleProductFormService.fuilfilmentForm.get('weight')?.hasError('pattern')">
+          Please Enter Number Only
+        </small>
+      </div>
+      <!-- Weight -->
+    </div>
+
+    <div class="col-md-6"></div>
+    <div class="col-md-6 float-end">
+      <div class="btns d-flex flex-row-reverse">
+        <app-add-button class="w-100" [title]="'Save Product'" (click)="submit()">
+        </app-add-button>
+        <app-cancel-button class="mx-2" (click)="reset()"></app-cancel-button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<p-confirmDialog #cd [style]="{ width: '40vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000">
+  <p-footer>
+    <button type="button" pButton icon="pi pi-forward" label="Continue to next Tab" class="continue"
+      (click)="cd.reject()"></button>
+    <button type="button" pButton icon="fa fa-check" label="Submit" class="submit" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>

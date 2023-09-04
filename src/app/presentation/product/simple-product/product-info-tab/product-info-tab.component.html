@@ -1,0 +1,600 @@
+<!-- info Form -->
+<div class="info-form mt-3">
+  <form action="" [formGroup]="_SimpleProductFormService.productForm">
+    <div class="row">
+      <!-- attribute Sets -->
+      <div class="col-md-4">
+        <div class="atrributes w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Select Attribute Set</mat-label>
+            <mat-select msInfiniteScroll (infiniteScroll)="scrollAttribute()" [complete]="next === null" threshold="1px"
+              (selectionChange)="getAttributes($event)" [formControlName]="'product_set_id'">
+              <mat-option *ngFor="let option of attributeSetsData" [value]="option.id">{{ option.title_en }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('product_set_id')
+              ?.hasError('required')
+          ">
+          Attribute set is required
+        </small>
+      </div>
+      <!-- attribute  -->
+
+      <!-- displaying attributes -->
+
+      <ng-container *ngFor="let item of AttributesValues">
+        <!-- single value -->
+        <div class="col-md-4" *ngIf="item.type.name == 'SINGLE_SELECT'">
+          <mat-form-field class="w-100">
+            <mat-label>Select {{ item.title_en }}</mat-label>
+            <mat-select [formControlName]="'_' + item.id">
+              <mat-option *ngFor="let option of item.attribute_values" [value]="option.id">{{ option.value_en }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('_' + item.id)
+                ?.hasError('required')
+            ">
+            {{ item.title_en }} is required
+          </small>
+        </div>
+        <!-- single value -->
+
+        <!-- Size -->
+        <div class="col-md-4" *ngIf="item.type.name == 'SIZE'">
+          <mat-form-field class="w-100">
+            <mat-label>Select {{ item.title_en }}</mat-label>
+            <mat-select multible [formControlName]="'_' + item.id">
+              <mat-option *ngFor="let option of item.attribute_values" [value]="option.id">{{ option.value_en }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('_' + item.id)
+                ?.hasError('required')
+            ">
+            {{ item.title_en }} is required
+          </small>
+        </div>
+        <!-- Size -->
+
+        <!-- Drop Down -->
+        <div class="col-md-4" *ngIf="item.type.name == 'DROPDOWN'">
+          <mat-form-field class="w-100">
+            <mat-label>Select {{ item.title_en }}</mat-label>
+            <mat-select [formControlName]="'_' + item.id">
+              <mat-option *ngFor="let option of item.attribute_values" [value]="option.id">{{ option.value_en }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('_' + item.id)
+                ?.hasError('required')
+            ">
+            {{ item.title_en }} is required
+          </small>
+        </div>
+        <!-- Drop Down -->
+
+        <!-- color attributes -->
+        <div class="col-md-4" *ngIf="item.type.name == 'COLOR_SWATCH'">
+          <mat-form-field class="example-full-width w-100">
+            <mat-label>Select {{ item.title_en }}</mat-label>
+            <mat-select [formControlName]="'_' + item.id">
+              <mat-option *ngFor="let color of item.attribute_values" [value]="color.id"
+                class="d-flex align-items-center justify-content-lg-start">
+                <span [style.background-color]="color.code" class="rounded px-3 box w-100 me-2"></span>
+                {{ color.value_en }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('_' + item.id)
+                ?.hasError('required')
+            ">
+            Color is required
+          </small>
+        </div>
+        <!-- color attributes -->
+
+        <!-- multible value -->
+        <div class="col-md-4" *ngIf="item.type.name == 'MULTI_SELECT'">
+          <mat-form-field class="w-100">
+            <mat-label>Select {{ item.title_en }}</mat-label>
+            <mat-select [formControlName]="'_' + item.id">
+              <mat-option *ngFor="let option of item.attribute_values" [value]="option.id">
+                {{ option.value_en }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('_' + item.id)
+                ?.hasError('required')
+            ">
+            {{ item.title_en }} is required
+          </small>
+        </div>
+        <!-- multible value -->
+
+        <!-- Image attributes -->
+        <div class="col-md-4" *ngIf="item.type.name == 'PATTERN_SWATCH'">
+          <mat-form-field class="example-full-width w-100">
+            <mat-label>Select {{ item.title_en }}</mat-label>
+            <mat-select [formControlName]="'_' + item.id">
+              <mat-option *ngFor="let pattern of item.attribute_values" [value]="pattern.id"
+                class="d-flex align-items-center justify-content-lg-start">
+                <span [style.background]="'url(' + pattern.pattern.url + ')'"
+                  class="rounded px-3 box w-100 me-2"></span>
+                {{ pattern.value_en }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('_' + item.id)
+                ?.hasError('required')
+            ">
+            {{ item.title_en }} is required
+          </small>
+        </div>
+        <!-- Image attributes -->
+
+        <!-- text field attributes -->
+        <div class="col-md-4" *ngIf="item.type.name == 'TEXT_FIELD'">
+          <mat-form-field class="example-full-width w-100">
+            <mat-label>{{ item.title_en }}</mat-label>
+            <input matInput type="text" [formControlName]="'_' + item.id" />
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('_' + item.id)
+                ?.hasError('required')
+            ">
+            {{ item.title_en }} is required
+          </small>
+        </div>
+        <!-- Bolean -->
+        <div class="col-md-4" *ngIf="item.type.name == 'BOOLEAN'">
+          <div class="d-flex justify-content-center align-items-center mt-2">
+            <p-inputSwitch class="me-2" [formControlName]="'_' + item.id"></p-inputSwitch>
+            <p class="lead">
+              {{ item.title_en }}
+            </p>
+          </div>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('_' + item.id)
+                ?.hasError('required')
+            ">
+            {{ item.title_en }} is required
+          </small>
+        </div>
+        <!-- Bolean -->
+      </ng-container>
+      <!-- text field attributes -->
+
+      <!-- displaying attributes -->
+
+      <!-- sku -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>SKU</mat-label>
+          <input matInput placeholder="SKU..." [formControlName]="'sku'" />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('sku')
+              ?.hasError('required')
+          ">
+          sku is required
+        </small>
+      </div>
+      <!-- sku -->
+
+      <!-- Name -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Arabic Name</mat-label>
+          <input matInput placeholder="Arabic Name..." formControlName="title_ar" />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('title_ar')
+              ?.hasError('required')
+          ">
+          Arabic Title is required
+        </small>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>English Name</mat-label>
+          <input matInput placeholder="English Name..." formControlName="title_en" />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('title_en')
+              ?.hasError('required')
+          ">
+          English Title is required
+        </small>
+      </div>
+      <!-- Name -->
+
+      <!-- brand -->
+      <div class="col-md-4">
+        <div class="atrributes w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Select Brand</mat-label>
+            <mat-select msInfiniteScroll (infiniteScroll)="scrollBrand()" [complete]="brandNext === null"
+              threshold="1px" [formControlName]="'brand_id'">
+              <mat-option *ngFor="let option of brandsData" [value]="option.id">{{ option.title_en }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('brand_id')
+                ?.hasError('required')
+            ">
+            Please Select Brand
+          </small>
+        </div>
+      </div>
+      <!-- brand -->
+
+      <!-- Cost -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Cost</mat-label>
+          <input matInput placeholder="Cost..." formControlName="cost_price" />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('cost_price')
+              ?.hasError('required')
+          ">
+          Cost Price is Required
+        </small>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('cost_price')
+              ?.hasError('pattern')
+          ">
+          Cost Price must be Number only
+        </small>
+      </div>
+      <!-- Cost -->
+
+      <!-- Seller  -->
+      <div class="col-md-4">
+        <div class="atrributes w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Select Seller</mat-label>
+            <mat-select msInfiniteScroll (infiniteScroll)="scrollSeller()" [complete]="sellertNxet === null"
+              threshold="1px" [formControlName]="'seller_id'">
+              <mat-option *ngFor="let option of sellersData" [value]="option.id">{{ option.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('seller_id')
+                ?.hasError('required')
+            ">
+            Please Select Seller
+          </small>
+        </div>
+      </div>
+      <!-- Seller -->
+
+      <!-- price -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>price</mat-label>
+          <input matInput placeholder="price..." [formControlName]="'price'" />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('price')
+              ?.hasError('required')
+          ">
+          price is required
+        </small>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('price')
+              ?.hasError('pattern')
+          ">
+          price is must be Number Only
+        </small>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Sale Price</mat-label>
+          <input matInput placeholder="Sales Price..." [formControlName]="'sale_price'" />
+        </mat-form-field>
+        <!-- <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('sale_price')
+              ?.hasError('required')
+          ">
+          Sales Price is required
+        </small>
+        <small class="text-danger" *ngIf="
+        submitted &&
+        _SimpleProductFormService.productForm
+          .get('sale_price')
+          ?.hasError('pattern')
+      ">
+      Sales Price is must be Number Only
+        </small> -->
+      </div>
+
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Sale Price Start Date</mat-label>
+          <input matInput [matDatepicker]="picker" [formControlName]="'sale_price_start_date'">
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+
+      <!-- <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Sale Price End Date</mat-label>
+          <input
+            matInput
+            placeholder="Sales_Price_End_Date..."
+            [formControlName]="'sale_price_end_date'"
+          />
+        </mat-form-field>
+
+
+      </div> -->
+
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-label>Sale Price End Date</mat-label>
+          <input matInput [matDatepicker]="picker2" [formControlName]="'sale_price_end_date'">
+          <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <!-- price -->
+
+      <!-- Category  -->
+      <div class="col-md-4">
+        <div class="atrributes w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Select Category</mat-label>
+            <mat-select multiple msInfiniteScroll (infiniteScroll)="scrollCategory()" [complete]="categoryNext === null"
+              threshold="1px" [formControlName]="'categories'">
+              <mat-option *ngFor="let option of categoryData" [value]="option.id">{{ option.full_title }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('categories')
+                ?.hasError('required')
+            ">
+            please Select a category
+          </small>
+        </div>
+      </div>
+
+
+
+      <!-- country  -->
+      <div class="col-md-4">
+        <div class="atrributes w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Select country</mat-label>
+            <mat-select [formControlName]="'country_id'">
+              <mat-option value="1">Egypt</mat-option>
+              <mat-option value="2">KSA</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('country_id')
+                ?.hasError('required')
+            ">
+            please Select a country
+          </small>
+        </div>
+      </div>
+      <!-- country -->
+
+      <!-- Quantity -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Quantity</mat-label>
+          <input matInput placeholder="Quantity..." formControlName="quantity" />
+        </mat-form-field>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('quantity')
+              ?.hasError('required')
+          ">
+          please Select quantity
+        </small>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('quantity')
+              ?.hasError('pattern')
+          ">
+          Please Enter number only
+        </small>
+      </div>
+      <!-- Quantity -->
+
+      <!-- quantity_type  -->
+      <div class="col-md-4">
+        <div class="mb-2 w-100">
+          <mat-form-field class="w-100">
+            <mat-label>quantity type</mat-label>
+            <mat-select formControlName="quantity_type">
+              <mat-option value="1">Consignment</mat-option>
+              <mat-option value="2">Retail</mat-option>
+              <mat-option value="3">Back to Back</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              _SimpleProductFormService.productForm
+                .get('quantity_type')
+                ?.hasError('required')
+            ">
+            please Select quantity type
+          </small>
+        </div>
+      </div>
+      <!-- quantity_type -->
+
+      <!-- Barcode -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Barcode</mat-label>
+          <input matInput placeholder="Barcode..." formControlName="barcode" minlength="13" maxlength="13" />
+        </mat-form-field>
+
+        <small class="text-danger" *ngIf="
+            submitted &&
+            _SimpleProductFormService.productForm
+              .get('barcode')
+              ?.hasError('pattern')
+          ">
+          Please Enter 13 character
+        </small>
+      </div>
+      <!-- Barcode -->
+
+      <div class="col-md-12">
+        <div class="row">
+          <!-- description ar -->
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width w-100" appearance="outline">
+              <mat-label>Arabic Description</mat-label>
+              <textarea matInput placeholder="Arabic Description..." [formControlName]="'operational_description_ar'"
+                maxlength="500"></textarea>
+            </mat-form-field>
+            <small class="text-danger" *ngIf="
+                submitted &&
+                _SimpleProductFormService.productForm
+                  .get('operational_description_ar')
+                  ?.hasError('required')
+              ">
+              Arabic Description is required
+            </small>
+          </div>
+          <!-- description ar -->
+
+          <!-- description en -->
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width w-100" appearance="outline">
+              <mat-label>English Description</mat-label>
+              <textarea matInput placeholder="English Description..." [formControlName]="'operational_description_en'"
+                maxlength="500"></textarea>
+            </mat-form-field>
+            <small class="text-danger" *ngIf="
+                submitted &&
+                _SimpleProductFormService.productForm
+                  .get('operational_description_en')
+                  ?.hasError('required')
+              ">
+              English Description is required
+            </small>
+          </div>
+          <!-- description en -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="switch d-flex align-items-center ms-3">
+        <p-inputSwitch class="me-2" formControlName="in_stock"></p-inputSwitch>
+        <p class="lead" *ngIf="
+            _SimpleProductFormService.productForm.get('in_stock')?.value ===
+            true
+          ">
+          In Stock
+        </p>
+        <p class="lead" *ngIf="
+            _SimpleProductFormService.productForm.get('in_stock')?.value ===
+            false
+          ">
+          Out of Stock
+        </p>
+      </div>
+
+      <!-- <div class="switch d-flex align-items-center ms-3">
+        <p-inputSwitch class="me-2"  formControlName="is_active"></p-inputSwitch>
+        <p class="lead"  *ngIf="
+        _SimpleProductFormService.productForm.get('is_active')?.value ===
+        true
+      ">
+          Active
+        </p>
+        <p class="lead"  *ngIf="
+        _SimpleProductFormService.productForm.get('is_active')?.value ===
+        false
+      ">
+          in-Active
+        </p>
+      </div> -->
+    </div>
+  </form>
+  <div class="col-md-6 float-end">
+    <div class="btns d-flex flex-row-reverse">
+      <app-add-button class="w-100" [title]="'Save Product'" (click)="submit()">
+      </app-add-button>
+      <app-cancel-button class="mx-2" (click)="reset()"></app-cancel-button>
+    </div>
+  </div>
+</div>
+<!-- info Form -->
+
+<p-toast></p-toast>
+
+<p-confirmDialog #cd [style]="{ width: '40vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000">
+  <p-footer>
+    <button type="button" pButton icon="pi pi-forward" label="Continue to next Tab" class="continue"
+      (click)="cd.reject()"></button>
+    <button type="button" pButton icon="fa fa-check" label="Submit" class="submit" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>

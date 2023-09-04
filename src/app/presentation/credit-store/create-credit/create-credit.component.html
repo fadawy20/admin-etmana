@@ -1,0 +1,687 @@
+<section>
+  <div class="container-fluid">
+    <form [formGroup]="genralInfoForm">
+      <div class="d-flex align-items-center justify-content-lg-start my-3">
+        <div class="d-flex align-items-center">
+          <button class="ml-2 back" pButton type="button" icon="pi pi-chevron-left" iconPos="right"
+            (click)="navigate()"></button>
+          <h2 class="m-0"><span>C</span>REATE NEW CREDIT</h2>
+          <div class="d-flex align-items-center ms-3">
+            <!-- (onChange)="switchStatus($event)" -->
+            <p-inputSwitch class="me-2" formControlName="status" [(ngModel)]="statusProduct"></p-inputSwitch>
+            <p class="lead m-0" *ngIf="statusProduct === true">Active</p>
+            <p class="lead m-0" *ngIf="statusProduct === false">in-Active</p>
+          </div>
+        </div>
+      </div>
+      <div class="card col-md-12 mb-4">
+        <h3 class="form-header mb-3">GENERAL INFO</h3>
+        <div class="row">
+          <div class="inputs-group" [ngClass]="compensationFeild ? 'col-md-4' : 'col-md-4'">
+            <label>Credit Type</label>
+            <br />
+            <p-dropdown placeholder="Select Type" [options]="creditType" #country [(ngModel)]="orderRefund"
+              formControlName="type" optionLabel="name"></p-dropdown><br />
+            <small class="text-danger" *ngIf="
+                submitted && genralInfoForm.get('type')?.hasError('required')
+              ">
+              Credit Type is required</small>
+          </div>
+          <div *ngIf="compensationFeild" class="inputs-group inputs col-md-4">
+            <label for="shippingFees">Credit Name</label>
+            <br />
+            <input type="text" formControlName="name" placeholder="Type here" pInputText /><br />
+            <small class="text-danger" *ngIf="
+                submitted && genralInfoForm.get('name')?.hasError('required')
+              ">
+              Credit Name is required</small>
+          </div>
+          <div class="inputs-group col-md-4">
+            <label>Responsibility</label>
+            <br />
+            <p-dropdown placeholder="Select your job title" [options]="resposibility"
+              formControlName="responsibility_type" #country optionLabel="name"></p-dropdown><br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                genralInfoForm.get('responsibility_type')?.hasError('required')
+              ">
+              Responsibility is required</small>
+          </div>
+          <div class="inputs-group inputs" [ngClass]="compensationFeild ? 'col-md-4' : 'col-md-4'">
+            <label for="shippingFees">Total Amount</label>
+            <br />
+            <input type="text" formControlName="amount" placeholder="Type here" pInputText
+              [value]="sumSelected" /><br />
+            <small class="text-danger" *ngIf="
+                submitted && genralInfoForm.get('amount')?.hasError('required')
+              ">
+              Total Amount is required</small>
+          </div>
+          <div *ngIf="compensationFeild" class="inputs-group col-md-4">
+            <label>Associate Website</label>
+            <br />
+            <p-dropdown placeholder="Select Website" [options]="website"
+              [formControl]="genralInfoForm.controls['country_id']" #country optionLabel="name"></p-dropdown><br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                genralInfoForm.get('country_id')?.hasError('required')
+              ">
+              Associate Website is required</small>
+          </div>
+          <div *ngIf="refundFeild" class="inputs col-md-12">
+            <div class="">
+              <label for="orderId">Order ID</label>
+            </div>
+            <!-- <div class=" flex justify-content-center">
+              <p-dropdown [options]="website" #selectedCountry optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Country">
+                  <ng-template pTemplate="selectedItem">
+                      <div class="flex align-items-center " *ngIf="selectedCountry">
+                          <div>{{ selectedCountry.name }}</div>
+                      </div>
+                  </ng-template>
+                  <ng-template let-country pTemplate="item">
+                      <div class="flex align-items-center ">
+                          <div>{{ country.name }}</div>
+                      </div>
+                  </ng-template>
+              </p-dropdown>
+          </div> -->
+            <div class="position-relative">
+              <input #orderId type="text" pInputText formControlName="serial_number" [readOnly]="editModeStoreCredit"
+                placeholder="Type here" />
+              <div class="gap-3" [ngClass]="editModeStoreCredit ? 'icon-search2' : 'icon-search'">
+                <svg id="Group_15584" data-name="Group 15584" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  viewBox="0 0 24 24">
+                  <rect id="Rectangle_2127" data-name="Rectangle 2127" width="24" height="24" rx="5" fill="#f5f9f9"
+                    opacity="0" />
+                  <g id="Icon_feather-search" data-name="Icon feather-search" transform="translate(2 2)">
+                    <path id="Path_3646" data-name="Path 3646"
+                      d="M21.807,13.153A8.653,8.653,0,1,1,13.153,4.5a8.653,8.653,0,0,1,8.653,8.653Z"
+                      transform="translate(-4.5 -4.5)" fill="none" stroke="#a0a3b1" stroke-linecap="round"
+                      stroke-linejoin="round" stroke-width="2" />
+                    <path id="Path_3647" data-name="Path 3647" d="M29.968,29.933l-4.993-4.958"
+                      transform="translate(-9.968 -9.933)" fill="none" stroke="#a0a3b1" stroke-linecap="round"
+                      stroke-linejoin="round" stroke-width="2" />
+                  </g>
+                </svg>
+                <span>Search </span>
+                <div *ngIf="!editModeStoreCredit" class="line"></div>
+              </div>
+              <div class="p-1 d-flex justify-content-center" [ngClass]="
+                  orderId.value ? 'btn-submitted-order' : 'btn-submit-order'
+                ">
+                <button *ngIf="editModeStoreCredit === false" (click)="SubmittedOrderDetails()"
+                  [disabled]="!orderId.value" class="mx-auto" type="button" pButton pRipple>
+                  Submit
+                </button>
+              </div>
+            </div>
+            <small class="text-danger" *ngIf="
+                submitted &&
+                genralInfoForm.get('serial_number')?.hasError('required')
+              ">
+              Order ID is required</small>
+            <div class="d-flex justify-content-end">
+              <button class="text-decoration-none border-0 bg-white" (click)="display = true">
+                <svg id="Group_15584" data-name="Group 15584" xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                  viewBox="0 0 24 24">
+                  <rect id="Rectangle_2127" data-name="Rectangle 2127" width="20" height="20" rx="5" fill="#f5f9f9"
+                    opacity="0" />
+                  <g id="Icon_feather-search" data-name="Icon feather-search" transform="translate(2 2)">
+                    <path id="Path_3646" data-name="Path 3646"
+                      d="M21.807,13.153A8.653,8.653,0,1,1,13.153,4.5a8.653,8.653,0,0,1,8.653,8.653Z"
+                      transform="translate(-4.5 -4.5)" fill="none" stroke="#a0a3b1" stroke-linecap="round"
+                      stroke-linejoin="round" stroke-width="2" />
+                    <path id="Path_3647" data-name="Path 3647" d="M29.968,29.933l-4.993-4.958"
+                      transform="translate(-9.968 -9.933)" fill="none" stroke="#a0a3b1" stroke-linecap="round"
+                      stroke-linejoin="round" stroke-width="2" />
+                  </g>
+                </svg>
+                Search by Customer</button>
+            </div>
+          </div>
+          <!-- <div *ngIf="compensationFeild" class="inputs-group inputs col-md-4">
+            <label for="shippingFees">Max Use</label>
+            <br />
+            <input
+              type="text"
+              formControlName="max_use"
+              placeholder="Type here"
+              pInputText
+            /><br />
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted && genralInfoForm.get('max_use')?.hasError('required')
+              "
+            >
+              Max Use is required</small
+            >
+          </div> -->
+        </div>
+      </div>
+    </form>
+    <div *ngIf="showOrderDetails" class="card col-md-12 mb-4">
+      <div class="orders">
+        <div class="header-orders d-flex justify-content-between align-items-center">
+          <div class="">
+            <div class="checkBox">
+              <mat-checkbox (change)="handleSelectedAllOrders($event)" [(ngModel)]="selectedAll"
+                [ngModelOptions]="{ standalone: true }" name="SelectedAll" class="example-margin">
+                <p>Select All</p>
+              </mat-checkbox>
+            </div>
+            <div class="customerName">
+              <div class="">
+                {{ customerName?.first_name }} {{ customerName?.last_name }}
+              </div>
+              <span class="mx-1">-</span>
+              <div class="items-length">{{ orderLength }} items</div>
+            </div>
+            <!-- <div class="line"></div> -->
+          </div>
+          <div class="d-flex align-items-center">
+            <div class="">
+              <mat-checkbox [checked]="isSelectedIncludedShipping" (change)="handleSelectedShipping($event)"
+                [ngModelOptions]="{ standalone: true }" [style]="{bottom:'5px'}" name="SelectedAll"
+                class="example-margin">
+                <p class="incloud m-0">Include Shipping</p>
+              </mat-checkbox>
+            </div>
+            <div class="line"></div>
+            <div class="d-flex align-items-center">
+              <div class="">
+                <p class="total">Total Amount</p>
+                <h3 class="total-price">{{currency}} {{ orderTotal }}</h3>
+              </div>
+              <div class="line"></div>
+              <button *ngIf="!slide" (click)="closeOrderDetails()" class="icons border-0 bg-transparent">
+                <i class="fa-solid fa-chevron-up"></i>
+              </button>
+              <button *ngIf="slide" (click)="closeOrderDetails()" class="icons border-0 bg-transparent">
+                <i class="fa-solid fa-chevron-down"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="slide" class="row my-3">
+          <div class="col-md-4 mt-3" *ngFor="let item of orders; let i = index">
+            <div class="order-details">
+              <div class="row">
+                <div class="col-md-1 d-flex align-items-center px-1">
+                  <div class="order-check">
+                    <mat-checkbox (change)="handleSelectedOrder($event, item, i)" [disabled]="selectedAll === true"
+                      [checked]="item.isSelected" name="Selected" class="example-margin">
+                    </mat-checkbox>
+                  </div>
+                </div>
+                <div class="col-md-3 p-0">
+                  <div class="order-img d-flex justify-content-center align-items-center">
+                    <!-- <img *ngIf="item?.shipment_items?.seller_variation?.variation?.images[0]"
+                   [src]="item?.shipment_items?.seller_variation?.variation?.images[0].url" alt="img"> -->
+                    <img [src]="item?.image?.url" alt="img" />
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-12 px-1">
+                      <div class="order-name">
+                        {{ item?.productName }}
+                      </div>
+                    </div>
+                    <div class="col-md-12 px-1">
+                      <div class="row">
+                        <div class="col-md-8 col-sm-8">
+                          <div class="order-qty mb-1">
+                            <div class="qty d-flex align-items-center gap-3">
+                              <span>Qty</span>
+                              <button (click)="descrment(item, i)" class="descrement">
+                                <i class="fa-solid fa-minus"></i>
+                              </button>
+                              <span>{{ item?.Qty }}</span>
+                              <button (click)="incrment(item, i)" class="increment">
+                                <i class="fa-solid fa-plus"></i>
+                              </button>
+                            </div>
+                            <div class="ord-price mt-2">
+                              <span>{{currency}}</span> {{ item?.price }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                          <div class="order-logo">
+                            <img [src]="item?.logo" alt="img" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="d-flex align-items-center">
+
+                <div class="">
+
+
+                </div>
+              </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form *ngIf="compensationFeild || refundFeild" [formGroup]="conditionInfoForm">
+      <div class="card col-md-12 mb-4">
+        <h3 class="form-header mb-3">CONDITION INFO</h3>
+        <div class="row">
+          <div *ngIf="refundFeild" class="inputs-group" [ngClass]="refundFeild ? 'col-md-6' : 'col-md-4'">
+            <label>Send To</label>
+            <br />
+            <p-dropdown placeholder="Select Type" [options]="transfer"
+              [formControl]="conditionInfoForm.controls['transfer_type']" optionLabel="name"></p-dropdown><br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('transfer_type')?.hasError('required')
+              ">
+              Send To is required</small>
+          </div>
+          <div *ngIf="compensationFeild" class="inputs-group col-md-4">
+            <label>Customer Type</label>
+            <br />
+            <p-dropdown (onChange)="checkCustomerType($event)"
+              [formControl]="conditionInfoForm.controls['customer_type']" placeholder="Select Type"
+              [options]="CustomerType" optionLabel="name"></p-dropdown><br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('customer_type')?.hasError('required')
+              ">
+              Customer Type is required</small>
+          </div>
+          <div *ngIf="compensationFeild" class="col-md-4">
+            <label>Date From</label>
+            <br />
+            <p-calendar formControlName="date_from" [showIcon]="true" placeholder="Date From"></p-calendar>
+            <br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('date_from')?.hasError('required')
+              ">
+              Date is required</small>
+          </div>
+          <div *ngIf="compensationFeild" class="col-md-4">
+            <label>Date to</label>
+            <br />
+            <p-calendar [disabled]="hasExpiry === true" formControlName="date_to" [showIcon]="true"
+              placeholder="Date To"></p-calendar>
+            <br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('date_to')?.hasError('required')
+              ">
+              Date is required</small>
+            <div class="text-start mt-2">
+              <mat-checkbox [(ngModel)]="hasExpiry" [ngModelOptions]="{ standalone: true }" name="expiry"
+                class="example-margin">
+                Has no expiry date
+              </mat-checkbox>
+            </div>
+          </div>
+          <div class="inputs-group" [ngClass]="refundFeild ? 'col-md-6' : 'col-md-4'">
+            <label>Reasons</label>
+            <br />
+            <p-dropdown formControlName="reason_id" placeholder="Select a Reason" [options]="Reasons"
+              optionLabel="description_en"></p-dropdown><br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('reason_id')?.hasError('required')
+              ">
+              Reasons is required</small>
+          </div>
+          <div *ngIf="theReasonField" class="inputs-group" [ngClass]="refundFeild ? 'col-md-12' : 'col-md-8'">
+            <label class="mt-1">The Resons</label>
+            <br />
+            <textarea class="form-control w-100" #theReasons formControlName="other_reason" [rows]="4" [cols]="30"
+              pInputTextarea></textarea>
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('other_reason')?.hasError('required')
+              ">
+              The Reasons is required</small>
+          </div>
+          <div *ngIf="bankAccountFeild" class="inputs-group" [ngClass]="theReasonField ? 'col-md-6' : 'col-md-6'">
+            <label class="mt-1">Bank Name</label>
+            <br />
+            <p-dropdown placeholder="Type here" [options]="banks" [formControl]="conditionInfoForm.controls['bank_id']"
+              optionLabel="name_en"></p-dropdown>
+            <br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('bank_id')?.hasError('required')
+              ">
+              Bank Name is required</small>
+          </div>
+          <div *ngIf="bankAccountFeild" class="inputs-group inputs col-md-6">
+            <label class="mt-1">IBAN Number</label>
+            <br />
+            <input type="text" formControlName="iban" placeholder="Type here" pInputText /><br />
+            <small class="text-danger" *ngIf="
+                submitted && conditionInfoForm.get('iban')?.hasError('required')
+              ">
+              IBAN Number is required</small>
+          </div>
+          <div *ngIf="bankAccountFeild" class="inputs-group inputs col-md-6">
+            <label>Account Number</label>
+            <br />
+            <input type="text" formControlName="bank_number" placeholder="Type here" pInputText /><br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('bank_number')?.hasError('required')
+              ">
+              Account Number is required</small>
+          </div>
+          <div *ngIf="bankAccountFeild" class="inputs-group inputs col-md-6">
+            <label>Account Name</label>
+            <br />
+            <input type="text" formControlName="account_name" placeholder="Type here" pInputText /><br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('account_name')?.hasError('required')
+              ">
+              Account Name is required</small>
+          </div>
+          <div *ngIf="vodafonCashFeild" class="inputs-group inputs"
+            [ngClass]="theReasonField ? 'col-md-6' : 'col-md-8'">
+            <label class="mt-1">Phone</label>
+            <br />
+            <input type="text" formControlName="phone" placeholder="Type here" pInputText /><br />
+            <small class="text-danger" *ngIf="
+                submitted &&
+                conditionInfoForm.get('phone')?.hasError('required')
+              ">
+              Phone Number is required</small>
+            <small class="text-danger" *ngIf="
+                submitted && conditionInfoForm.get('phone')?.hasError('pattern')
+              ">
+              Phone Number is inValid</small>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- specificCustomerField -->
+    <div *ngIf="specificCustomerField" class="card col-md-12 mb-4">
+      <div class="mb-4">
+        <h3 class="m-0" style="font-size: 20px">PLEASE SELECT CUSTOMER</h3>
+      </div>
+
+      <div class="header-form-customer">
+        <form class="form-search row">
+          <div class="col-md-9">
+            <input type="text" [(ngModel)]="searchValue" #SearchValue
+              (keyup)="checkValueSearchCustomers(SearchValue.value)" [ngModelOptions]="{ standalone: true }"
+              class="form-control" placeholder="Id, Name, Phone Number" />
+          </div>
+
+          <div class="col-md-3">
+            <div class="d-flex justify-content-evenly align-items-center">
+              <button (click)="searchInClients(SearchValue.value)" class="btn btn-form-search">
+                Search
+              </button>
+
+              <button (click)="reset()" class="btn btn-form-clear d-flex justify-content-center align-items-center">
+                <i class="fa-solid fa-trash mx-2"></i>
+                <span style="font-size: 14px">Clear</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="dataTable mt-3 rounded bg-white shadow">
+        <p-table id="myTable" [columns]="tableHeader" [loading]="loadingIndicator" [value]="Costomersdata$ | async"
+          dataKey="id" (selectionChange)="onSelectCustomers($event)" responsiveLayout="scroll" [rowHover]="true"
+          [resizableColumns]="true" [(selection)]="customerSelect" [tableStyle]="{ width: '100%' }" #dataTable>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th *ngFor="let col of columns">
+                {{ col.header }}
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-rowData>
+            <tr [pSelectableRow]="rowData">
+              <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+              </td>
+              <td>
+                {{ rowData.id }}
+              </td>
+              <td>
+                {{ rowData.Name }}
+              </td>
+              <td>
+                {{ rowData.phone }}
+              </td>
+              <td>
+                {{ rowData.Status }}
+              </td>
+              <td>
+                {{ rowData.date_modified }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <p-paginator appendTo="body" class="paginator d-flex justify-content-end" [rows]="5" #p [totalRecords]="length"
+          (onPageChange)="handleCustomersPageSize($event)" [rowsPerPageOptions]="[5, 15, 50, 100]"></p-paginator>
+      </div>
+    </div>
+    <div class="btns text-end my-3">
+      <button class="btn-cancel-footer btn mx-2" (click)="navigate()">
+        CANCEL
+      </button>
+      <button class="btn-create-footer btn mx-2" (click)="checkCreateOrEditStoreCredit()"
+        [disabled]="genralInfoForm?.invalid">
+        <!--  -->
+        <div *ngIf="Loading == true" class="loader m-auto"></div>
+        {{ creditIdURL && Loading === false ? "EDIT" : "" }}
+        {{ creditIdURL === null && Loading === false ? "CREATE" : "" }}
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- dialog show all address selected and not selected -->
+<!-- dialog select customer and show all customers -->
+<p-dialog [(visible)]="display" [modal]="true" [draggable]="false" [style]="{ width: '70vw' }" class="p-2"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="110000" [closeOnEscape]="true">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="m-0" style="font-size: 20px">PLEASE SELECT CUSTOMER</h3>
+  </div>
+
+  <div class="header-form-customer m-auto">
+    <form class="form-search d-flex">
+      <input type="text" [(ngModel)]="searchValue" #SearchValue (keyup)="checkValueSearchCustomers(SearchValue.value)"
+        [ngModelOptions]="{ standalone: true }" class="form-control" placeholder="Id, Name, Phone Number" />
+
+      <button (click)="searchInClients(SearchValue.value)" class="btn btn-form-search">
+        Search
+      </button>
+      <button (click)="reset()" class="btn btn-form-clear d-flex justify-content-center align-items-center">
+        <i class="fa-solid fa-trash mx-2"></i>
+        <span style="font-size: 14px">Clear</span>
+      </button>
+      <button [disabled]="CoustomerId == 0" [ngClass]="CoustomerId == 0 ? 'disabled':''" class="select-customer"
+        (click)="showOrdersDisplay()">
+        Select
+      </button>
+    </form>
+  </div>
+
+  <div class="dataTable mt-3 rounded bg-white shadow">
+    <p-table id="myTable" [value]="Costomersdata$ | async" selectionMode="single" [loading]="loadingIndicator"
+      [(selection)]="customerSelect2" (onRowSelect)="onRowSelectCustomer($event)" dataKey="id"
+      [tableStyle]="{ width: '100%' }" responsiveLayout="scroll" [rowHover]="true" [resizableColumns]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Select</th>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Status</th>
+          <th>Date Modified</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+        <tr [pSelectableRow]="customer">
+          <td>
+            <p-tableCheckbox [value]="customer"></p-tableCheckbox>
+          </td>
+          <td>{{ customer.id }}</td>
+          <td>{{ customer.Name }}</td>
+          <td>{{ customer.phone }}</td>
+          <td>{{ customer.Status }}</td>
+          <td>
+            {{ customer.date_modified ? customer.date_modified : "__" }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <p-paginator appendTo="body" class="paginator d-flex justify-content-end" [rows]="5" #p [totalRecords]="length"
+      (onPageChange)="handleCustomersPageSize($event)" [rowsPerPageOptions]="[5, 15, 50, 100]"></p-paginator>
+  </div>
+</p-dialog>
+
+
+<!-- dialog select customer and show all orders to customer -->
+<p-dialog [(visible)]="ordersDisplay" [modal]="true" [draggable]="false" [style]="{ width: '70vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="110000" [closable]="false" class="orderDialog">
+  <div class=" w-100 mb-2 d-flex justify-content-between align-items-center header-order-list">
+    <div class="d-flex align-items-center ms-2">
+      <button (click)="backToCustomer()" class="border-0 bg-transparent">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <div class="fs-6 me-2 px-2 fw-bold">
+        {{ customerSelect2?.Name}}
+      </div>
+      <div class="line">|</div>
+      <div class="txt">
+        {{ orderClients?.length}} Orders
+      </div>
+    </div>
+    <div class="d-flex align-items-center">
+      <div class="m-1 bg-btn-close">
+        <button (click)="cancelDailog()" class="bg-transparent border-0 px-2">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="review my-1 pb-5">
+    <div class="rev-content">
+      <div class="container my-1">
+        <div class="orders my-4 bg-white row  my-2 d-flex justify-content-start " *ngIf="orderClients.length > 0">
+          <div class=" w-50 mb-3" *ngFor="let order of orderClients ; let i = index">
+
+            <div class="p-2 orderContainer d-flex justify-content-start"
+              [ngStyle]="{'background-color' :orderChecked == order.id ? '#E5F6F4':'#F5F9F9'}">
+
+              <div class="container">
+                <div class="row">
+                  <div class="d-flex justify-content-start">
+                    <div class="col-md-1 px-1">
+                      <div class="order-check">
+                        <mat-checkbox (change)="checkOrderValue($event , order , i)"
+                          [checked]="orderChecked == order.id" name="Selected" class="example-margin">
+                        </mat-checkbox>
+
+                      </div>
+                    </div>
+                    <div class="col-11 p-0">
+                      <div class="order-info d-flex align-items-center justify-content-between">
+                        <div class="order-name m-0">
+                          <h4>Order {{ order?.id }}</h4>
+                        </div>
+
+                        <div class="order-status">
+                          <h5 class="px-1   m-0" [class.pending]="order.status?.name == 'PENDING'"
+                            [class.pending-payment]="order.status?.name == 'PENDING_PAYMENT'"
+                            [class.pending-falied]="order.status?.name == 'PAYMENT_FAILED'"
+                            [class.processing]="order.status?.name == 'PROCESSING'"
+                            [class.delivery]="order.status?.name == 'DELIVERED'"
+                            [class.return]="order.status?.name == 'RETURN_REQUEST'"
+                            [class.ready-ship]="order.status?.name == 'READY_TO_SHIP'"
+                            [class.out_for_return]="order.status?.name == 'OUT_FOR_RETURN'"
+                            [class.cancled]="order.status?.name == 'CANCELED'"
+                            [class.complete]="order.status?.name == 'COMPLETE'"
+                            [class.closed]="order.status?.name == 'CLOSED'">
+                            {{ order.status?.label | uppercase }}
+                          </h5>
+
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center justify-content-between">
+                        <p class="date">Placed {{ order?.created_at | date:'mediumDate' }}</p>
+                        <p class="items-qty px-1">
+                          {{ order.shipment_items.length }}
+
+                          Items
+                        </p>
+
+                      </div>
+
+                      <div class="order-summary d-flex align-items-center justify-content-start">
+                        <p class="total">Total Amount</p>
+                        <p class="mb-0 ms-2 price">{{currency}}{{ order.total_price }}</p>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+
+              </div>
+
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+        <ng-container *ngIf="orderClients.length == 0 && !loadingOrader">
+          <div class="notFound d-flex align-items-center justify-content-center" style="height: 40vh">
+            No Order
+          </div>
+        </ng-container>
+        <div *ngIf="loadingOrader">
+          <div class="d-flex justify-content-center align-items-center">
+            <p-progressSpinner></p-progressSpinner>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="w-100 p-2 d-flex justify-content-end align-items-end header-order-list fixed-bottom bottom-0 ">
+    <button class=" select-order w-10 me-3" (click)="backToCustomer()">
+      Back
+    </button>
+    <button [disabled]="orderSerialNumber == 0" [ngClass]="orderSerialNumber == 0 ? 'disabled':''"
+      class="select-customer w-25" (click)="selectOrder()">
+      Select
+    </button>
+
+  </div>
+</p-dialog>
+
+<p-toast></p-toast>
+<p-confirmDialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000">
+</p-confirmDialog>

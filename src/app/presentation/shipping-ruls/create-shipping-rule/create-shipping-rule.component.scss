@@ -1,0 +1,125 @@
+section
+{
+  background-color: #F5F9F9;
+  padding: 15px 0px;
+  .card {
+    background-color: white;
+    border: none;
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px 0 lightgray;
+  }
+  .form-header
+  {
+    color: #0E1740;
+    font-weight: 500;
+  }
+  .back {
+    background-color: transparent !important;
+    color: #0e1740 !important;
+    border: none !important;
+  }
+}
+:host ::ng-deep{
+  .p-inputtext
+  {
+    border: 1px solid #b7b9bb !important;
+    background-color: #FFFFFF !important;
+    width: 100%;
+  }
+  .p-dropdown
+  {
+    width: 100%;
+  }
+  .p-calendar .p-inputtext
+  {
+    border: none !important;
+    border-top: 1px solid #b7b9bb !important;
+    border-bottom: 1px solid #b7b9bb !important;
+    border-left: 1px solid #b7b9bb !important;
+
+  }
+  .p-button
+  {
+    color: #000 !important;
+    background-color:transparent !important;
+    border: none !important;
+    border-top: 1px solid #b7b9bb !important;
+    border-right: 1px solid #b7b9bb !important;
+    border-bottom: 1px solid #b7b9bb !important;
+  }
+  .p-button:hover
+  {
+    color: #000;
+  }
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle
+  {
+    border-color: #00A599;
+  }
+  .mat-radio-button.mat-accent .mat-radio-inner-circle
+  {
+    background-color: #00A599;
+  }
+  .example-radio-group
+  {
+    margin: 4px 0px !important;
+  }
+}
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #00A599 !important;
+}
+
+.btn-create-footer
+{
+  background-color: #5F2D79;
+  color: #FFFFFF;
+  font-size: 14px;
+  padding: 10px 35px;
+  border:1px solid #5F2D79;
+  border-radius: 5px;
+  width:20%;
+}
+.btn-create-footer:hover
+{
+  background-color: transparent;
+  color: #5F2D79;
+  border:1px solid #5F2D79;
+
+}
+
+.btn-cancel-footer
+{
+  background-color: transparent;
+  color: #0F183D;
+  font-size: 14px;
+  padding: 10px 20px;
+  border:1px solid #0F183D;
+  border-radius: 5px;
+  width:10%;
+}
+.btn-cancel-footer:hover
+{
+  background-color: #0F183D;
+  color: #FFFFFF;
+  border:1px solid #0F183D;
+
+}
+.loader {
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid #5F2D79;
+  width: 25px;
+  height: 25px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}

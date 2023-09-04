@@ -1,0 +1,12 @@
+<svg id="Group_13750" data-name="Group 13750" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <rect id="Rectangle_27540" data-name="Rectangle 27540" width="28" height="28" fill="#fff" opacity="0"/>
+  <line id="Line_112" data-name="Line 112" y2="16.345" transform="translate(9.062 5.898)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <line id="Line_114" data-name="Line 114" y2="9.965" transform="translate(14 7.579)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <line id="Line_113" data-name="Line 113" y2="16.345" transform="translate(18.938 5.898)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+  <g id="Group_13751" data-name="Group 13751" transform="translate(5.001 5.072)">
+    <g id="Icon_feather-edit" data-name="Icon feather-edit">
+      <path id="Path_3658" data-name="Path 3658" d="M12,6H5A2,2,0,0,0,3,8V22a2,2,0,0,0,2,2H19a2,2,0,0,0,2-2V15" transform="translate(-3 -6)" fill="none" stroke="#0e1740" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      <path id="Path_3659" data-name="Path 3659" d="M22.194,3.421a2.06,2.06,0,0,1,2.913,2.913l-9.224,9.224L12,16.528l.971-3.884Z" transform="translate(-7.712 -2.818)" fill="none" stroke="#0e1740" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

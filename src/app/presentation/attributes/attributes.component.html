@@ -1,0 +1,468 @@
+<div class="wrapper">
+  <div class="my-3">
+    <app-screen-haeder
+      (CreateHandler)="showCreateModal($event)"
+      [firstLetter]="'A'"
+      [title]="'TTRIBUTES'"
+      (searchValue)="search($event)"
+      [filterOfNames]="filterOfNames"
+      (showFilterField2)="showFilterFieldFn($event)"
+    >
+    </app-screen-haeder>
+  </div>
+
+  <form *ngIf="showFilterField" [formGroup]="filterField">
+    <div class="row my-3">
+      <div class="col-md-4 d-flex align-items-center gap-3" *ngFor="let item of filterOfNames">
+        <div class="w-100">
+          <label for="">{{item ==='title_ar' ? 'Title Ar':item ==='title_en' ? 'Title En': 'Code'}}</label><br>
+          <input type="text" [formControlName]="item" class="w-100" pInputText  [placeholder]="
+          item ==='title_ar' ? 'Title Ar':item ==='title_en' ? 'Title En': 'Code'
+          "
+           >
+        </div>
+      </div>
+    </div>
+    <div class=" d-flex justify-content-end align-items-baseline gap-3">
+      <button type="submit" (click)="getFilterAction()" class="apply-filter btn">Apply Filter</button>
+      <button (click)="resetFormColumn()" class="cancel-filter btn">Reset</button>
+
+      </div>
+  </form>
+  <app-data-table
+    [selectedItems]="selectedItems"
+    (isBulkExportBtnClicked)="handleBulkExportedData($event)"
+    (isBulkDeleteBtnClicked)="handleBulkDeleteAttribute($event)"
+    (isEditBtnClicked)="EditHandler($event)"
+    (isDeleteBtnClicked)="DeleteHandler($event)"
+    (sendTablePageSize)="handlePageSize($event)"
+    (handleCheckedValues)="checkAttrValues($event)"
+    [loadingIndicator]="loadingIndicator"
+    [showActionCol]="true"
+    [showDetailsAction]="false"
+    [showDeleteAction]="true"
+    [showEditAction]="true"
+    [tableHeaders]="tableHeader"
+    [tableData]="data$ | async"
+    [totalItems]="length"
+    [checkValues]="true"
+    [page]="page"
+    [tableColumn]="tableHeader"
+    #table
+  >
+  </app-data-table>
+
+  <p-dialog
+    [style]="{ width: '30vw' }"
+    [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+    [baseZIndex]="10000"
+    [modal]="true"
+    [header]="editModeOn ? 'Edit Attribute' : 'Create Attribute'"
+    [(visible)]="display"
+    [draggable]="false"
+    [closable]="false"
+  >
+    <form class="form" [formGroup]="AttributeForm">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- AR -->
+          <div class="Arabic_Title">
+            <div class="mb-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Arabic</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="title_ar"
+                  placeholder="Arabic Title..."
+                />
+              </mat-form-field>
+              <small
+                class="text-danger"
+                *ngIf="
+                  submitted &&
+                  AttributeForm.get('title_ar')?.hasError('required')
+                "
+              >
+                Arabic Title is required
+              </small>
+            </div>
+          </div>
+          <!-- AR -->
+        </div>
+        <div class="col-md-6">
+          <!-- EN -->
+          <div class="English_Title">
+            <div class="mb-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>English</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="title_en"
+                  placeholder="English Title..."
+                />
+              </mat-form-field>
+              <small
+                class="text-danger"
+                *ngIf="
+                  submitted &&
+                  AttributeForm.get('title_en')?.hasError('required')
+                "
+              >
+                English Title is required
+              </small>
+            </div>
+          </div>
+          <!-- EN -->
+        </div>
+        <div class="col-md-6" *ngIf="!editModeOn">
+          <!-- value type -->
+          <div class="mb-3">
+            <mat-form-field>
+              <mat-label>Value Type</mat-label>
+              <mat-select
+                formControlName="type"
+                panelClass="myPanelClass"
+                placeholder="Attribute Type..."
+              >
+                <mat-option *ngFor="let type of types" [value]="type.id">{{
+                  type.name
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted && AttributeForm.get('type')?.hasError('required')
+              "
+            >
+              Attribute Type is Required
+            </small>
+          </div>
+          <!-- value type -->
+        </div>
+        <div class="col-md-6">
+          <!-- code -->
+          <div class="code">
+            <div class="mb-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Code</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="code"
+                  placeholder="Code..."
+                />
+              </mat-form-field>
+              <small
+                class="text-danger"
+                *ngIf="
+                  submitted && AttributeForm.get('code')?.hasError('required')
+                "
+              >
+                Attribute Code is Required
+              </small>
+            </div>
+          </div>
+          <!-- code -->
+        </div>
+        <div class="col-md-6">
+          <!-- attribute Sets -->
+          <div class="atrributes mb-2 w-100">
+            <mat-form-field>
+              <mat-label>Attribute Set</mat-label>
+              <mat-select
+                placeholder="Attribute Set..."
+                disableOptionCentering
+                panelClass="myPanelClass"
+                msInfiniteScroll
+                (infiniteScroll)="handleScrollEvent()"
+                [complete]="next === null"
+                threshold="1px"
+                multiple
+                formControlName="attribute_sets"
+              >
+                <mat-option
+                  *ngFor="let option of attributeSetsData"
+                  [value]="option"
+                  >{{ option.title_en }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted &&
+                AttributeForm.get('attribute_sets')?.hasError('required')
+              "
+            >
+              Attribute Sets is Required
+            </small>
+          </div>
+          <!-- attribute Sets -->
+        </div>
+        <div class="col-md-6">
+          <!-- Value Required  [(ngModel)]="checked"-->
+          <div class="switch w-100 mb-3">
+            <p-inputSwitch formControlName="is_required"></p-inputSwitch>
+            <p
+              class="lead"
+              *ngIf="AttributeForm.get('is_required')?.value === true"
+            >
+              Value Required
+            </p>
+            <p
+              class="lead"
+              *ngIf="AttributeForm.get('is_required')?.value === false"
+            >
+              Not Required
+            </p>
+          </div>
+        </div>
+        <!-- buttons -->
+        <div class="col-md-12">
+          <div class="btns d-flex flex-row-reverse">
+            <app-add-button
+              [isLoading]="btnLoader"
+              class="w-100"
+              [title]="editModeOn ? 'EDIT' : 'CREATE'"
+              (click)="submit()"
+            >
+            </app-add-button>
+            <app-cancel-button
+              class="w-100 mx-2"
+              (click)="cancel()"
+            ></app-cancel-button>
+          </div>
+        </div>
+        <!-- buttons -->
+      </div>
+    </form>
+  </p-dialog>
+
+  <p-toast></p-toast>
+
+  <p-confirmDialog
+    [style]="{ width: '30vw' }"
+    [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+    [baseZIndex]="10000"
+  >
+  </p-confirmDialog>
+</div>
+
+<!-- start attribute value -->
+
+<p-dialog
+  [style]="{ width: '60vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+  [modal]="true"
+  [header]="'Attribute Values'"
+  [(visible)]="displayValues"
+  [draggable]="false"
+  [closable]="true"
+  (onHide)="resetValue()"
+>
+  <form class="form mt-2" [formGroup]="attValuesForm">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- AR -->
+        <div class="Arabic_Title">
+          <div class="mb-3">
+            <mat-form-field class="example-full-width">
+              <mat-label>Arabic Title</mat-label>
+              <input type="text" matInput formControlName="value_ar" />
+            </mat-form-field>
+            <small
+              class="text-danger"
+              *ngIf="
+                submittedValue &&
+                attValuesForm.get('value_ar')?.hasError('required')
+              "
+            >
+              Arabic Title is required
+            </small>
+          </div>
+        </div>
+        <!-- AR -->
+      </div>
+      <div class="col-md-6">
+        <!-- EN -->
+        <div class="English_Title">
+          <div class="mb-3">
+            <mat-form-field class="example-full-width">
+              <mat-label>English Title</mat-label>
+              <input type="text" matInput formControlName="value_en" />
+            </mat-form-field>
+            <small
+              class="text-danger"
+              *ngIf="
+                submittedValue &&
+                attValuesForm.get('value_en')?.hasError('required')
+              "
+            >
+              English Title is required
+            </small>
+          </div>
+        </div>
+        <!-- EN -->
+      </div>
+
+      <div class="col-md-6">
+        <!-- upload image -->
+
+        <div *ngIf="inputType === 'PATTERN_SWATCH'">
+          <div
+            class="btns d-flex align-items-center justify-content-start uploadData"
+          >
+            <div class="upload-file position-relative">
+              <span class="text-white">Upload Img</span>
+
+              <input
+                required
+                type="file"
+                style="cursor: pointer"
+                formControlName="pattern"
+                (change)="uploadIamge($event)"
+              />
+            </div>
+
+            <p *ngIf="viewImage" class="w-75 py-3 texturl">
+              {{ imgaePathText }}
+            </p>
+            <img
+              *ngIf="viewImage"
+              [src]="imagePath"
+              alt="pattern image"
+              class="align-self-end rounded-3 imguploaded"
+            />
+          </div>
+        </div>
+        <small
+          [hidden]="inputType !== 'PATTERN_SWATCH'"
+          class="text-danger mt-2"
+          *ngIf="
+            submittedValue && attValuesForm.get('pattern')?.hasError('required')
+          "
+        >
+          Please Upload image
+        </small>
+        <!-- apload image -->
+
+        <!-- color Picker -->
+
+        <div
+          *ngIf="inputType === 'COLOR_SWATCH'"
+          class="color_picker d-flex align-items-center justify-content-center"
+        >
+          <input
+            type="text"
+            [value]="attValuesForm.get('code')?.value"
+            placeholder="Choose your Color..."
+            class="form-control me-2"
+            disabled
+          />
+          <p-colorPicker
+            [showTransitionOptions]="'0ms'"
+            [hideTransitionOptions]="'0ms'"
+            formControlName="code"
+            appendTo="body"
+          >
+          </p-colorPicker>
+        </div>
+        <small
+          [hidden]="inputType !== 'COLOR_SWATCH'"
+          class="text-danger mt-2"
+          *ngIf="
+            submittedValue && attValuesForm.get('code')?.hasError('required')
+          "
+        >
+          Please Pick Color
+        </small>
+        <!-- color Picker -->
+      </div>
+      <div class="col-md-6">
+        <!-- buttons -->
+        <!-- <app-cancel-button
+          [isLoading]="btnLoader"
+          (click)="resetValue()"
+          [title]="'Reset'"
+          class="me-2"
+        ></app-cancel-button> -->
+        <app-add-button
+          [isLoading]="btnLoader"
+          (click)="submitValue()"
+          [icon]="'pi pi-plus-circle'"
+          [title]="editvalueModeOn ? 'EDIT' : 'ADD'"
+        >
+        </app-add-button>
+        <!-- buttons -->
+      </div>
+    </div>
+  </form>
+  <hr />
+
+  <div class="mt-4 rounded bg-white shadow">
+    <p-table
+      id="myTable"
+      [columns]="valuesTableHeader"
+      responsiveLayout="scroll"
+      [loading]="loadingIndicator"
+      styleClass="p-datatable-striped"
+      [value]="attsValueData$ | async"
+      [rowHover]="true"
+      [resizableColumns]="true"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+          <th *ngIf="inputType === 'COLOR_SWATCH'">Color</th>
+          <th *ngIf="inputType === 'PATTERN_SWATCH'">Image</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            <span *ngIf="rowData && rowData[col.field]">
+              {{ rowData[col.field] }}</span
+            >
+          </td>
+          <td *ngIf="inputType === 'COLOR_SWATCH'">
+            {{ rowData.code }}
+            <p-colorPicker [(ngModel)]="rowData.code"></p-colorPicker>
+          </td>
+          <td *ngIf="inputType === 'PATTERN_SWATCH'">
+            <img [src]="rowData?.pattern" alt="image" class="w-25" />
+          </td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-edit" (click)="editValueHandler(rowData)">
+                <h4>
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </h4>
+              </button>
+              <button
+                class="btn btn-delete"
+                (click)="DeleteValueHandler(rowData)"
+              >
+                <h4>
+                  <i class="fa-solid fa-trash-can"></i>
+                </h4>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="columns.length + 1">No records found</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>

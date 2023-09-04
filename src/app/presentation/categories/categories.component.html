@@ -1,0 +1,227 @@
+<ng-container *ngIf="isShowData; else elseBLock">
+  <div class="wrapper">
+    <app-screen-haeder (CreateHandler)="openCreateDialog($event)" [firstLetter]="'C'"
+      [title]="'ATEGORIES'"></app-screen-haeder>
+    <div class="row mt-3">
+      <!-- tree -->
+      <div class="col-md-5">
+        <div class="tree">
+          <div class="scroll">
+            <div class="header d-flex justify-content-between align-items-center">
+              <h5 class="Tree_Header">Mapping</h5>
+              <button type="button" (click)="CollapseTree()" class="btn me-2">
+                <i class="pi pi-chevron-up"></i>
+                Collapse All
+              </button>
+            </div>
+            <hr />
+            <p-tree [value]="files" selectionMode="single" [(selection)]="selectedFile"
+              (onNodeSelect)="nodeSelect($event)" (onNodeExpand)="nodeExpand($event)" [loading]="loadingIndicator">
+            </p-tree>
+          </div>
+        </div>
+      </div>
+      <!-- tree -->
+
+      <!-- From -->
+      <div class="col-md-7">
+        <form class="form shadow" [formGroup]="categoryForm">
+          <div class="form_header d-flex justify-content-between align-items-center">
+            <div>
+              <h1 *ngIf="editModeOn" class="create-update-title">
+                Update Category
+              </h1>
+              <h1 *ngIf="!editModeOn" class="create-update-title">
+                Create New Category
+              </h1>
+            </div>
+            <div class="path"></div>
+            <app-delete-button *ngIf="editModeOn" (click)="deleteCategory()"></app-delete-button>
+          </div>
+          <p class="text-muted lead my-3 fs-6">{{ itemPath }}</p>
+          <div class="row mt-3">
+            <!-- arabic and english title -->
+            <div class="col-md-6">
+              <div class="title_ar">
+                <div class="mb-3">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Arabic</mat-label>
+                    <input type="text" matInput formControlName="title_ar" placeholder="Arabic Title..." />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      categoryForm.get('title_ar')?.hasError('required')
+                    ">
+                    Arabic Title is required
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="title_en">
+                <div class="mb-3">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>English</mat-label>
+                    <input type="text" matInput formControlName="title_en" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      categoryForm.get('title_en')?.hasError('required')
+                    ">
+                    English Title is required
+                  </small>
+                </div>
+              </div>
+            </div>
+            <!-- arabic and english title -->
+
+            <!-- select parent_id -->
+            <div class="col-md-6" *ngIf="true">
+              <div class="mb-1 w-100">
+                <!--  that all is found *************-->
+                <!-- <mat-form-field>
+                  <mat-label>Parent</mat-label>
+                  <mat-select disableOptionCentering panelClass="myPanelClass" msInfiniteScroll
+                    (infiniteScroll)="handleScrollEvent()" [complete]="next === null" threshold="1px"
+                    formControlName="parent_id" placeholder="Category Parent...">
+                    <mat-option *ngFor="let option of categoriesLookUps" [value]="option">{{ option.title_en }}
+                    </mat-option>
+                  </mat-select>
+                  <button mat-button matSuffix *ngIf="categoryForm.get('parent_id')?.value" (click)="resetSelect()"
+                    mat-icon-button>
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field> -->
+                <!--  that all is found *************-->
+                <!-- that is updated that return parent category-->
+                <!-- <mat-form-field>
+                  <mat-label>Category</mat-label>
+                  <mat-select (selectionChange)="onSelectionChange($event.value.id)" disableOptionCentering
+                    panelClass="myPanelClass" msInfiniteScroll (infiniteScroll)="handleScrollEvent()"
+                    [complete]="next === null" threshold="1px" formControlName="parent_id"
+                    placeholder="Category Parent...">
+                    <mat-option *ngFor="let option of parentCategories" [value]="option">{{
+                      option.title_en }}
+                    </mat-option>
+                  </mat-select>
+                  <button mat-button matSuffix *ngIf="categoryForm.get('parent_id')?.value" (click)="resetSelect()"
+                    mat-icon-button>
+                    <mat-icon
+                      (click)="displayAllSubcategories = true ; displayAllSubcategoriesOfParent= false   ">close</mat-icon>
+                  </button>
+                </mat-form-field> -->
+
+
+                <!-- that is updated that return parent category-->
+
+
+
+              </div>
+            </div>
+            <!-- New subcategory of parent that i selected-->
+            <!-- This is show all sub category when running-->
+            <!-- <div class="col-md-6" *ngIf="displayAllSubcategories">
+              <div class="mb-1 w-100"></div>
+              <mat-form-field>
+                <mat-label>subcategory</mat-label>
+                <mat-select [(value)]="selectedOption" disableOptionCentering panelClass="myPanelClass" msInfiniteScroll
+                  (infiniteScroll)="handleScrollEvent()" [complete]="next === null" threshold="1px"
+                  placeholder="SubCategory Of Parent..." formControlName="subcategory_id">
+                  <mat-option #selectedOptionRef *ngFor="let subcategory of dataCollection" [value]="subcategory">{{
+                    subcategory.full_title
+                    }}
+                  </mat-option>
+                </mat-select>
+                <button mat-button matSuffix *ngIf="categoryForm.get('subcategory_id')?.value"
+                  (click)="resetSelectOfSubcategory()" mat-icon-button>
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div> -->
+            <!-- This is show all sub category when running-->
+            <!-- This is show  sub category when clicked-->
+
+            <!-- <div class="col-md-6" *ngIf="displayAllSubcategoriesOfParent">
+              <div class="mb-1 w-100"></div>
+              <mat-form-field>
+                <mat-label>subcategory</mat-label>
+                <mat-select [(value)]="selectedOption" disableOptionCentering panelClass="myPanelClass" msInfiniteScroll
+                  (infiniteScroll)="handleScrollEvent()" [complete]="next === null" threshold="1px"
+                  placeholder="SubCategory Of Parent..." formControlName="subcategory_id">
+                  <mat-option #selectedOptionRef *ngFor="let subcategory of subCategoriesOfParent"
+                    [value]="subcategory">{{
+                    subcategory.full_title
+                    }}
+                  </mat-option>
+                </mat-select>
+                <button mat-button matSuffix *ngIf="categoryForm.get('subcategory_id')?.value"
+                  (click)="resetSelectOfSubcategory()" mat-icon-button>
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div> -->
+            <!-- This is show  sub category when clicked-->
+
+            <!-- New subcategory of parent that i selected-->
+
+            <div class="col-md-6">
+              <!-- formControlName -->
+              <div class="d-flex justify-content-lg-around align-items-center mt-3">
+                <p class="lead">Is Featured</p>
+                <div class="switch">
+                  <p-inputSwitch formControlName="is_featured"></p-inputSwitch>
+                </div>
+
+                <!-- formControlName -->
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="d-flex mt-3 align-items-center justify-content-start uploadData">
+                <div class="upload-file position-relative">
+                  <span class="text-white">Upload Img</span>
+                  <input required type="file" style="cursor: pointer" (change)="uploadIamge($event)" />
+                </div>
+                <div class="w-100">
+                  <p *ngIf="viewImage" class="w-75 py-3 texturl">
+                    {{ imgaePathText }}
+                  </p>
+                </div>
+                <div>
+                  <img *ngIf="viewImage" [src]="imagePath" alt="pattern image"
+                    class="align-self-end rounded-3 imguploaded" />
+                </div>
+              </div>
+            </div>
+
+            <!-- apload image -->
+
+            <!-- buttons -->
+            <div class="col-md-6"></div>
+            <div class="col-md-6">
+              <div class="btns d-flex">
+                <app-add-button [isLoading]="btnLoader" (click)="submit()"
+                  [title]="editModeOn ? 'EDIT' : 'Save Category'">
+                </app-add-button>
+                <app-cancel-button [label]="'Reset'" (click)="cancel()"></app-cancel-button>
+              </div>
+            </div>
+            <!-- buttons -->
+          </div>
+        </form>
+      </div>
+      <!-- From -->
+    </div>
+  </div>
+
+  <p-toast></p-toast>
+
+  <p-confirmDialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+    [baseZIndex]="10000">
+  </p-confirmDialog>
+</ng-container>
+<ng-template #elseBLock>
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh">
+    No Data To Show
+  </div>
+</ng-template>

@@ -1,0 +1,597 @@
+<div class="wrapper">
+  <div class="d-flex align-items-center">
+    <div class="header mx-2">
+      <h2>
+        <p class="back px-3" (click)="backToSeller()">
+          <i class="fa-solid fa-angle-left"></i>
+        </p>
+        <span>A</span>DD NEW SELLER
+      </h2>
+    </div>
+  </div>
+  <section class="content">
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <!-- tabs buttons -->
+        <div class="tabs">
+          <button class="btn" [ngClass]="
+              tabName === 'seller'
+                ? 'active'
+                : tabName === 'seller'
+                ? 'active_filled'
+                : tabName !== 'seller'
+                ? ''
+                : 'not_active_filled'
+            ">
+            SELLER INFO
+          </button>
+          <div class="hr"></div>
+          <button [disabled]="isDisabled" class="btn" [ngClass]="
+              tabName === 'contact'
+                ? 'active'
+                : tabName === 'contact'
+                ? 'active_filled'
+                : tabName !== 'contact'
+                ? ''
+                : 'not_active_filled'
+            " [disabled]="
+              tabName == 'legal'
+                ? false
+                : tabName == 'finance'
+                ? false
+                : tabName == 'contact'
+                ? false
+                : true
+            ">
+            CONTACT INFO
+          </button>
+          <div class="hr"></div>
+          <button class="btn" [disabled]="
+              tabName == 'legal'
+                ? false
+                : tabName == 'seller'
+                ? true
+                : tabName == 'contact'
+                ? true
+                : tabName == 'finance'
+                ? false
+                : true
+            " [ngClass]="
+              tabName === 'legal'
+                ? 'active'
+                : tabName === 'legal'
+                ? 'active_filled'
+                : tabName !== 'legal'
+                ? ''
+                : 'not_active_filled'
+            ">
+            LEGAL INFO
+          </button>
+          <div class="hr"></div>
+          <button [disabled]="tabName == 'finance' ? false : true" class="btn" [ngClass]="
+              tabName === 'finance'
+                ? 'active'
+                : tabName === 'finance'
+                ? 'active_filled'
+                : tabName !== 'finance'
+                ? ''
+                : 'not_active_filled'
+            ">
+            FINANCE
+          </button>
+        </div>
+        <!-- tabs buttons -->
+        <!-- seller info -->
+        <div *ngIf="tabName === 'seller'">
+          <div class="col-md-12">
+            <form action="" [formGroup]="SellerForm">
+              <div class="row">
+                <div class="col-md-4">
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Engilsh Name</mat-label>
+                    <input placeholder="Name" matInput formControlName="name_en" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      SellerForm.get('name_en')?.hasError('required')
+                    ">
+                    English Name is required</small>
+                  <!-- formControlName -->
+                  <!-- formControlName -->
+                  <mat-form-field *ngIf="isHidden" class="example-full-width w-100">
+                    <mat-label>PASSWORD</mat-label>
+                    <input matInput placeholder="Password" formControlName="password" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      SellerForm.get('password')?.hasError('required')
+                    ">
+                    Password is required</small>
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>City</mat-label>
+                    <mat-select formControlName="city_id" panelClass="myCityClass">
+                      <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      SellerForm.get('city_id')?.hasError('required')
+                    ">
+                    City is required</small>
+                  <form id="file-upload-form" class="uploader">
+                    <input id="file-upload" type="file" (change)="uploadSellerLogo($event)" />
+                    <label class="label" for="file-upload" id="file-drag" style="width: 70%; height: 199px;">
+                      <img *ngIf="viewImage" [src]="urlImageSeller" class="w-100"
+                        style="height: 199px; object-fit: cover; width: 70%" />
+                      <div class="file-text text-center">
+                        <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" *ngIf="!viewImage"></i>
+                        <p *ngIf="!viewImage">upload Seller Logo here</p>
+                      </div>
+                    </label>
+                    <div *ngIf="urlImageSeller" (click)="deleteImage($event)" class="position-absolute layer p-3 d-flex"
+                      style="    top: 44%;
+                      right: 57%;">
+                      <div id="cancel-btn" (click)="deleteImage($event)">
+                        <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                      </div>
+                    </div>
+
+                  </form>
+                  <!-- formControlName -->
+                </div>
+                <div class="col-md-4">
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Arabic Name</mat-label>
+                    <input matInput placeholder="لوريم" formControlName="name_ar" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      SellerForm.get('name_ar')?.hasError('required')
+                    ">
+                    Arabic Name is required</small>
+                  <!-- formControlName -->
+
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Country</mat-label>
+                    <mat-select formControlName="country_id" panelClass="myPanelClass">
+                      <mat-option *ngFor="let coun of country" [value]="coun.id"
+                        (onSelectionChange)="getGovern(coun.id)">{{ coun.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      SellerForm.get('country_id')?.hasError('required')
+                    ">
+                    Country is required</small><!-- formControlName -->
+
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Address Details</mat-label>
+                    <input matInput placeholder="Address Details" formControlName="address_details" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      SellerForm.get('address_details')?.hasError('required')
+                    ">
+                    Address is required</small>
+
+                  <!-- formControlName -->
+                </div>
+                <div class="col-md-4">
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Username / Email</mat-label>
+                    <input matInput placeholder="Username / Email" formControlName="email" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted && SellerForm.get('email')?.hasError('required')
+                    ">
+                    Email is required</small>
+                  <small class="text-danger" *ngIf="
+                      submitted && SellerForm.get('email')?.hasError('email')
+                    ">
+                    Email is not valid</small>
+                  <!-- formControlName -->
+
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>governorates</mat-label>
+                    <mat-select formControlName="governorate_id" panelClass="myPanelClass">
+                      <mat-option *ngFor="let gov of governs" [value]="gov.id"
+                        (onSelectionChange)="getCities(gov.id)">{{ gov.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      SellerForm.get('governorate_id')?.hasError('required')
+                    ">Governorate is required
+                  </small>
+
+                  <!-- formControlName -->
+                  <div class="d-flex justify-content-lg-around align-items-center mt-3">
+                    <p>Status</p>
+                    <mat-slide-toggle id="slider" #status formControlName="is_active"><b
+                        *ngIf="status.checked">Active</b><b *ngIf="status.checked == false"
+                        style="color: rgba(97, 91, 91, 0.5) !important">In Active</b>
+                    </mat-slide-toggle>
+
+                    <!-- formControlName -->
+                  </div>
+
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="mt-3 position-relative d-flex flex-row-reverse">
+            <button type="submit" class="btn-next-footer btn mx-2" (click)="nextStep()">
+              NEXT
+            </button>
+            <button class="btn-cancel-footer btn mx-2" (click)="resetForms()">
+              RESET
+            </button>
+          </div>
+        </div>
+
+        <!-- seller info -->
+
+        <!-- Contact Info -->
+
+        <div *ngIf="tabName === 'contact'">
+          <div class="row">
+            <div class="col-md-4">
+              <div style="color: #0e1740; background-color: transparent" class="px-3 py-2 shadow rounded">
+                <h3 class="my-3" style="font-weight: 500">ADD NEW CONTACT</h3>
+                <form class="w-100" [formGroup]="ContactForm">
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Contact Type</mat-label>
+                    <mat-select formControlName="Type">
+                      <mat-option value="1">Main Contact</mat-option>
+                      <mat-option value="2">Finance</mat-option>
+                      <mat-option value="3">Logistics</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <small class="text-danger" *ngIf="
+                      submitted && ContactForm.get('Type')?.hasError('required')
+                    ">
+                    Contact Type is required</small>
+                  <!-- formControlName -->
+
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" placeholder="Name" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted && ContactForm.get('name')?.hasError('required')
+                    ">
+                    Name is required</small>
+
+                  <!-- formControlName -->
+                  <br />
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Title</mat-label>
+                    <input matInput formControlName="title" placeholder="Title" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      ContactForm.get('title')?.hasError('required')
+                    ">
+                    Title is required</small>
+                  <!-- formControlName -->
+                  <br />
+
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" placeholder="Email" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      ContactForm.get('email')?.hasError('required')
+                    ">
+                    Email is required</small>
+
+                  <small class="text-danger" *ngIf="
+                      submitted && ContactForm.get('email')?.hasError('email')
+                    ">
+                    Email Not Valid</small>
+                  <!-- formControlName -->
+                  <br />
+
+                  <div class="d-flex">
+                    <!-- formControlName -->
+                    <!-- <mat-form-field class="example-full-width w-25">
+                      <mat-label>Code</mat-label>
+                      <mat-select formControlName="code"  panelClass="myPanelClass">
+                        <mat-option value="+2">+2</mat-option>
+                        <mat-option value="+966">+966</mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+                    <div class="w-25">
+                      <p-dropdown [options]="countries" formControlName="code" optionLabel="name" [showClear]="false"
+                        placeholder="code" class="me-1">
+                        <ng-template pTemplate="selectedItem">
+                          <div class="country-item country-item-value">
+                            <div>
+                              {{ ContactForm.get("code")?.value.name }}
+                              <img width="20" height="20" class="ms-2" [src]="ContactForm.get('code')?.value.img" />
+                            </div>
+                          </div>
+                        </ng-template>
+                        <ng-template let-country pTemplate="item">
+                          <div class="country-item">
+                            <div class="d-flex align-items-center justify-content-between">
+                              {{ country.name }}
+                              <img width="20" height="20" class="mx-3" [src]="country.img" alt="" />
+                            </div>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
+                    </div>
+                    <!-- formControlName -->
+                    <!-- formControlName -->
+                    <mat-form-field class="example-full-width mx-1 w-75">
+                      <mat-label>Phone</mat-label>
+                      <input matInput formControlName="phoneNumber" placeholder="phoneNumber" />
+                    </mat-form-field>
+                  </div>
+                  <small class="text-danger mx-2" *ngIf="
+                      submitted && ContactForm.get('code')?.hasError('required')
+                    ">
+                    Code is required</small>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      ContactForm.get('phoneNumber')?.hasError('required')
+                    ">
+                    Phone is required</small>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      ContactForm.get('phoneNumber')?.hasError('pattern')
+                    ">
+                    Phone is not Valid</small>
+                  <!-- formControlName -->
+                  <br />
+                  <button class="btn w-100 my-2 btn-grid" (click)="addContactInfo()">
+                    {{ editModeTable ? "Edit in Grid" : "Add To Grid" }}
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="table-content col-md-8">
+              <div class="">
+                <!-- Show Contacts Info -->
+                <table class="table bg-white border shadow">
+                  <thead>
+                    <tr>
+                      <th style="font-size: 11px; width: 15%">Contact Type</th>
+                      <th style="font-size: 11px">Name</th>
+                      <th style="font-size: 11px">Title</th>
+                      <th style="font-size: 11px">Email</th>
+                      <th style="font-size: 11px">Phone</th>
+                      <th style="font-size: 11px; width: 5%">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let contact of tableOfContacts; let i = index">
+                      <td style="font-size: 11px">{{ contact.typeName }}</td>
+                      <td style="font-size: 11px">{{ contact.name }}</td>
+                      <td style="font-size: 11px">{{ contact.title }}</td>
+                      <td style="font-size: 11px">{{ contact.email }}</td>
+                      <td style="font-size: 11px">{{ contact.phone }}</td>
+                      <td>
+                        <div class="d-flex justify-content-lg-around align-items-center">
+                          <button (click)="HandleEditContactInTable(contact, i)" class="border-0 bg-transparent">
+                            <i style="cursor: pointer"
+                              class="fa-solid fa-pen-to-square text-center text-success mx-2"></i>
+                          </button>
+                          <button (click)="deleteContactInTable(i)" class="border-0 bg-transparent">
+                            <i style="cursor: pointer" class="fa-solid fa-trash text-danger text-center"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- Show Contacts Info -->
+              </div>
+            </div>
+            <div class="mt-3 position-relative d-flex flex-row-reverse">
+              <button class="btn-back-footer btn position-absolute" (click)="backStep()">
+                BACK
+              </button>
+
+              <button class="btn-next-footer btn mx-2" (click)="nextStep()">
+                NEXT
+              </button>
+              <button class="btn-cancel-footer btn mx-2" (click)="resetForms()">
+                RESET
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+
+        <!-- Legal Info -->
+        <div *ngIf="tabName === 'legal'">
+          <div class="col-md-12">
+            <form [formGroup]="LegalForm">
+              <div class="row">
+                <div class="col-md-4">
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Commercial Name/Engilsh</mat-label>
+                    <input matInput formControlName="commercial_name_en" placeholder="Engilsh Name" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      LegalForm.get('commercial_name_en')?.hasError('required')
+                    ">
+                    Commercial is required</small>
+                  <!-- formControlName -->
+                  <!-- Upload File Comercial Record -->
+                  <div class="upload-file">
+                    <span><i class="fa-solid fa-upload pe-2"></i>Upload CR</span>
+                    <input #cr type="file" name="name" (change)="selectedFile1($event)" accept="*.pdf" />
+                  </div>
+                  <p *ngIf="fileUploadCRId !== 0" class="my-2">
+                    {{ fileCRValue }}
+                  </p>
+                  <small class="text-danger" *ngIf="submitted && fileUploadCRId === 0">
+                    UploadCR is required
+                  </small>
+                </div>
+                <!-- Upload File Comercial Record -->
+                <div class="col-md-4">
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Commercial Name/Arabic</mat-label>
+                    <input matInput formControlName="commercial_name_ar" placeholder="الاسم بالعربى" />
+                  </mat-form-field>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      LegalForm.get('commercial_name_ar')?.hasError('required')
+                    ">
+                    Commercial is required</small>
+                  <!-- formControlName -->
+                  <!-- Upload File  Tax Card -->
+                  <div class="upload-file">
+                    <span><i class="fa-solid fa-upload pe-2"></i>Tax Card</span>
+                    <input required type="file" (change)="selectedFile2($event)" accept="*pdf" />
+                  </div>
+                  <p *ngIf="fileTaxCardId !== 0" class="my-2">
+                    {{ fileTaxCardValue }}
+                  </p>
+                  <small class="text-danger" *ngIf="submitted && fileTaxCardId === 0">
+                    Tax Card is required</small>
+                </div>
+                <!-- Upload File  Tax Card-->
+                <div class="col-md-4">
+                  <!-- formControlName -->
+                  <mat-form-field class="example-full-width w-100">
+                    <mat-label>Vat ID</mat-label>
+                    <input matInput type="text" formControlName="vat_id" placeholder="vat Id" />
+                  </mat-form-field>
+
+                  <small class="text-danger" *ngIf="
+                      submitted && LegalForm.get('vat_id')?.hasError('required')
+                    ">
+                    Vat ID is required</small>
+                  <small class="text-danger" *ngIf="
+                      submitted && LegalForm.get('vat_id')?.errors?.['pattern']
+                    ">
+                    Vat ID must be 9 Numbers</small>
+                  <!-- formControlName -->
+                  <!-- Upload File Contract -->
+                  <div class="upload-file">
+                    <span><i class="fa-solid fa-upload pe-2"></i>Contract</span>
+                    <input type="file" (change)="selectedFile3($event)" accept="*.pdf" />
+                  </div>
+                  <p *ngIf="fileContractId !== 0" class="my-2">
+                    {{ fileContractValue }}
+                  </p>
+                  <small class="text-danger" *ngIf="submitted && fileContractId === 0">
+                    Contract is required</small>
+                  <!-- Upload File  Contract-->
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="mt-4 position-relative d-flex flex-row-reverse">
+            <button class="btn-back-footer btn position-absolute" (click)="backStep()">
+              BACK
+            </button>
+
+            <button class="btn-next-footer btn mx-2" (click)="nextStep()">
+              NEXT
+            </button>
+            <button class="btn-cancel-footer btn mx-2" (click)="resetForms()">
+              RESET
+            </button>
+          </div>
+        </div>
+        <!-- Legal Info -->
+
+        <!-- Finance Info -->
+        <div *ngIf="tabName === 'finance'" class="">
+          <div class="col-md-12">
+            <form [formGroup]="FinanceForm">
+              <!-- formControlName -->
+              <mat-form-field class="example-full-width w-25">
+                <mat-label>Bank Account</mat-label>
+                <input type="text" matInput formControlName="bank_account" placeholder="Bank Account" />
+              </mat-form-field>
+              <br />
+              <small class="text-danger" *ngIf="
+                  submitted &&
+                  FinanceForm.get('bank_account')?.hasError('required')
+                ">
+                Bank Account is required</small>
+              <small class="text-danger" *ngIf="
+                  submitted &&
+                  FinanceForm.get('bank_account')?.hasError('pattern')
+                ">
+                Bank Account must be Just Numbers</small>
+              <br>
+              <small class="text-danger" *ngIf="
+                  (submitted &&
+                    FinanceForm.get('bank_account')?.hasError('minlength')) ||
+                  FinanceForm.get('bank_account')?.hasError('maxlength')
+                ">
+                Bank Account must be between 8 and 20 Numbers</small>
+              <!-- formControlName -->
+              <br />
+              <!-- formControlName -->
+              <mat-form-field class="example-full-width w-25">
+                <mat-label>Commision Prsentage</mat-label>
+                <input matInput formControlName="commission_percentage" placeholder="Commission Percentage" />
+              </mat-form-field>
+              <br />
+              <small class="text-danger" *ngIf="
+                  submitted &&
+                  FinanceForm.get('commission_percentage')?.hasError('required')
+                ">
+                Commision Prsentage is required</small>
+              <!-- formControlName -->
+              <br />
+              <!-- formControlName -->
+              <mat-form-field class="example-full-width w-25">
+                <mat-label>Payment Terms</mat-label>
+                <input matInput formControlName="payment_terms" placeholder="Payment Term" />
+              </mat-form-field>
+              <br />
+              <small class="text-danger" *ngIf="
+                  submitted &&
+                  FinanceForm.get('payment_terms')?.hasError('required')
+                ">
+                Payment Terms is required</small>
+              <!-- formControlName -->
+            </form>
+          </div>
+          <div class="mt-3 position-relative d-flex flex-row-reverse">
+            <button class="btn-back-footer btn position-absolute" (click)="backStep()">
+              BACK
+            </button>
+
+            <button class="btn-next-footer btn mx-2" (click)="nextStep()">
+              {{ editSellerMode ? "Edit" : "Save" }}
+            </button>
+            <button class="btn-cancel-footer btn mx-2" (click)="resetForms()">
+              RESET
+            </button>
+          </div>
+        </div>
+        <!-- Finance Info -->
+      </div>
+    </div>
+  </section>
+</div>
+
+<p-toast></p-toast>

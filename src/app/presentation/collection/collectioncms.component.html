@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <app-screen-haeder [pageName]="'COLLECTION'" (CreateHandler)="openCreateDialog($event)" [firstLetter]="'C'"
+    [title]="'OLLECTION'">
+
+  </app-screen-haeder>
+</div>
+
+
+<!-- THIS IS CONFIRM DIALOG-->
+
+
+
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+
+
+
+
+
+
+<app-data-table [tableHeaders]="tableHeader" [showActionCol]="true" [showDetailsAction]="false"
+  [showDeleteAction]="true" [showEditAction]="true" [totalItems]="length" [loadingIndicator]="loadingIndicator"
+  [tableColumn]="tableHeader" [tableData]="data$ | async" (isEditBtnClicked)="EditHandler($event)"
+  (isBulkDeleteBtnClicked)="handleBulkDeleteSelectedCollection($event)"
+  (isDeleteBtnClicked)="handleDeleteCollection($event)" (isStatusChanged)="changeStatus($event)"
+  #table1></app-data-table>

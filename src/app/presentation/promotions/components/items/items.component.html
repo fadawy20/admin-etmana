@@ -1,0 +1,123 @@
+<div class="items-selection shadow bg-white p-3 my-3 rounded-3">
+  <div class="header">
+    <div class="">
+      <p>Condition Applied on</p>
+      <h3>Select Products Items from</h3>
+    </div>
+    <!-- THIS IS FOR SAVE ON CREATE COLLECTION SECTION-->
+
+  </div>
+  <div class="form d-flex align-items-center gap-1">
+    <p-dropdown (onChange)="hanldeItemChange($event)" [options]="items" [(ngModel)]="dropDownSelectedData"
+      class="w-100 " placeholder="Choose condition Type..." optionLabel="name" [showClear]="false"></p-dropdown>
+    <!-- <span *ngIf="selectedItem !== 0" class="p-input-icon-right w-100">
+      <i class="pi pi-search"></i>
+      <input type="text" class="p-inputtext-sm" pInputText placeholder="Search..." />
+    </span> -->
+
+  </div>
+
+  <!-- Categories -->
+  <div *ngIf="selectedItem === 1">
+    <mat-checkbox [value]="categoris" (change)="onCheckboxChangeForCategories($event)" name="categoris"
+      class="example-margin mt-3" [(ngModel)]="checkAllCategories">
+      All
+    </mat-checkbox>
+    <!-- <button (click)="selectAllNodes()">Select All</button> -->
+
+    <div class="row">
+      <div class="col-12">
+        <!-- <p-tree selectionMode="checkbox" [value]="categoris" [(selection)]="selectedFiles"
+          (onSelectionChange)="emitSelectedFiles($event)" (onNodeExpand)="nodeExpand($event)"
+          [loading]="loadingIndicator">
+        </p-tree> -->
+        <p-tree #treee (onSelectionChange)="emitSelectedFiles($event)" [value]="categoris" [(selection)]="selectedFiles"
+          (onNodeSelect)="nodeSelect($event)" selectionMode="checkbox" [(selectionKeys)]="selectedKeys"
+          (onNodeUnselect)="unselectNode($event)" (onNodeExpand)="nodeExpand($event)" [loading]="loadingIndicator">
+        </p-tree>
+
+
+      </div>
+    </div>
+  </div>
+  <!-- Categories -->
+  <!-- brands -->
+  <div *ngIf="selectedItem === 2 && showBrandsDependsOnRouting === false">
+    <mat-checkbox [value]="brands" (change)="onCheckboxChangeForBrands($event)" name="brands"
+      class="example-margin mt-3" [(ngModel)]="checkAllBrands">
+      All
+    </mat-checkbox>
+    <div class="row">
+      <div class="col-md-6 m-0 p-1" *ngFor="let brand of brands, let i = index">
+        <div class="brands my-1">
+          <img [src]="brand.logo" alt="brand logo">
+          <p>{{brand.title}}</p>
+          <div class="checkbox">
+            <p-checkbox (onChange)="AddBrands(brand, $event)" [binary]="true"
+              [(ngModel)]="brand.isSelectedBrand"></p-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="selectedItem === 2 && showBrandsDependsOnRouting === true">
+    <mat-checkbox [value]="brands" (change)="onCheckboxChangeForBrands($event)" name="brands"
+      class="example-margin mt-3" [(ngModel)]="checkAllBrands">
+      All
+    </mat-checkbox>
+    <div class="row">
+      <div class="col-md-3 m-0 p-1" *ngFor="let brand of brands, let i = index">
+        <div class="brands my-1">
+          <img [src]="brand.logo" alt="brand logo">
+          <p>{{brand.title}}</p>
+          <div class="checkbox">
+            <p-checkbox (onChange)="AddBrands(brand, $event)" [binary]="true"
+              [(ngModel)]="brand.isSelectedBrand"></p-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- brands -->
+  <!-- Collections -->
+  <div *ngIf="selectedItem === 3">
+    <div class="row">
+      <div class="col-md-12" *ngFor="let collection of collections">
+        <div class="collection my-1 d-flex align-items-center justify-content-between p-2">
+          <div class="d-flex align-items-center justify-content-lg-start gap-3">
+            <div class="images">
+              <img [src]="collection.images[0] || collection.images[1] " alt="Product" class="rounded-2">
+            </div>
+            <div class="titles">
+              <h4 class="m-0 p-0">{{collection.title}}</h4>
+              <p class="m-0 p-0">{{collection.count}} Items</p>
+            </div>
+          </div>
+          <div class="checkbox">
+            <p-checkbox (onChange)="addCollections(collection, $event)" [binary]="true"
+              [(ngModel)]="collection.isSelectedCollection"></p-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-2">
+        <button (click)="openCreateCollection()" class="btn w-100 createCollection">
+          <i class="fa-solid fa-plus"></i>
+          Create Collection
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Collections -->
+</div>
+
+
+
+<app-collection [showUploadSheet]="showUplaodSheet" (handleCreateCollection)="createCollection($event)"
+  (handleCloseDailog)="handleCloseDailog($event)" [collectionShown]="shownCollection"></app-collection>
+
+
+<p-toast></p-toast>

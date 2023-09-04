@@ -1,0 +1,164 @@
+<div class="my-3">
+  <div class="header d-flex align-items-center justify-content-between">
+    <div>
+      <div routerLink="/Dashboard/users">
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+          <g id="Group_13799" data-name="Group 13799" transform="translate(38) rotate(90)">
+            <rect id="Rectangle_2100" data-name="Rectangle 2100" width="38" height="38" rx="8" fill="#f5f9f9"
+              opacity="0" />
+            <path id="Path_3636" data-name="Path 3636" d="M10,0V10H0" transform="translate(19 8.914) rotate(45)"
+              fill="none" stroke="#0f183d" stroke-linecap="round" stroke-width="3" />
+          </g>
+        </svg>
+      </div>
+
+      <span>C</span>
+      <span>USTOMER DETAILS</span>
+      <!-- <span>online</span> -->
+    </div>
+    <button (click)="setVisible(false)" class="create-order">
+      Create Order
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3 mb-5">
+    <div class="sidebar d-flex flex-column">
+      <a [routerLink]="'acount-info/'+id" routerLinkActive="active" class="d-flex justify-content-between">
+        <div>
+          <svg id="profile" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path id="Vector" d="M4.6,8.87a1.818,1.818,0,0,0-.33,0,4.445,4.445,0,1,1,.33,0Z"
+              transform="translate(7.56 2)" fill="none" stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="1.5" />
+            <path id="Vector-2" data-name="Vector"
+              d="M1.815,1.373c-2.42,1.62-2.42,4.26,0,5.87a9.766,9.766,0,0,0,10.01,0c2.42-1.62,2.42-4.26,0-5.87A9.812,9.812,0,0,0,1.815,1.373Z"
+              transform="translate(5.345 13.188)" fill="none" stroke="#a0a3b1" stroke-linecap="round"
+              stroke-linejoin="round" stroke-width="1.5" />
+            <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(24 24) rotate(180)"
+              fill="none" opacity="0" />
+          </svg>
+
+          <span> Account info </span>
+        </div>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+          <g id="Group_16027" data-name="Group 16027" transform="translate(28) rotate(90)">
+            <rect id="Rectangle_723" data-name="Rectangle 723" width="28" height="28" rx="5" fill="#fff" opacity="0" />
+            <g id="Group_14543" data-name="Group 14543" transform="translate(6 6)">
+              <rect id="Rectangle_2100" data-name="Rectangle 2100" width="16" height="16" transform="translate(0 0)"
+                fill="#fff" opacity="0" />
+              <path id="Path_3636" data-name="Path 3636" d="M6.937,6.937V0H0"
+                transform="translate(3.095 10.034) rotate(-45)" fill="none" stroke="#583275" stroke-linecap="round"
+                stroke-width="2" />
+            </g>
+          </g>
+        </svg>
+      </a>
+      <a [routerLink]="'address/'+id" routerLinkActive="active" class="d-flex justify-content-between">
+        <div>
+          <svg id="vuesax_linear_map" data-name="vuesax/linear/map" xmlns="http://www.w3.org/2000/svg" width="24"
+            height="24" viewBox="0 0 24 24">
+            <g id="map">
+              <path id="Vector" d="M8,2.73v6c0,2.5-.5,4.25-1.62,5.38L0,7.73,7.73,0A12.3,12.3,0,0,1,8,2.73Z"
+                transform="translate(14 6.27)" fill="none" stroke="#a0a3b1" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="1.5" />
+              <path id="Vector-2" data-name="Vector"
+                d="M19.73,4.27,4.27,19.73C1.26,19.04,0,16.96,0,13V7C0,2,2,0,7,0h6C16.96,0,19.04,1.26,19.73,4.27Z"
+                transform="translate(2 2)" fill="none" stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="1.5" />
+              <path id="Vector-3" data-name="Vector"
+                d="M14.11,6.38C12.98,7.5,11.23,8,8.73,8h-6A12.3,12.3,0,0,1,0,7.73L7.73,0Z"
+                transform="translate(6.27 14)" fill="none" stroke="#a0a3b1" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="1.5" />
+              <path id="Vector-4" data-name="Vector"
+                d="M.085,2.2a2.986,2.986,0,0,1,5.76,0A4.444,4.444,0,0,1,4.2,6.278a1.8,1.8,0,0,1-2.48,0A4.421,4.421,0,0,1,.085,2.2Z"
+                transform="translate(6.155 5.783)" fill="none" stroke="#a0a3b1" stroke-width="1.5" />
+              <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" fill="none" opacity="0" />
+              <path id="Vector-6" data-name="Vector" d="M.495.5H.5" transform="translate(8.6 8.2)" fill="none"
+                stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </g>
+          </svg>
+          <span> Addresses </span>
+        </div>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+          <g id="Group_16027" data-name="Group 16027" transform="translate(28) rotate(90)">
+            <rect id="Rectangle_723" data-name="Rectangle 723" width="28" height="28" rx="5" fill="#fff" opacity="0" />
+            <g id="Group_14543" data-name="Group 14543" transform="translate(6 6)">
+              <rect id="Rectangle_2100" data-name="Rectangle 2100" width="16" height="16" transform="translate(0 0)"
+                fill="#fff" opacity="0" />
+              <path id="Path_3636" data-name="Path 3636" d="M6.937,6.937V0H0"
+                transform="translate(3.095 10.034) rotate(-45)" fill="none" stroke="#583275" stroke-linecap="round"
+                stroke-width="2" />
+            </g>
+          </g>
+        </svg>
+      </a>
+      <a [routerLink]="'orders/'+id" routerLinkActive="active" class="d-flex justify-content-between">
+        <div>
+          <svg id="clipboard-text" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path id="Vector" d="M0,0H7" transform="translate(8 12.2)" fill="none" stroke="#a0a3b1"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+            <path id="Vector-2" data-name="Vector" d="M0,0H4.38" transform="translate(8 16.2)" fill="none"
+              stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+            <path id="Vector-3" data-name="Vector" d="M2,4H6C8,4,8,3,8,2,8,0,7,0,6,0H2C1,0,0,0,0,2S1,4,2,4Z"
+              transform="translate(8 2)" fill="none" stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="1.5" />
+            <path id="Vector-4" data-name="Vector"
+              d="M13,0c3.33.18,5,1.41,5,5.98v6c0,4-1,6-6,6H6c-5,0-6-2-6-6v-6C0,1.42,1.67.18,5,0"
+              transform="translate(3 4.02)" fill="none" stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="1.5" />
+            <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" fill="none" opacity="0" />
+          </svg>
+          <span> Orders </span>
+        </div>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+          <g id="Group_16027" data-name="Group 16027" transform="translate(28) rotate(90)">
+            <rect id="Rectangle_723" data-name="Rectangle 723" width="28" height="28" rx="5" fill="#fff" opacity="0" />
+            <g id="Group_14543" data-name="Group 14543" transform="translate(6 6)">
+              <rect id="Rectangle_2100" data-name="Rectangle 2100" width="16" height="16" transform="translate(0 0)"
+                fill="#fff" opacity="0" />
+              <path id="Path_3636" data-name="Path 3636" d="M6.937,6.937V0H0"
+                transform="translate(3.095 10.034) rotate(-45)" fill="none" stroke="#583275" stroke-linecap="round"
+                stroke-width="2" />
+            </g>
+          </g>
+        </svg>
+      </a>
+      <a [routerLink]="'credit/'+id" routerLinkActive="active" class="d-flex justify-content-between">
+        <div>
+          <svg id="card-pos" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path id="Vector" d="M0,11.95,11.95,0" transform="translate(3.93 3.929)" fill="none" stroke="#a0a3b1"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+            <path id="Vector-2" data-name="Vector" d="M0,1.2,1.2,0" transform="translate(11.101 17.079)" fill="none"
+              stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+            <path id="Vector-3" data-name="Vector" d="M0,2.39,2.39,0" transform="translate(13.793 13.199)" fill="none"
+              stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+            <path id="Vector-4" data-name="Vector"
+              d="M1.6,8.238,8.241,1.6c2.12-2.12,3.18-2.13,5.28-.03l4.91,4.91c2.1,2.1,2.09,3.16-.03,5.28l-6.64,6.64c-2.12,2.12-3.18,2.13-5.28.03l-4.91-4.91C-.529,11.418-.529,10.368,1.6,8.238Z"
+              transform="translate(2 2.001)" fill="none" stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="1.5" />
+            <path id="Vector-5" data-name="Vector" d="M0,0H20" transform="translate(2 21.999)" fill="none"
+              stroke="#a0a3b1" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+            <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" fill="none" opacity="0" />
+          </svg>
+          <span> Etmana Credit </span>
+        </div>
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+          <g id="Group_16027" data-name="Group 16027" transform="translate(28) rotate(90)">
+            <rect id="Rectangle_723" data-name="Rectangle 723" width="28" height="28" rx="5" fill="#fff" opacity="0" />
+            <g id="Group_14543" data-name="Group 14543" transform="translate(6 6)">
+              <rect id="Rectangle_2100" data-name="Rectangle 2100" width="16" height="16" transform="translate(0 0)"
+                fill="#fff" opacity="0" />
+              <path id="Path_3636" data-name="Path 3636" d="M6.937,6.937V0H0"
+                transform="translate(3.095 10.034) rotate(-45)" fill="none" stroke="#583275" stroke-linecap="round"
+                stroke-width="2" />
+            </g>
+          </g>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-9">
+    <router-outlet></router-outlet>
+  </div>
+</div>

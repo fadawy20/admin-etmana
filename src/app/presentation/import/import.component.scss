@@ -1,0 +1,82 @@
+.wrapper {
+  padding: 1.5rem;
+  .header {
+    h2 {
+      color: #0e1740 !important;
+      font-size: 29px !important;
+      letter-spacing: 1px;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-family: "Montserrat", sans-serif !important;
+      span {
+        position: relative;
+      }
+    }
+    justify-content: space-between;
+    .header-Btns {
+      justify-content: end;
+      flex-direction: row-reverse;
+      gap: .5rem;
+      .crud {
+        justify-content: center;
+        flex-direction: column;
+        .create {
+          background-color: #5f2d79 !important;
+          border-color: #5f2d79 !important;
+          font-size: 18px !important;
+          font-weight: 300 !important;
+          &:enabled:hover {
+            background: transparent !important;
+            color: #5f2d79;
+            border-color: #5f2d79;
+          }
+        }
+      }
+      .vertical_lign {
+        background-color: #a0a3b1;
+        width: 1px;
+        height: 25px;
+      }
+      .setting-btn {
+        background-color: transparent !important;
+        border: none !important;
+        color: #0e1740 !important;
+      }
+    }
+  }
+}
+.title{
+  border-bottom: 3px solid #0e1740;
+}
+
+.cancelPopUp{
+  position: absolute;
+  bottom: .7rem !important;
+}
+
+.upload-file{
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0e1740 !important;
+  border: 1px solid black;
+  border-radius: 8px;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+
+  input{
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+}

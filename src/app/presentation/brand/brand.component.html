@@ -1,0 +1,250 @@
+<div class="wrapper">
+  <app-screen-haeder
+    [pageName]="'BRANDS'"
+    (CreateHandler)="openCreateDialog($event)"
+    [firstLetter]="'B'"
+    [title]="'RAND'"
+    (searchValue)="searchInCredits($event)"
+    [filterOfNames]="filterOfNames"
+    (showFilterField2)="showFilterFieldFn($event)"
+  ></app-screen-haeder>
+
+  <!-- (isEditBtnClicked)="EditHandler($event)"
+  (isDeleteBtnClicked)="DeleteHandler($event)"
+   -->
+   <form *ngIf="showFilterField" [formGroup]="filterField">
+    <div class="row my-3">
+      <div class="col-md-4 d-flex align-items-center gap-3 my-3" *ngFor="let item of ['title_ar', 'title_en']">
+        <div  class="w-100">
+          <label for="">{{item ==='title_ar' ? 'Title Ar':item ==='title_en' ? 'Title En':'Is Active'}}</label><br>
+          <input  type="text" [formControlName]="item" class="w-100" pInputText  [placeholder]="
+          item ==='title_ar' ? 'Title Ar':item ==='title_en' ? 'Title En':'Is Active'
+          "
+           >
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <label >Status Active</label><br>
+        <p-dropdown [options]="visibility" formControlName="is_active"  placeholder="Chosse Status" optionLabel="name"></p-dropdown>
+      </div>
+
+    </div>
+    <div class=" d-flex justify-content-end align-items-baseline gap-3">
+      <button type="submit" (click)="getFilterAction()" class="apply-filter btn">Apply Filter</button>
+      <button (click)="resetFormColumn()" class="cancel-filter btn">Reset</button>
+
+      </div>
+  </form>
+  <app-data-table
+    [selectedItems]="selectedItems"
+    (isBulkExportBtnClicked)="handleBulkExportedData($event)"
+    (isBulkDeleteBtnClicked)="handleBulkDeleteBrand($event)"
+    (isDeleteBtnClicked)="handleDeleteBrand($event)"
+    [loadingIndicator]="loadingIndicator"
+    (isEditBtnClicked)="EditHandler($event)"
+    (sendTablePageSize)="handlePageSize($event)"
+    [showActionCol]="true"
+    [showDetailsAction]="false"
+    [showDeleteAction]="true"
+    [showEditAction]="true"
+    [tableHeaders]="tableHeader"
+    [tableData]="data$ | async"
+    [totalItems]="length"
+    [page]="page"
+    [tableColumn]="tableHeader"
+    [showImage]="true"
+    [imageHeader]="'logo'"
+    [activeStatus]="true"
+    #table
+    >
+  </app-data-table>
+  <!-- [showToggleStatus]="true" -->
+</div>
+
+<p-dialog
+  [style]="{ width: '30vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+  [modal]="true"
+  [header]="editModeOn ? 'Edit Brand' : 'Create Brand'"
+  [(visible)]="display"
+  [draggable]="false"
+  [closable]="false"
+>
+  <form class="form" [formGroup]="brandForm">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Arabic_Titl -->
+        <div class="Arabic_Titl">
+          <div class="mb-3">
+            <mat-form-field class="example-full-width">
+              <mat-label>Arabic</mat-label>
+              <input type="text" matInput formControlName="title_ar" />
+            </mat-form-field>
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted && brandForm.get('title_ar')?.hasError('required')
+              "
+            >
+              Arabic Title is required
+            </small>
+          </div>
+        </div>
+        <!-- Arabic_Titl -->
+      </div>
+      <div class="col-md-6">
+        <!-- English_Titl -->
+        <div class="English_Titl">
+          <div class="mb-3">
+            <mat-form-field class="example-full-width">
+              <mat-label>English</mat-label>
+              <input type="text" matInput formControlName="title_en" />
+            </mat-form-field>
+            <small
+              class="text-danger"
+              *ngIf="
+                submitted && brandForm.get('title_en')?.hasError('required')
+              "
+            >
+              English Title is required
+            </small>
+          </div>
+        </div>
+        <!-- English_Titl -->
+      </div>
+      <div class="col-md-12">
+        <!-- upload image -->
+        <div>
+          <div class="image_upload mb-3 w-100">
+            <!-- <input
+              id="file-input"
+              hidden
+              type="file"
+              class="form-control w-50"
+              formControlName="logo"
+              (change)="uploadIamge($event)"
+            /> -->
+            <label id="label" class="">logo</label>
+            <div
+              class="btns d-flex align-items-center justify-content-center uploadData"
+            >
+              <div class="upload-file position-relative">
+                <span class="text-white">Upload Img</span>
+
+                <input
+                  required
+                  type="file"
+                  style="cursor: pointer"
+                  formControlName="logo"
+                  (change)="uploadIamge($event)"
+                />
+              </div>
+
+              <p class="w-75 py-3 texturl">
+                {{ imagePath1 }}
+              </p>
+              <div>
+                <img
+                *ngIf="viewImage"
+                  [src]="imagePath"
+                  alt="Brand logo"
+                  class="align-self-end rounded-3 imguploaded"
+                />
+              </div>
+            </div>
+
+            <small
+              class="text-danger mt-2"
+              *ngIf="submitted && brandForm.get('logo')?.hasError('required')"
+            >
+              Please Upload image
+            </small>
+          </div>
+
+          <!-- <div class="card shadow mb-2" *ngIf="viewImage" style="width: 100%">
+            <img
+              [src]="editImageUrl"
+              class="card-img-top w-100"
+              alt="image value logo"
+            />
+            <div class="card-body">
+              <p>{{ editImageUrl }}</p>
+              <button
+                class="btn btn-outline-primary w-100"
+                (click)="editImage()"
+              >
+                Choose Another Image
+              </button>
+            </div>
+          </div> -->
+        </div>
+        <!-- apload image -->
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <!-- is required -->
+      <div class="switch mb-3 d-flex">
+        <div class="mx-2">
+          <p-inputSwitch formControlName="is_active"></p-inputSwitch>
+        </div>
+        <div class="my-1">
+          <p class="lead" *ngIf="brandForm.get('is_active')?.value === true">
+            Active
+          </p>
+          <p class="lead" *ngIf="brandForm.get('is_active')?.value === false">
+            In-Active
+          </p>
+        </div>
+      </div>
+      <!-- is required -->
+      <!--is Featured-->
+      <div class="d-flex switch mb-3">
+        <div class="mx-2">
+          <p-inputSwitch formControlName="is_featured"></p-inputSwitch>
+        </div>
+        <div class="my-1">
+          <p class="lead" *ngIf="brandForm.get('is_featured')?.value === true">
+            Is Featured
+          </p>
+          <p class="lead" *ngIf="brandForm.get('is_featured')?.value === false">
+            Is Not Featured
+          </p>
+        </div>
+      </div>
+      <!--is Featured-->
+    </div>
+
+    <!-- buttons -->
+    <div
+      class="atcion-btns d-flex flex-row-reverse gap-1 align-items-center justify-content-center"
+    >
+      <app-add-button
+        class="w-100"
+        [isLoading]="btnLoader"
+        (click)="submit()"
+        [title]="editModeOn ? 'Edit' : 'Create'"
+      >
+      </app-add-button>
+      <button
+        pButton
+        pRipple
+        type="button"
+        (click)="cancel()"
+        class="cancel w-75 my-2"
+        [label]="'Cancel'"
+      ></button>
+    </div>
+    <!-- buttons -->
+  </form>
+</p-dialog>
+
+<p-toast></p-toast>
+<p-confirmDialog
+  [style]="{ width: '30vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000"
+>
+</p-confirmDialog>

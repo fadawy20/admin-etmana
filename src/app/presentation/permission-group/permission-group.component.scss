@@ -1,0 +1,94 @@
+@import "../order/order.component.scss";
+@import "../system-user/system-user.component.scss";
+// @import "../users/users.component.scss";
+:host ::ng-deep {
+  .header-Btns {
+      @include position;
+      justify-content: end;
+      flex-direction: row-reverse;
+      gap: .5rem;
+      .crud {
+        @include position;
+        justify-content: center;
+        flex-direction: column;
+        .create {
+          background-color: transparent !important;
+          border-color: #5f2d79 !important;
+          font-size: 15px !important;
+          font-weight: 300 !important;
+          padding: 8px 12px;
+          color: #FFFFFF;
+          &:enabled:hover {
+            background: #5f2d79 !important;
+            color: #FFFFFF;
+            border-color: #5f2d79;
+          }
+        }
+      }
+      .vertical_lign {
+        background-color: #a0a3b1;
+        width: 1px;
+        height: 25px;
+      }
+      .setting-btn {
+        background-color: transparent !important;
+        border: none !important;
+        color: #0e1740 !important;
+      }
+    }
+  .p-column-filter-row p-columnfilterformelement
+  {
+    width: 100% !important;
+  }
+
+  .p-datatable .p-datatable-header
+  {
+    border: none !important;
+    display: flex;
+    justify-content: end;
+  }
+  .allSearch
+  {
+    text-align: right;
+    width: 42%;
+    border: 1px solid #bfdbfe;
+    border-radius: 7px;
+  }
+  .p-inputtext:enabled:focus
+  {
+    border: none!important;
+    box-shadow: none !important;;
+  }
+}
+.apply-filter
+{
+  background-color: #0F183D;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 11px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 9%;
+}
+.apply-filter:hover
+{
+  background-color: #0F183D;
+  color: #FFFFFF;
+  border:1px solid #0F183D;
+}
+.cancel-filter
+{
+  background-color: transparent;
+    color: #0F183D;
+    font-size: 13px;
+    padding: 10px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 6%;
+}
+.cancel-filter:hover
+{
+  background-color: transparent;
+  color: #0F183D;
+  border:1px solid #0F183D;
+}

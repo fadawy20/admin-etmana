@@ -1,0 +1,90 @@
+ <ng-container *ngIf="isShowData; else elseBLock">
+  <div class="wrapper">
+    <div class="header">
+      <h2 class="head">DASHBOARD</h2>
+      <ul class="filters-list">
+        <li [ngClass]="filterID === option.id ? 'activeFilter' : ''" *ngFor="let option of filterOptions"
+          (click)="setFilter(option.id)">
+          {{ option.name }}
+        </li>
+        <li class="year-picker" [ngClass]="filterID === 4 ? 'activeFilter' : ''" (click)="showCa()">
+          this Year
+          <div class="year">
+            <p-calendar selectionMode="range" [readonlyInput]="true" inputId="range"
+              [(ngModel)]="filterYear"></p-calendar>
+          </div>
+          <i class="fa fa-chevron-down"></i>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="d-grid dashboard-main my-2">
+      <div class="sales-funnel" *ngIf="statusSales">
+        <app-sales-funnel [salesFun]="statusSales" [sales_funnel]="statusFunnel"></app-sales-funnel>
+      </div>
+      <div class="sales" *ngIf="platform">
+        <app-sales [allSales]="platform"></app-sales>
+      </div>
+      <div class="inventory-levels" *ngIf="inventoryLevels">
+        <app-inventory-levels [invLevels]="inventoryLevels"></app-inventory-levels>
+      </div>
+      <div class="online-users" *ngIf="status">
+        <app-online-users [online]="status"></app-online-users>
+      </div>
+      <div class="performing-categories" *ngIf="highPerformingCategories">
+        <app-performing-categories [performingCategories]="highPerformingCategories"></app-performing-categories>
+      </div>
+      <div class="promotion" *ngIf="promotions">
+        <app-promotion [promotion]="promotions"></app-promotion>
+      </div>
+      <div class="order-status" *ngIf="orderStatus">
+        <app-order-status [orderStatus]="orderStatus"></app-order-status>
+      </div>
+      <div class="performing-seller" *ngIf="highPerformingSellers">
+        <app-performing-seller [sellers]="highPerformingSellers"></app-performing-seller>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+ <ng-template #elseBLock>
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    No Data To Show
+  </div>
+</ng-template>
+
+<!-- <div class="row">
+  <div class="col-md-7">
+    <app-sales-funnel></app-sales-funnel>
+    <div class="row">
+      <div class="col-md-6">
+        <app-inventory-levels></app-inventory-levels>
+      </div>
+      <div class="col-md-6">
+        <app-online-users></app-online-users>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <app-sales></app-sales>
+  </div>
+</div>
+
+<div class="row my-2">
+  <div class="col-md-7">
+    <div class="row">
+      <div class="col-md-6">
+        <app-performing-categories></app-performing-categories>
+      </div>
+      <div class="col-md-6">
+        <app-promotion></app-promotion>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <app-order-status></app-order-status>
+  </div>
+</div> -->

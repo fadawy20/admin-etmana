@@ -1,0 +1,37 @@
+<div class="sales-funnel">
+  <h4 class="d-flex justify-content-between align-items-center">
+    <span> Sales Funnel </span>
+    <!-- <span>{{sales_funnel.purchase | json}}</span> -->
+    <div>
+      <ul class="d-flex mb-0">
+        <li class="active" appIsActive (ahmed)="showData($event)">All</li>
+        <li appIsActive (ahmed)="showData($event)">logged-in</li>
+        <li appIsActive (ahmed)="showData($event)">Guest Users</li>
+      </ul>
+    </div>
+  </h4>
+  <div class="content">
+    <ul class="p-0">
+      <li *ngFor="let Funnel of salesFunnel">
+        <div class="head">{{ Funnel.name }}</div>
+        <div class="number">{{ Funnel.num }}</div>
+        <div class="image">
+          <!-- <div class="insights">
+            Insights
+            <i
+              class="icons"
+              style="
+                font-size: 8px;
+                background-color: rgba(0, 0, 0, 0.1);
+                padding: 2px;
+              "
+              class="fa fa-chevron-right"
+            ></i>
+          </div> -->
+          <img src="../../../../../assets/images/Group 15322.svg" alt="" />
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</div>

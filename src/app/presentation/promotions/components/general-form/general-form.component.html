@@ -1,0 +1,278 @@
+<form class="form" [formGroup]="generalInfo">
+  <div class="row">
+    <!-- {{ editPromotion | json }} -->
+    <!-- rulte Type -->
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label>Rule Type</label>
+        <p-dropdown [disabled]="type ? true : false" (onChange)="handleRuleTypeChange($event)" [options]="ruleTypes"
+          formControlName="ruleType" class="w-100" placeholder="Select a Rule Type" optionLabel="name"
+          [showClear]="false"></p-dropdown>
+        <small class="text-danger" *ngIf="submitted && generalInfo.get('ruleType')?.hasError('required')">
+          Rule Type is required
+        </small>
+      </div>
+    </div>
+    <!-- rulte Type -->
+
+    <!-- promotion name -->
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label>Promotion Name</label>
+        <input type="text" formControlName="promoName" placeholder="Promotion Name..." class="form-control w-100" />
+        <small class="text-danger" *ngIf="
+            submitted && generalInfo.get('promoName')?.hasError('required')
+          ">
+          Promotion Name is required
+        </small>
+      </div>
+    </div>
+    <!-- promotion name -->
+
+    <!-- platform -->
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label>Platform</label>
+        <p-dropdown formControlName="platform" [options]="platForm" class="w-100" placeholder="Platform..."
+          optionLabel="name" [showClear]="true"></p-dropdown>
+        <small class="text-danger" *ngIf="submitted && generalInfo.get('platform')?.hasError('required')">
+          Platform Name is required
+        </small>
+      </div>
+    </div>
+    <!-- platform -->
+
+    <!-- country -->
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label>Country</label>
+        <p-dropdown formControlName="Country" [options]="countries" class="w-100" placeholder="Egypt, Saudi Arabia"
+          optionLabel="name" [showClear]="true"></p-dropdown>
+        <small class="text-danger" *ngIf="submitted && generalInfo.get('Country')?.hasError('required')">
+          Country is required
+        </small>
+      </div>
+    </div>
+    <!-- country -->
+
+    <!-- targeted Customer -->
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label>Offer targeted customers</label>
+        <p-dropdown [options]="targetClients" [(ngModel)]="typeOfDropDown" (onChange)="handleTargetCustomer($event)"
+          formControlName="targetedCustomer" class="w-100" placeholder="Targeted Customers" optionLabel="name"
+          [showClear]="true"></p-dropdown>
+        <small class="text-danger" *ngIf="
+            submitted &&
+            generalInfo.get('targetedCustomer')?.hasError('required')
+          ">
+          Offer targeted customers is required
+        </small>
+      </div>
+    </div>
+    <!-- targeted Customer -->
+
+    <!-- uses per offer -->
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label>Uses Per Offer</label>
+        <input formControlName="perOffer" type="text" placeholder="Uses Per Offer..." class="form-control w-100" />
+        <small class="text-danger" *ngIf="submitted && generalInfo.get('perOffer')?.hasError('required')">
+          Uses Per Offer is required
+        </small>
+        <div *ngIf="
+            (generalInfo.get('perOffer')?.invalid &&
+              generalInfo.get('perOffer')?.touched) ||
+            generalInfo.get('perOffer')?.dirty
+          ">
+          <small class="text-danger" *ngIf="generalInfo.get('perOffer')?.errors?.['pattern']">
+            this field accepts numbers only
+          </small>
+        </div>
+      </div>
+    </div>
+    <!-- uses per offer -->
+    <!--client order count-->
+    <div class="col-md-4" *ngIf="clientOrderCount">
+      <div class="mb-3">
+        <label>Client Order Count</label>
+        <input formControlName="client_order_count" type="text" placeholder="clientOrderCount.."
+          class="form-control w-100" />
+        <small class="text-danger" *ngIf="submitted && generalInfo.get('client_order_count')?.hasError('required')">
+          Client Order Count is required
+        </small>
+        <div *ngIf="
+            (generalInfo.get('client_order_count')?.invalid &&
+              generalInfo.get('client_order_count')?.touched) ||
+            generalInfo.get('client_order_count')?.dirty
+          ">
+          <small class="text-danger" *ngIf="generalInfo.get('client_order_count')?.errors?.['pattern']">
+            client_order_count is required
+          </small>
+        </div>
+      </div>
+    </div>
+    <!--client_purchased_order_amount-->
+    <div class="col-md-4" *ngIf="clientPurchasedOrderAmount">
+      <div class="mb-3">
+        <label>Client Purchased Order Amountt</label>
+        <input formControlName="client_purchased_order_amount" type="text" placeholder="client_purchased_order_amount"
+          class="form-control w-100" />
+        <small class="text-danger"
+          *ngIf="submitted && generalInfo.get('client_purchased_order_amount')?.hasError('required')">
+          Client Purchased Order Amount is required
+        </small>
+        <div *ngIf="
+            (generalInfo.get('client_purchased_order_amount')?.invalid &&
+              generalInfo.get('client_purchased_order_amount')?.touched) ||
+            generalInfo.get('client_purchased_order_amount')?.dirty
+          ">
+          <small class="text-danger" *ngIf="generalInfo.get('client_purchased_order_amount')?.errors?.['pattern']">
+            client_purchased_order_amount is required
+          </small>
+        </div>
+      </div>
+    </div>
+    <!--client_purchased_order_amount
+-->
+    <!-- uses per customer -->
+    <div class="col-md-4">
+      <div class="mb-3">
+        <label>Uses Per Customer</label>
+        <input type="text" placeholder="Uses Per Customer..." class="form-control w-100"
+          formControlName="perCustomer" />
+        <small class="text-danger" *ngIf="
+            submitted && generalInfo.get('perCustomer')?.hasError('required')
+          ">
+          Uses Per Customer is required
+        </small>
+        <div *ngIf="
+            (generalInfo.get('perCustomer')?.invalid &&
+              generalInfo.get('perCustomer')?.touched) ||
+            generalInfo.get('perCustomer')?.dirty
+          ">
+          <small class="text-danger" *ngIf="generalInfo.get('perCustomer')?.errors?.['pattern']">
+            this field accepts numbers only
+          </small>
+        </div>
+      </div>
+    </div>
+    <!-- uses per customer -->
+    <div class="col-md-8">
+      <div class="mb-3">
+        <label>Description</label>
+        <textarea placeholder="description..." class="form-control" formControlName="description">
+        </textarea>
+        <small class="text-danger" *ngIf="
+            submitted && generalInfo.get('description')?.hasError('required')
+          ">
+          Description required
+        </small>
+      </div>
+    </div>
+
+    <!-- promo code -->
+    <!-- <h1>{{editPromotion | json}}</h1> -->
+    <div class="col-md-12">
+      <div class="promo-code">
+        <div class="p-field-checkbox" style="width: 16%">
+          <p-checkbox (onChange)="changeValidility($event)" value="val1" [binary]="true"
+            [ngModelOptions]="{ standalone: true }" inputId="la" [(ngModel)]="isPromoCode"
+            [value]="isPromoCode"></p-checkbox>
+          <label class="ps-2" for="la">Promo Code</label>
+          <!-- generate promo code -->
+        </div>
+        <div *ngIf="isPromoDisabled" style="width: 81%"
+          class="generate d-flex align-items-center justify-content-center p-1 rounded-3 gap-1 bg-white">
+          <input [(ngModel)]="promoString" [ngModelOptions]="{ standalone: true }" placeholder="type your code..."
+            type="text" class="input" style="outline: none" />
+          <div class="vl"></div>
+          <button class="btn generate-btn" (click)="generatePromoCode()">
+            Generate
+          </button>
+          <select class="form-select w-25" [ngModelOptions]="{ standalone: true }" [(ngModel)]="promoCount"
+            aria-label="Default select example">
+            <option *ngFor="let item of count" [value]="item.type">
+              {{ item.type }}
+            </option>
+          </select>
+          <button [disabled]="promos.length === 0" [ngClass]="promos.length === 0 ? 'view-empty' : 'view-full'"
+            class="btn" (click)="viewAllPromos()">
+            View All
+          </button>
+        </div>
+        <!-- generate promo code -->
+        <div *ngIf="isPromoDisabled" class="w-50">
+          <input type="text" placeholder="Uses Per Customer.." class="form-control w-100"
+            formControlName="promoUses" />
+          <small class="text-danger" *ngIf="
+              submitted && generalInfo.get('promoUses')?.hasError('required')
+            ">
+            Uses Per Customer is required
+          </small>
+          <div *ngIf="
+              (generalInfo.get('promoUses')?.invalid &&
+                generalInfo.get('promoUses')?.touched) ||
+              generalInfo.get('promoUses')?.dirty
+            ">
+            <small class="text-danger" *ngIf="generalInfo.get('promoUses')?.errors?.['pattern']">
+              this field accepts numbers only
+            </small>
+          </div>
+        </div>
+
+        <div *ngIf="!isPromoDisabled" class="disabled">
+          <div class="d-flex align-items-center justify-content-center w-100 gap-2">
+            <input type="text" disabled class="form-control w-100" name="" id="" aria-describedby="helpId"
+              placeholder="Promo Code...." />
+            <input type="text" disabled class="form-control w-100" name="" id="" aria-describedby="helpId"
+              placeholder="Uses Per Customer...." />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- promo code -->
+  </div>
+</form>
+
+<p-toast></p-toast>
+
+<p-dialog [(visible)]="displayPromos" [modal]="true" [draggable]="false" [style]="{ width: '40vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000" [closable]="false">
+  <ng-template pTemplate="header">
+    <div class="d-flex align-items-baseline w-100 justify-content-between dialog-header">
+      <h2 class="m-0 p-0">Promo Codes</h2>
+      <p class="m-0 p-0">
+        <span> {{ promos.length }} Codes </span>
+        <button (click)="closeModal()" class="btn">
+          <i class="fa-solid fa-x"></i>
+        </button>
+      </p>
+    </div>
+  </ng-template>
+  <div class="d-flex align-items-center justify-content-lg-start flex-wrap gap-2">
+    <p class="promo-viewer" *ngFor="let promo of promos">
+      {{ promo.code }}
+    </p>
+  </div>
+  <ng-template pTemplate="footer">
+    <button class="btn copy">Copy</button>
+
+    <button (click)="exportPromos()" class="btn export">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20.065" height="20.065" viewBox="0 0 22.065 22.065">
+        <g id="Icon_feather-download" data-name="Icon feather-download" transform="translate(1 1)">
+          <path id="Path_27706" data-name="Path 27706"
+            d="M24.565,22.5v4.459a2.229,2.229,0,0,1-2.229,2.229H6.729A2.229,2.229,0,0,1,4.5,26.959V22.5"
+            transform="translate(-4.5 -9.123)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="2" />
+          <path id="Path_27707" data-name="Path 27707" d="M10.5,15l5.574,5.574L21.647,15"
+            transform="translate(-6.041 -7.197)" fill="none" stroke="#fff" stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="2" />
+          <path id="Path_27708" data-name="Path 27708" d="M18,17.877V4.5" transform="translate(-7.967 -4.5)" fill="none"
+            stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+        </g>
+      </svg>
+      Export
+    </button>
+  </ng-template>
+</p-dialog>

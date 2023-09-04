@@ -1,0 +1,170 @@
+<!-- Marketing tap -->
+<div class="Marketing-form mt-3">
+  <form action="" [formGroup]="_SimpleProductFormService.marketingForm">
+    <div class="row">
+
+      <!-- meta Title Ar -->
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Arabic Meta Title</mat-label>
+          <input matInput placeholder="Arabic Meta Title..." formControlName="meta_title_ar" />
+        </mat-form-field>
+      </div>
+      <!-- meta Title Ar -->
+
+      <!-- meta Title En -->
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>English Meta Title</mat-label>
+          <input matInput placeholder="English Meta Title..." formControlName="meta_title_en" />
+        </mat-form-field>
+      </div>
+      <!-- meta Title En -->
+
+      <!-- Arabic Short Description -->
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Arabic Short Description</mat-label>
+          <input matInput placeholder="Arabic Short Description..." formControlName="short_description_ar" />
+        </mat-form-field>
+      </div>
+      <!-- Arabic Short Description -->
+
+      <!-- Egnlish Short Description -->
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Egnlish Short Description</mat-label>
+          <input matInput placeholder="Egnlish Short Description..." formControlName="short_description_en" />
+        </mat-form-field>
+      </div>
+      <!-- Egnlish Short Description -->
+
+      <!-- Url -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Url</mat-label>
+          <input matInput placeholder="Url..." formControlName="url" />
+        </mat-form-field>
+      </div>
+      <!-- Url -->
+
+      <!-- Ar Meta Keywords -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>Arabic Meta Keywords</mat-label>
+          <input matInput placeholder="Arabic Meta Keywords..." formControlName="meta_keywords_ar" />
+        </mat-form-field>
+      </div>
+      <!-- Ar Meta Keywords -->
+
+      <!-- En Meta Keywords -->
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width w-100">
+          <mat-label>English Meta Keywords</mat-label>
+          <input matInput placeholder="Arabic Meta Keywords..." formControlName="meta_keywords_en" />
+        </mat-form-field>
+      </div>
+      <!-- En Meta Keywords -->
+
+      <!-- Related Products  -->
+      <div class="col-md-4">
+        <div class="atrributes mb-2 w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Related Products</mat-label>
+            <mat-select msInfiniteScroll (infiniteScroll)="handleScrollEvent()" [complete]="productNext === null"
+              threshold="1px" multiple formControlName="related_products">
+              <mat-option *ngFor="let product of productData" [value]="product.id">{{product.title_en}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Related Products -->
+
+      <!-- Up Sell Products  -->
+      <div class="col-md-4">
+        <div class="atrributes mb-2 w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Up Sell Products</mat-label>
+            <mat-select msInfiniteScroll (infiniteScroll)="handleScrollEvent()" [complete]="productNext === null"
+              threshold="1px" multiple formControlName="up_sells">
+              <mat-option *ngFor="let product of productData" [value]="product.id">{{product.title_en}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Up Sell Products -->
+
+      <!-- Cross Sell Products  -->
+      <div class="col-md-4">
+        <div class="atrributes mb-2 w-100">
+          <mat-form-field class="w-100">
+            <mat-label>Cross Sell Products</mat-label>
+            <mat-select msInfiniteScroll (infiniteScroll)="handleScrollEvent()" [complete]="productNext === null"
+              threshold="1px" multiple formControlName="cross_sells">
+              <mat-option *ngFor="let product of productData" [value]="product.id">{{product.title_en}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Cross Sell Products -->
+
+      <!-- Meta description Ar -->
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width w-100" appearance="outline">
+          <mat-label>Meta Arabic Description</mat-label>
+          <textarea matInput formControlName="meta_description_ar" placeholder="Meta Arabic Description..."></textarea>
+        </mat-form-field>
+
+      </div>
+      <!-- Meta description Ar -->
+
+      <!-- Meta description en -->
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width w-100" appearance="outline">
+          <mat-label>Meta English Description</mat-label>
+          <textarea formControlName="meta_description_en" matInput
+            placeholder=" Meta English Description..."></textarea>
+        </mat-form-field>
+      </div>
+      <!-- Meta description en -->
+
+
+      <!-- description Ar -->
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width w-100" appearance="outline">
+          <mat-label>Arabic Description</mat-label>
+          <textarea formControlName="description_ar" matInput placeholder="Arabic Description..."></textarea>
+        </mat-form-field>
+      </div>
+      <!-- description Ar -->
+
+      <!-- description en -->
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width w-100" appearance="outline">
+          <mat-label>English Description</mat-label>
+          <textarea formControlName="description_en" matInput placeholder="English Description..."></textarea>
+        </mat-form-field>
+      </div>
+      <!-- description en -->
+    </div>
+
+    <div class="col-md-6"></div>
+    <div class="col-md-6 float-end">
+      <div class="btns d-flex flex-row-reverse">
+        <app-add-button class="w-100" (click)="submit()" [title]="'Save Product'">
+        </app-add-button>
+        <app-cancel-button class="mx-2" (click)="reset()"></app-cancel-button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- Marketing tap -->
+
+
+<p-confirmDialog #cd [style]="{ width: '40vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+  [baseZIndex]="10000">
+  <p-footer>
+    <button type="button" pButton icon="pi pi-close" label="Close" class="continue" (click)="cd.reject()"></button>
+    <button type="button" pButton icon="fa fa-check" label="Submit" class="submit" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>

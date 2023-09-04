@@ -1,0 +1,84 @@
+<div class="wrapper">
+    <!-- <div class="header">
+        <h2>COLORS</h2>
+        <app-add-button class="In_Mobile_screen" [icon]="'pi pi-plus-circle'" (click)="showCreateModal()" [buttonStyle]="1" [title]="'Add color'">
+        </app-add-button>
+    </div> -->
+
+    <app-screen-haeder [pageName]="'COLORS'"></app-screen-haeder>
+
+    <div class="filters mt-1">
+        <div class="mb-3 d-flex justify-content-center align-items-center">
+            <div class="input__filter__textField">
+                <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            [(ngModel)]="filterName"
+            type="text"
+            (keyup)="searchInColors($event)"
+            pInputText
+            [ngModelOptions]="{ standalone: true }"
+            placeholder="Search in Colors"
+          />
+        </span>
+            </div>
+            <button pButton pRipple type="button" class="reset ms-2" label="Reset" (click)="reset()" [disabled]="filterName === ''">
+        <i class="fa-solid fa-filter-circle-xmark mx-2"></i>
+      </button>
+        </div>
+    </div>
+
+    <app-data-table (isEditBtnClicked)="EditHandler($event)" (isDeleteBtnClicked)="DeleteHandler($event)" (sendTablePageSize)="handlePageSize($event)" [loadingIndicator]="loadingIndicator" [showActionCol]="true" [showDetailsAction]="false" [showDeleteAction]="true"
+        [showEditAction]="true" [tableHeaders]="tableHeader" [tableData]="data$ | async" [totalItems]="length" [page]="page" #table>
+    </app-data-table>
+
+    <p-dialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000" [modal]="true" [header]="editModeOn ? 'Edit Color' : 'Create Color'" [(visible)]="display" [draggable]="false" [closable]="false">
+        <form class="form" [formGroup]="colorForm">
+            <!-- AR -->
+            <div class="Arabic_Title">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Arabic Title..." formControlName="name_ar" />
+                    <small class="text-danger" *ngIf="submitted && colorForm.get('name_ar')?.hasError('required')">
+            Arabic Title is required
+          </small>
+                </div>
+            </div>
+            <!-- AR -->
+
+            <!-- EN -->
+            <div class="English_Title">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="English Title ..." formControlName="name_en" />
+                    <small class="text-danger" *ngIf="submitted && colorForm.get('name_en')?.hasError('required')">
+            English Title is required
+          </small>
+                </div>
+            </div>
+            <!-- EN -->
+
+            <!-- color Picker -->
+            <div class="color_picker d-flex align-items-center justify-content-center">
+                <input type="text" [value]="colorForm.get('value')?.value" placeholder="Choose your Color..." class="form-control me-2" disabled />
+                <p-colorPicker [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" formControlName="value" appendTo="body">
+                </p-colorPicker>
+                <small class="text-danger mt-2" *ngIf="submitted && colorForm.get('value')?.hasError('required')">
+          Please Pick Color
+        </small>
+            </div>
+            <!-- color Picker -->
+
+            <!-- buttons -->
+            <app-add-button class="w-100" [isLoading]="btnLoader" (click)="submit()" [title]="editModeOn ? 'EDIT' : 'CREATE'">
+            </app-add-button>
+            <button type="button" class="btn btn-light w-100" (click)="cancel()">
+        Cancel
+      </button>
+            <!-- buttons -->
+        </form>
+    </p-dialog>
+
+    <p-toast></p-toast>
+
+    <p-confirmDialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000">
+    </p-confirmDialog>
+</div>

@@ -1,0 +1,51 @@
+<main class="login">
+  <div class="row">
+    <section class="wrapper">
+      <form class="form bg-white rounded p-3 mx-2" [formGroup]="loginForm" id="loginForm">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="image w-100 text-center">
+              <img src="../../../../assets/images/logog.png" alt="etmana logo" />
+            </div>
+          </div>
+          <hr class="my-3" />
+          <div class="title">
+            <h4>Welcom Back</h4>
+            <h2>
+              <i class="fa-solid fa-arrow-right-to-bracket icon"></i> Login to
+              Your Account
+            </h2>
+          </div>
+          <!-- Email -->
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Email..." formControlName="email" />
+            <small class="text-danger" *ngIf="submitted && loginForm.get('email')?.hasError('required')">
+              Email Address is Required
+            </small>
+            <small class="text-danger" *ngIf="submitted && loginForm.get('email')?.hasError('email')">
+              Email Address is Invalid
+            </small>
+          </div>
+          <!-- Email -->
+          <div class="form-group my-3">
+            <input type="password" class="form-control" placeholder="Passowrd..." formControlName="password" />
+            <small class="text-danger" *ngIf="
+                submitted && loginForm.get('password')?.hasError('required')
+              ">
+              Password is Required
+            </small>
+          </div>
+          <div class="forget_pasword mb-3">
+            <a href="http://" target="_blank" rel="noopener noreferrer">Forget Password?</a>
+          </div>
+          <div>
+            <button [disabled]="loadingIndicator" type="button" class="submitBTN" (click)="Login()">
+              <span *ngIf="!loadingIndicator"> Submit </span>
+              <span *ngIf="loadingIndicator"> Waiting... </span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</main>

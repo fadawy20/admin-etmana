@@ -1,0 +1,115 @@
+@import "../product/product.component.scss";
+@import "../users/users.component.scss";
+.form {
+  .form-group {
+    label {
+      position: relative;
+      font-size: 12px;
+      color: #0e1740;
+      font-weight: 500;
+      &::before {
+        margin-right: 2px;
+        content: "*";
+        color: #00a599;
+      }
+    }
+
+    .gene-password {
+      position: relative;
+      span {
+        position: absolute;
+        top: -20px;
+        right: 85px;
+        background: #00a599;
+        padding: 2px 5px;
+        color: #fff;
+        border-radius: 5px;
+        font-size: 12px;
+      }
+      img {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 100px;
+        width: 30px;
+      }
+      button {
+        background-color: #0e1740;
+        cursor: pointer;
+        position: absolute;
+        top: 8px;
+        right: 11px;
+        color: #fff;
+        padding: 5px 10px;
+        font-size: 15px;
+        outline: none;
+        border-radius: 4px;
+      }
+    }
+
+    .form-control {
+      padding: 10px;
+    }
+  }
+  .createUser {
+    padding: 15px 0;
+    background-color: #5f2d79;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+  }
+}
+
+.cancel {
+  position: absolute;
+  top: 6px;
+  right: 20px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.apply-filter
+{
+  background-color: #0F183D;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 11px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 9%;
+}
+.apply-filter:hover
+{
+  background-color: #0F183D;
+  color: #FFFFFF;
+  border:1px solid #0F183D;
+}
+.cancel-filter
+{
+  background-color: transparent;
+    color: #0F183D;
+    font-size: 13px;
+    padding: 10px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 6%;
+}
+.cancel-filter:hover
+{
+  background-color: transparent;
+  color: #0F183D;
+  border:1px solid #0F183D;
+}
+.col-md-4
+{
+  margin: 8px 0px;
+  label
+  {
+    margin: 2px;
+  }
+}

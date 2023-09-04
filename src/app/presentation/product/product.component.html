@@ -1,0 +1,168 @@
+<div class="wrapper">
+  <h2><span>P</span>roducts</h2>
+  <div class="header">
+    <div class="allSearch">
+      <i class="pi pi-search" style="margin: 4px 4px 0 0"></i>
+      <input type="text" (input)="searchInProducts(ColumnVal.value)" #ColumnVal pInputText size="50"
+        placeholder="Search" style="width: auto" />
+    </div>
+    <div class="header-Btns">
+      <!-- create -->
+      <div class="crud">
+        <button class="ml-2 create" pButton type="button" icon="pi pi-chevron-down" label="Create" iconPos="right"
+          (click)="btnCrud.toggle($event)"></button>
+        <p-menu #btnCrud name="label" [popup]="true" ngDefaultControl [(ngModel)]="selectedMenu" [model]="createItems"
+          appendTo="body"></p-menu>
+      </div>
+
+      <button class="setting-btn" pButton type="button" icon="pi pi-cog" label="Columns" iconPos="left"></button>
+      <div class="vertical_lign"></div>
+      <button class="setting-btn" pButton type="button" icon="pi pi-sort-amount-down" label="Sort"
+        iconPos="left"></button>
+      <div class="vertical_lign"></div>
+      <button (click)="changeShowFilterField()" class="setting-btn" pButton type="button" icon="pi pi-filter"
+        label="Filter" iconPos="left"></button>
+      <!-- create -->
+    </div>
+  </div>
+  <form *ngIf="showFilterField" [formGroup]="filterField">
+    <div class="row my-3">
+      <div class="col-md-3 d-flex align-items-center gap-3" *ngFor="
+          let item of [
+            'title_ar',
+            'title_en',
+            'quantity_from',
+            'quantity_to',
+            'price_from',
+            'price_to',
+            'barcode'
+          ]
+        ">
+        <div class="w-100">
+          <label for="">{{
+            item === "title_ar"
+            ? "Title Ar"
+            : item === "title_en"
+            ? "Title En"
+            : item === "barcode"
+            ? "barcode"
+            : item === "quantity_from"
+            ? "Quantity From"
+            : item === "quantity_to"
+            ? "Quantity To"
+            : item === "price_from"
+            ? "Price From"
+            : "Price To"
+            }}</label><br />
+          <input type="text" [formControlName]="item" class="w-100" pInputText [placeholder]="
+              item === 'title_ar'
+                ? 'Title Ar'
+                : item === 'title_en'
+                ? 'Title En'
+                : item === 'barcode'
+                ? 'barcode'
+                : item === 'quantity_from'
+                ? 'Quantity From'
+                : item === 'quantity_to'
+                ? 'Quantity To'
+                : item === 'price_from'
+                ? 'Price From'
+                : 'Price To'
+            " />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label>Status Active</label><br />
+        <p-dropdown [options]="visibility" formControlName="is_active" placeholder="Choose Status"
+          optionLabel="name"></p-dropdown>
+      </div>
+      <div class="col-md-4">
+        <label class="">Stock</label><br />
+        <p-dropdown [options]="stock" formControlName="stock" placeholder="Choose Stock"
+          optionLabel="name"></p-dropdown>
+      </div>
+      <div class="col-md-4">
+        <label class="">Brands</label><br />
+        <p-dropdown [options]="allBrands" formControlName="brand" placeholder="Choose Brand"
+          optionLabel="title_en"></p-dropdown>
+      </div>
+      <div class="col-md-4">
+        <label class="">Category</label><br />
+        <!-- formControlName="category" -->
+        <p-dropdown [options]="parentCategories" placeholder="Choose Category" optionLabel="title_en"
+          (onChange)="selectCategories($event)"></p-dropdown>
+      </div>
+
+      <div class="col-md-4">
+        <label class="">Products Status </label><br />
+        <p-dropdown [options]="statusProducts" formControlName="productsStatus" placeholder="Choose Status"
+          optionLabel="name"></p-dropdown>
+      </div>
+      <div class="col-md-4">
+        <label class="">Sub Category</label><br />
+        <p-dropdown [options]="Categories" formControlName="category" placeholder="Choose Sub Category"
+          optionLabel="title_en"></p-dropdown>
+      </div>
+      <!-- <div  class="col-md-4">
+        <label >Status Active</label>
+        <div   class="switch d-flex align-items-center  my-2 ">
+
+          <p-inputSwitch (onChange)="switchStatus($event)" class="me-2" formControlName="is_active" [(ngModel)]="checkStatusFilter"></p-inputSwitch>
+          <p class="lead" *ngIf="checkStatusFilter === true">
+            Active
+          </p>
+          <p class="lead" *ngIf="checkStatusFilter === false">
+            in-Active
+          </p>
+        </div>
+      </div> -->
+    </div>
+    <div class="d-flex justify-content-end align-items-baseline gap-3">
+      <button type="submit" (click)="getFilterAction()" class="apply-filter btn">
+        Apply Filter
+      </button>
+      <button (click)="resetFormColumn()" class="cancel-filter btn">
+        Reset
+      </button>
+    </div>
+  </form>
+  <app-data-table [selectedItems]="selectedItems" (isEditBtnClicked)="EditHandler($event)"
+    (isBulkExportBtnClicked)="handleBulkExportedData($event)" (isDeleteBtnClicked)="DeleteHandler($event)"
+    (sendTablePageSize)="handlePageSize($event)" [loadingIndicator]="loadingIndicator" [showActionCol]="true"
+    [showDetailsAction]="false" [showDeleteAction]="true" [showEditAction]="true" [tableHeaders]="tableHeader"
+    [tableData]="allProducts" [totalItems]="length" [page]="page" [viewStatus]="true" [tableColumn]="tableHeader"
+    (handleChangeStatus)="changeStatus($event)" (isStatusChanged)="changeActiveStatus($event)" [showToggleStatus]="true"
+    #table>
+  </app-data-table>
+</div>
+
+<p-dialog [style]="{ width: '50vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000"
+  [modal]="true" header="Are You Sure" [(visible)]="display" [draggable]="false" [closable]="false">
+  <h3 class="text-danger">Are you Sure You want to Reject This Item !</h3>
+  <div class="row">
+    <div class="col-md-6 my-2" *ngFor="let reason of reasons">
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <p>{{ reason.id }} : {{ reason.description_en }}</p>
+        <p-checkbox [binary]="true" [(ngModel)]="reason.isSelected"></p-checkbox>
+      </div>
+      <hr />
+    </div>
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width w-100" appearance="outline">
+        <mat-label>Other Commments</mat-label>
+        <textarea matInput placeholder="Other Commments..." [(ngModel)]="comment"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-6 float-end">
+      <div class="btns d-flex flex-row-reverse">
+        <app-add-button class="w-100" [title]="'Save '" (click)="submitRejection()">
+        </app-add-button>
+        <app-cancel-button class="w-100 mx-2" (click)="cancel()"></app-cancel-button>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000">
+</p-confirmDialog>

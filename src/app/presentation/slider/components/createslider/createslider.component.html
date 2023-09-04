@@ -1,0 +1,624 @@
+<!-- <p>createslider works!</p> -->
+<div class="wrapper1">
+  <div class="d-flex align-items-center">
+    <div class="header mx-2 my-2 col-md-9 d-flex">
+      <div class="btn" (click)="backToList()">
+        <i class="fa-solid fs-4 fa-chevron-left"></i>
+      </div>
+      <h2 *ngIf="idSlider == undefined; else elseblockText">
+        <span>C</span>REATE NEW SLIDER
+      </h2>
+      <ng-template #elseblockText>
+        <h2><span>E</span>DIT SLIDER</h2>
+      </ng-template>
+
+    </div>
+    <div class="toggle_type">
+      <button (click)="handleCreateOrUpdate()" class="save" pButton type="button" label="Save Slider"></button>
+    </div>
+
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="general-info shadow bg-white p-3 rounded-3 my-3">
+        <app-formslider #formSlider [dataSlider]="dataSLider"></app-formslider>
+      </div>
+      <div class=" setting shadow bg-white p-3 rounded-3 my-3">
+        <h3 class="fw-bold text-uppercase">Setting</h3>
+
+        <form [formGroup]="settingSliderForm">
+          <div class="col-md-12">
+            <div class="mb-3">
+              <div>
+                <label>Duration Time</label>
+              </div>
+              <p-dropdown formControlName="duration_time" (onChange)="handleRuleTypeChangeDurationTime($event)"
+                [options]="durationTime" placeholder="Select a Duration Time" optionLabel="name"
+                [showClear]="false"></p-dropdown>
+              <small class="text-danger"
+                *ngIf="submitted && settingSliderForm.get('duration_time')?.hasError('required')">
+                Duration Time is required
+              </small>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <div>
+                <label>Arrow Size</label>
+              </div>
+              <p-dropdown formControlName="arrow_size" (onChange)="handleRuleTypeChangeArrowSizes($event)"
+                [options]="arrowSizes" placeholder="Select a arrowSizes" optionLabel="name"
+                [showClear]="false"></p-dropdown>
+              <small class="text-danger" *ngIf="submitted && settingSliderForm.get('arrow_size')?.hasError('required')">
+                Arrow Sizes is required
+              </small>
+            </div>
+
+            <div class="p-field-checkbox mb-4">
+              <p-checkbox [ngModelOptions]="{ standalone: true }" [binary]="true"
+                (onChange)="changeValidatiyArrowNav($event)" [(ngModel)]="showArrowNav"
+                [value]="showArrowNav"></p-checkbox>
+              <label class="ps-2" for="ny">Show Arrorw Nav</label>
+            </div>
+            <div class="p-field-checkbox mb-4">
+              <p-checkbox (onChange)="changeValidilityImageIcon($event)" value="val1" [binary]="true"
+                [ngModelOptions]="{ standalone: true }" inputId="fa" [(ngModel)]="showCaption"
+                [value]="showCaption"></p-checkbox>
+              <label class="ps-2" for="fa">Show The Caption</label>
+            </div>
+            <div class="p-field-checkbox mb-4">
+              <p-checkbox (onChange)="changeValidilitySliderTitle($event)" value="val1" [binary]="true"
+                [ngModelOptions]="{ standalone: true }" inputId="sa" [(ngModel)]="showSliderTitle"
+                [value]="showSliderTitle"></p-checkbox>
+              <label class="ps-2" for="sa">Show Slider Title</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- This is slider form consists of images and caption and target page url -->
+    <form class="col-md-9  p-3 rounded-3 my-3" [formGroup]="sliderForm" enctype="multipart/form-data">
+
+      <p-accordion formArrayName="items" *ngFor="let item of sliderForm.get('items')?.controls; let i = index"
+        [multiple]="true" class="w-full" [multiple]="true" [activeIndex]="[0]">
+        <p-accordionTab [formGroupName]="i" id="accordingTab" #tabRef>
+          <ng-template pTemplate="header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="vertical-align-middle">Slider 0{{0+i+1}}</span>
+                <!-- <span [ngClass]="isHighlighted ? 'highlighted' : ''">this is for test</span> -->
+              </div>
+              <p-inputSwitch formControlName="is_active_slide" class="me-2 ms-5"
+                (onChange)="testinput($event, tabRef)"></p-inputSwitch>
+              <p class="lead" *ngIf="sliderForm.value.items[i]?.is_active_slide === true">Active</p>
+              <p class="lead" *ngIf="sliderForm.value.items[i]?.is_active_slide === false">in-Active</p>
+            </div>
+          </ng-template>
+          <div class="d-flex justify-content-between">
+            <!-- <div></div> -->
+            <div class="col-md-6">
+              <label>Platform</label>
+              <p-dropdown formControlName="platform" (onChange)="handleRuleTypeChangePlatform($event)"
+                [options]="platfroms" placeholder="Select Platform" optionLabel="name" [showClear]="false"></p-dropdown>
+              <small class="text-danger d-block" *ngIf="
+                submitted &&
+               item.get('platform')?.hasError('required')
+              ">
+                Platfrom is required
+              </small>
+            </div>
+            <button class="btn btn-delete" (click)="deleteItem(i)">
+              <h4 class="text-danger">
+                <i class="fa-solid fa-trash-can me-2"></i>
+                Delete
+              </h4>
+            </button>
+          </div>
+
+          <!-- <app-delete-button></app-delete-button> -->
+          <div class="row">
+            <div class=" gap-1 mb-3">
+              <div class="col-md-12" *ngIf="item.get('platform')?.value.type === 1">
+                <label class="mb-1">Desktop Media</label>
+                <div class="border-dashed py-5">
+                  <div class="d-flex gap-1 mx-1">
+                    <div class="w-50">
+                      <!-- Upload DESKTOP IMAGE 1  -->
+                      <div id="file-upload-form" class="uploader position-relative overflow-hidden">
+                        <input formControlName="desktop_media_en" [id]="'file-upload-desktop-en'+i" type="file"
+                          (change)="uploadCoverImage($event,'desktop_media_en' , i )" />
+                        <label class="label" [for]="'file-upload-desktop-en'+i" id="file-drag">
+                          <img *ngIf="imageUrls[i]?.desktop_media_en.url" [src]="imageUrls[i]?.desktop_media_en.url"
+                            class="w-100 layer_blur" style="height: 170px; object-fit: cover" />
+                          <div class="file-text text-center" *ngIf="!imageUrls[i]?.desktop_media_en.url">
+                            <!-- <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" ></i> -->
+                            <i class="fa-solid fa-image" style="font-size: 20px; color: #9fa3b2"></i>
+                            <p>upload your desktop english media here</p>
+                          </div>
+                          <div class="replaceLayer pointer-event p-3 d-flex" *ngIf="imageUrls[i]?.desktop_media_en.url">
+                            <div id="layerdata">
+                              <i class="fa fa-exchange me-2 text-danger"></i>
+
+                              <!-- <span>REPLCAE</span> -->
+                            </div>
+                          </div>
+                          <!--This is for delete-->
+                          <!--*ngIf="imageUrls[i]?.desktop_media_en.url"-->
+                          <div *ngIf="imageUrls[i]?.desktop_media_en.url"
+                            class="position-absolute top-50 start-50 layer p-3 d-flex"
+                            (click)="deleteImage($event,'desktop_media_en',i)">
+                            <div id="cancel-btn" (click)="deleteImage($event,'desktop_media_en',i)">
+                              <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      <!-- Upload Upload DESKTOP IMAGE 1 -->
+
+                      <!-- <div *ngIf="viewImage" class="" style="width: 173%;  margin-top: 2px;">
+                        <input type="text" class="form-control" placeholder="caption Image Desktop 1">
+                      </div> -->
+
+
+                    </div>
+                    <div class="w-50">
+                      <!-- Upload Upload DESKTOP IMAGE 2 -->
+                      <div id="file-upload-form" class="uploader">
+                        <input formControlName="desktop_media_ar" [id]="'file-upload-desktop-ar'+i" type="file"
+                          (input)="uploadCoverImage($event,'desktop_media_ar', i)" />
+                        <label class="label" [for]="'file-upload-desktop-ar'+i" id="file-drag">
+                          <img *ngIf="imageUrls[i]?.desktop_media_ar.url" [src]="imageUrls[i]?.desktop_media_ar.url"
+                            class="w-100" style="height: 170px; object-fit: cover" />
+                          <div class="file-text text-center" *ngIf="!imageUrls[i]?.desktop_media_ar.url">
+                            <!-- <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" ></i> -->
+                            <i class="fa-solid fa-image" style="font-size: 20px; color: #9fa3b2"></i>
+                            <p>upload your desktop arabic media here</p>
+                          </div>
+                          <div class="replaceLayer pointer-event p-3 d-flex" *ngIf="imageUrls[i]?.desktop_media_ar.url">
+                            <div id="layerdata1">
+                              <i class="fa fa-exchange me-2 text-danger"></i>
+                            </div>
+                          </div>
+
+                          <div *ngIf="imageUrls[i]?.desktop_media_ar.url"
+                            class="position-absolute top-50 start-50 layer p-3 d-flex"
+                            (click)="deleteImage($event, 'desktop_media_ar', i )">
+
+                            <div id="cancel-btn1">
+                              <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      <!-- <div *ngIf="imageUrls[i]?.desktop_media_ar.url" class="" style="    width: 173%;margin-top: 2px;">
+                        <input type="text" class="form-control" placeholder="caption Image Desktop 2">
+                      </div> -->
+                      <!-- Upload Upload DESKTOP IMAGE 2 -->
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12" *ngIf="item.get('platform')?.value.type === 3">
+                <label class="mb-1">Mobile Media</label>
+                <div class="border-dashed  py-5">
+
+                  <div class="d-flex gap-1 mx-1">
+                    <div class="w-50">
+                      <!-- Upload Upload MOBILE IMAGE 1 -->
+
+                      <div id="file-upload-form" class="uploader">
+                        <input formControlName="mobile_media_en" [id]="'file-upload-mobile-en'+i" type="file"
+                          (change)="uploadCoverImage($event ,'mobile_media_en', i)" />
+                        <label class="label" [for]="'file-upload-mobile-en'+i" id="file-drag">
+                          <img *ngIf="imageUrls[i]?.mobile_media_en.url" [src]="imageUrls[i]?.mobile_media_en.url"
+                            class="w-100" style="height: 170px; object-fit: cover" />
+                          <div class="file-text text-center" *ngIf="!imageUrls[i]?.mobile_media_en.url">
+                            <!-- <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" ></i> -->
+                            <i class="fa-solid fa-image" style="font-size: 20px; color: #9fa3b2"></i>
+                            <p>upload your mobile english media here</p>
+                          </div>
+                          <div class="replaceLayer pointer-event p-3 d-flex" *ngIf="imageUrls[i]?.mobile_media_en.url">
+                            <div id="layerdata2">
+                              <i class="fa fa-exchange me-2 text-danger"></i>
+                            </div>
+                          </div>
+                          <div class="position-absolute top-50 start-50 layer p-3 d-flex"
+                            *ngIf="imageUrls[i]?.mobile_media_en.url" (click)="deleteImage($event,'mobile_media_en',i)">
+
+                            <div id="cancel-btn2">
+                              <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+
+                      <!-- Upload Upload MOBILE IMAGE 1 -->
+                      <!-- <div *ngIf="viewImageMobile1" class="" style="width: 173%; margin-top: 2px;">
+
+                        <input type="text" class="form-control" placeholder="caption Image Mobile 1">
+                      </div> -->
+
+                    </div>
+
+                    <div class="w-50">
+                      <div id="file-upload-form" class="uploader">
+                        <input formControlName="mobile_media_ar" [id]="'file-upload-mobile-ar'+i" type="file"
+                          (change)="uploadCoverImage($event ,'mobile_media_ar', i)" />
+                        <label class="label" [for]="'file-upload-mobile-ar'+i" id="file-drag">
+                          <img *ngIf="imageUrls[i]?.mobile_media_ar.url" [src]="imageUrls[i]?.mobile_media_ar.url"
+                            class="w-100" style="height: 170px; object-fit: cover" />
+                          <div class="file-text text-center" *ngIf="!imageUrls[i]?.mobile_media_ar.url">
+                            <!-- <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" ></i> -->
+                            <i class="fa-solid fa-image" style="font-size: 20px; color: #9fa3b2"></i>
+                            <p>upload your mobile arabic media here</p>
+                          </div>
+                          <div class="replaceLayer pointer-event p-3 d-flex" *ngIf="imageUrls[i]?.mobile_media_ar.url">
+                            <div id="layerdata3">
+                              <i class="fa fa-exchange me-2 text-danger"></i>
+                            </div>
+                          </div>
+                          <div *ngIf="imageUrls[i]?.mobile_media_ar.url"
+                            class="position-absolute top-50 start-50 layer p-3 d-flex"
+                            (click)="deleteImage($event, 'mobile_media_ar', i )">
+
+                            <div id="cancel-btn3">
+                              <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+
+                      <!-- <button onclick="defaultBtnActive()" id="custom-btn">Choose a file</button> -->
+                      <!-- <input id="default-btn-mobile-2" type="file" hidden (change)="uploadCoverIamgeSecondImageMobile($event)"> -->
+                      <!-- <div *ngIf="viewImageMobile2" class="" style="    width: 173%;
+                    margin-top: 2px;">
+                        <input type="text" class="form-control" placeholder="caption Image Mobile 2">
+                      </div> -->
+                    </div>
+
+                  </div>
+
+                  <!-- <div class="d-flex">
+                <div *ngIf="viewImageMobile1" class="m" style="width: 44%;" >
+                  <input type="text" class="form-control" placeholder="caption Image Mobile 1">
+                </div>
+               </div> -->
+
+                </div>
+              </div>
+
+              <ng-container>
+                <div *ngIf="item.get('platform')?.value.type === 5">
+                  <div class="col-md-12">
+                    <label class="mb-1">Desktop Media</label>
+                    <div class="border-dashed py-5">
+                      <div class="d-flex gap-1 mx-1">
+                        <div class="w-50">
+                          <!-- Upload DESKTOP IMAGE 1  -->
+                          <div id="file-upload-form" class="uploader position-relative overflow-hidden">
+                            <input formControlName="desktop_media_en" [id]="'file-upload-desktop-en'+i" type="file"
+                              (change)="uploadCoverImage($event,'desktop_media_en' , i )" />
+                            <label class="label" [for]="'file-upload-desktop-en'+i" id="file-drag">
+                              <img *ngIf="imageUrls[i]?.desktop_media_en.url" [src]="imageUrls[i]?.desktop_media_en.url"
+                                class="w-100 layer_blur" style="height: 170px; object-fit: cover" />
+                              <div class="file-text text-center" *ngIf="!imageUrls[i]?.desktop_media_en.url">
+                                <!-- <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" ></i> -->
+                                <i class="fa-solid fa-image" style="font-size: 20px; color: #9fa3b2"></i>
+                                <p>upload your desktop english media here</p>
+                              </div>
+                              <div class="replaceLayer pointer-event p-3 d-flex"
+                                *ngIf="imageUrls[i]?.desktop_media_en.url">
+                                <div id="layerdata" class="">
+                                  <i class="fa fa-exchange me-2 text-danger"></i>
+
+                                </div>
+                              </div>
+                              <!--This is for delete-->
+                              <!--*ngIf="imageUrls[i]?.desktop_media_en.url"-->
+                              <div *ngIf="imageUrls[i]?.desktop_media_en.url"
+                                class="position-absolute top-50 start-50 layer p-3 d-flex"
+                                (click)="deleteImage($event,'desktop_media_en',i)">
+                                <div id="cancel-btn" (click)="deleteImage($event,'desktop_media_en',i)">
+                                  <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                                </div>
+                              </div>
+                            </label>
+                          </div>
+                          <!-- Upload Upload DESKTOP IMAGE 1 -->
+
+                          <!-- <div *ngIf="viewImage" class="" style="width: 173%;  margin-top: 2px;">
+                            <input type="text" class="form-control" placeholder="caption Image Desktop 1">
+                          </div> -->
+
+
+                        </div>
+                        <div class="w-50">
+                          <!-- Upload Upload DESKTOP IMAGE 2 -->
+                          <div id="file-upload-form" class="uploader">
+                            <input formControlName="desktop_media_ar" [id]="'file-upload-desktop-ar'+i" type="file"
+                              (input)="uploadCoverImage($event,'desktop_media_ar', i)" />
+                            <label class="label" [for]="'file-upload-desktop-ar'+i" id="file-drag">
+                              <img *ngIf="imageUrls[i]?.desktop_media_ar.url" [src]="imageUrls[i]?.desktop_media_ar.url"
+                                class="w-100" style="height: 170px; object-fit: cover" />
+                              <div class="file-text text-center" *ngIf="!imageUrls[i]?.desktop_media_ar.url">
+                                <!-- <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" ></i> -->
+                                <i class="fa-solid fa-image" style="font-size: 20px; color: #9fa3b2"></i>
+                                <p>upload your desktop arabic media here</p>
+                              </div>
+                              <div class="replaceLayer pointer-event p-3 d-flex"
+                                *ngIf="imageUrls[i]?.desktop_media_ar.url">
+                                <div id="layerdata1">
+                                  <i class="fa fa-exchange me-2 text-danger"></i>
+                                </div>
+                              </div>
+
+                              <div *ngIf="imageUrls[i]?.desktop_media_ar.url"
+                                class="position-absolute top-50 start-50 layer p-3 d-flex"
+                                (click)="deleteImage($event, 'desktop_media_ar', i )">
+
+                                <div id="cancel-btn1">
+                                  <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                                </div>
+                              </div>
+                            </label>
+                          </div>
+                          <!-- <div *ngIf="imageUrls[i]?.desktop_media_ar.url" class="" style="    width: 173%;margin-top: 2px;">
+                            <input type="text" class="form-control" placeholder="caption Image Desktop 2">
+                          </div> -->
+                          <!-- Upload Upload DESKTOP IMAGE 2 -->
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label class="mb-1">Mobile Media</label>
+                    <div class="border-dashed  py-5">
+
+                      <div class="d-flex gap-1 mx-1">
+                        <div class="w-50">
+                          <!-- Upload Upload MOBILE IMAGE 1 -->
+
+                          <div id="file-upload-form" class="uploader">
+                            <input formControlName="mobile_media_en" [id]="'file-upload-mobile-en'+i" type="file"
+                              (change)="uploadCoverImage($event ,'mobile_media_en', i)" />
+                            <label class="label" [for]="'file-upload-mobile-en'+i" id="file-drag">
+                              <img *ngIf="imageUrls[i]?.mobile_media_en.url" [src]="imageUrls[i]?.mobile_media_en.url"
+                                class="w-100" style="height: 170px; object-fit: cover" />
+                              <div class="file-text text-center" *ngIf="!imageUrls[i]?.mobile_media_en.url">
+                                <!-- <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" ></i> -->
+                                <i class="fa-solid fa-image" style="font-size: 20px; color: #9fa3b2"></i>
+                                <p>upload your mobile english media here</p>
+                              </div>
+                              <div class="replaceLayer pointer-event p-3 d-flex"
+                                *ngIf="imageUrls[i]?.mobile_media_en.url">
+                                <div id="layerdata2">
+                                  <i class="fa fa-exchange me-2 text-danger"></i>
+                                </div>
+                              </div>
+                              <div class="position-absolute top-50 start-50 layer p-3 d-flex"
+                                *ngIf="imageUrls[i]?.mobile_media_en.url"
+                                (click)="deleteImage($event,'mobile_media_en',i)">
+
+                                <div id="cancel-btn2">
+                                  <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                                </div>
+                              </div>
+                            </label>
+                          </div>
+
+                          <!-- Upload Upload MOBILE IMAGE 1 -->
+                          <!-- <div *ngIf="viewImageMobile1" class="" style="width: 173%; margin-top: 2px;">
+
+                            <input type="text" class="form-control" placeholder="caption Image Mobile 1">
+                          </div> -->
+
+                        </div>
+
+                        <div class="w-50">
+                          <div id="file-upload-form" class="uploader">
+                            <input formControlName="mobile_media_ar" [id]="'file-upload-mobile-ar'+i" type="file"
+                              (change)="uploadCoverImage($event ,'mobile_media_ar', i)" />
+                            <label class="label" [for]="'file-upload-mobile-ar'+i" id="file-drag">
+                              <img *ngIf="imageUrls[i]?.mobile_media_ar.url" [src]="imageUrls[i]?.mobile_media_ar.url"
+                                class="w-100" style="height: 170px; object-fit: cover" />
+                              <div class="file-text text-center" *ngIf="!imageUrls[i]?.mobile_media_ar.url">
+                                <!-- <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" ></i> -->
+                                <i class="fa-solid fa-image" style="font-size: 20px; color: #9fa3b2"></i>
+                                <p>upload your mobile arabic media here</p>
+                              </div>
+                              <div class="replaceLayer pointer-event p-3 d-flex"
+                                *ngIf="imageUrls[i]?.mobile_media_ar.url">
+                                <div id="layerdata3">
+                                  <i class="fa fa-exchange me-2 text-danger"></i>
+                                </div>
+                              </div>
+                              <div *ngIf="imageUrls[i]?.mobile_media_ar.url"
+                                class="position-absolute top-50 start-50 layer p-3 d-flex"
+                                (click)="deleteImage($event, 'mobile_media_ar', i )">
+
+                                <div id="cancel-btn3">
+                                  <i class="fa-solid fa-trash-can me-2 text-danger"></i>
+                                </div>
+                              </div>
+                            </label>
+                          </div>
+
+                          <!-- <button onclick="defaultBtnActive()" id="custom-btn">Choose a file</button> -->
+                          <!-- <input id="default-btn-mobile-2" type="file" hidden (change)="uploadCoverIamgeSecondImageMobile($event)"> -->
+                          <!-- <div *ngIf="viewImageMobile2" class="" style="    width: 173%;
+                        margin-top: 2px;">
+                            <input type="text" class="form-control" placeholder="caption Image Mobile 2">
+                          </div> -->
+                        </div>
+
+                      </div>
+
+                      <!-- <div class="d-flex">
+                    <div *ngIf="viewImageMobile1" class="m" style="width: 44%;" >
+                      <input type="text" class="form-control" placeholder="caption Image Mobile 1">
+                    </div>
+                   </div> -->
+
+                    </div>
+                  </div>
+                </div>
+
+              </ng-container>
+            </div>
+
+
+            <div class="col-md-6">
+              <label class="mb-1">Caption English</label>
+              <input formControlName="caption_en" type="text" placeholder="Caption english..."
+                class="form-control w-100" />
+              <small class="text-danger d-block" *ngIf="
+              submitted &&
+             item.get('caption_en')?.hasError('required')
+            ">
+                Caption English is required
+              </small>
+            </div>
+            <div class="col-md-6">
+              <label class="mb-1">Caption Arabic</label>
+              <input formControlName="caption_ar" type="text" placeholder="Caption..." class="form-control w-100" />
+              <small class="text-danger d-block" *ngIf="
+              submitted &&
+             item.get('caption_ar')?.hasError('required')
+            ">
+                Caption Arabic is required
+              </small>
+            </div>
+            <div class="col-md-12">
+              <label class="mb-1">Target Page Url</label>
+              <input formControlName="target_page_url" type="text" placeholder="Target Page..."
+                class="form-control w-50" />
+              <small class="text-danger d-block" *ngIf="
+                submitted &&
+               item.get('target_page_url')?.hasError('required')
+              ">
+                Target url is required
+              </small>
+            </div>
+
+
+
+            <div class="col-md-4 mt-3">
+              <label class="d-block">Date From</label>
+              <p-calendar formControlName="date_from" [showIcon]="true" placeholder="Date From..."></p-calendar>
+              <small class="text-danger d-block" *ngIf="
+                submitted &&
+               item.get('date_from')?.hasError('required')
+              ">
+                Start Date is required
+              </small>
+            </div>
+            <div class="col-md-4 mt-3">
+              <label class="d-block">Date To</label>
+              <p-calendar formControlName="date_to" [showIcon]="true" placeholder="Date To..."></p-calendar>
+              <small class="text-danger d-block" *ngIf="
+                submitted &&
+               item.get('date_to')?.hasError('required')
+              ">
+                End Date is required
+              </small>
+            </div>
+
+            <div class="col-md-4"></div>
+
+            <!-- <div class=" col-md-4 p-field-checkbox mb-4  mt-2">
+              <p-checkbox (onChange)="changeValidility($event)" value="val1" [binary]="true"
+                [ngModelOptions]="{ standalone: true }" inputId="la" [(ngModel)]="showStartImmediately"
+                [value]="showArrowNav"></p-checkbox>
+              <label class="ps-2" for="la">Start immediately</label>
+            </div> -->
+
+
+          </div>
+
+        </p-accordionTab>
+
+        <!-- <p-accordionTab *ngFor="let item of listArr; let i = index;" header="Slide 0{{i+2}}">
+        <div class="row">
+
+          <div class="col-md-6">
+            <label class="mb-1">Caption</label>
+            <input type="text" placeholder="Caption..." class="form-control w-100" />
+          </div>
+          <div class="col-md-6">
+            <label class="mb-1">Target Page Url</label>
+            <input type="text" placeholder="Target Page..." class="form-control w-100" />
+          </div>
+
+          <div class="col-md-4 mt-3">
+            <label>Platform</label>
+          <p-dropdown (onChange)="handleRuleTypeChangePlatform($event)" [options]="platfroms"
+              placeholder="Select Platform" optionLabel="name"
+             [showClear]="false" ></p-dropdown>
+          </div>
+
+          <div class="col-md-4 mt-3">
+            <label>Date From</label>
+            <p-calendar [showIcon]="true" placeholder="Date From..."></p-calendar>
+
+          </div>
+          <div class="col-md-4 mt-3">
+            <label>Date To</label>
+            <p-calendar [showIcon]="true" placeholder="Date To..."></p-calendar>
+
+          </div>
+
+          <div class="col-md-4"></div>
+
+          <div class=" col-md-4 p-field-checkbox mb-4  mt-2">
+            <p-checkbox (onChange)="changeValidility($event)" value="val1" [binary]="true"
+              [ngModelOptions]="{ standalone: true }" inputId="la" [(ngModel)]="showStartImmediately"
+              [value]="showArrowNav"></p-checkbox>
+            <label class="ps-2" for="la">Start immediately</label>
+          </div>
+
+
+        </div>
+      </p-accordionTab> -->
+
+      </p-accordion>
+
+      <!-- This is slider form consists of images and caption and target page url -->
+
+      <!-- This is button to add section (item in array)-->
+      <div class="col md-12 border-dashed text-center py-5">
+        <h1 (click)="addItem()" style="cursor: pointer;" class="fs-5">+ Add New Section</h1>
+      </div>
+      <!-- This is button to add section (item in array)-->
+
+    </form>
+    <p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<!-- <app-newloading [loader]="loader"></app-newloading> -->

@@ -1,0 +1,21 @@
+::ng-deep {
+  .add {
+    background: var(--darkRed);
+    color: #ffffff;
+    border-color: var(--darkRed);
+    margin: 10px 0px;
+    width: 100%;
+    border-radius: 10px;
+    font-weight: 600 !important;
+    letter-spacing: 1px;
+    .p-button-label {
+      font-weight: 600;
+      font-size: 15px !important;
+    }
+    &:enabled:hover {
+      background: transparent !important;
+      color: var(--darkRed);
+      border-color: var(--darkRed);
+    }
+  }
+}

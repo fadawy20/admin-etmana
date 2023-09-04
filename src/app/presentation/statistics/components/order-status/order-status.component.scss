@@ -1,0 +1,155 @@
+@import "../inventory-levels/inventory-levels.component.scss";
+
+.order {
+  .header-status{
+    span{
+      color: #7f828e;
+      font-size: 12px;
+    }
+    div{
+      font-weight: 500;
+    }
+  }
+  .content {
+    height: 245px;
+    overflow-y: scroll;
+    ul {
+      li {
+        padding: 10px 15px;
+        border-radius: 6px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        -ms-border-radius: 6px;
+        -o-border-radius: 6px;
+        margin-bottom: 10px;
+        margin-right: 5px;
+        cursor: pointer;
+
+        a {
+          text-decoration: none;
+          color: #00a599;
+          font-size: 12px;
+          font-weight: 600;
+        }
+        span {
+          color: #0e1740;
+          font-size: 14px;
+          font-weight: 600;
+        }
+      }
+
+      .out-delevery {
+        background-color: #f5f9f9;
+        a {
+          color: #0e1740;
+        }
+      }
+      .complete {
+        background-color: #e5f6f4;
+        a {
+          color: #00a599;
+        }
+      }
+
+      .delivery {
+        background-color: #e5f6f4;
+        a {
+          color: #00a599;
+        }
+      }
+
+      .pending {
+        background-color: #ebecef;
+        a {
+          color: #0e1740;
+        }
+      }
+
+      .pending-payment {
+        background-color: #fff;
+        border: 1px solid #0f183d;
+        a {
+          color: #0e1740;
+        }
+      }
+
+      .validated {
+        background-color: #f5f5f7;
+        a {
+          color: #5f2d79;
+        }
+      }
+
+      .ready-ship {
+        background-color: #f5f9f9;
+        a {
+          color: #5f2d79;
+        }
+      }
+
+      .logistics {
+        background-color: #feefd0;
+        a {
+          color: #0e1740;
+        }
+      }
+
+      .partisaly-return {
+        background-color: #fff;
+        border: 1px solid #583275;
+        a {
+          color: #5f2d79;
+        }
+      }
+
+      .within-rto {
+        background-color: #fff;
+        border: 1px solid #d92059;
+        a {
+          color: #d92059;
+        }
+      }
+
+      .rto {
+        background-color: #fff;
+        a {
+          color: #d92059;
+        }
+      }
+
+      .cancled {
+        background-color: #ebecef;
+        a {
+          color: #7f828e;
+        }
+      }
+
+      .closed {
+        background-color: #fff;
+        border: 1px solid #7f828d;
+        a {
+          color: #7f828e;
+        }
+      }
+
+      .images {
+        text-align: center;
+        img {
+          width: 50%;
+          height: 150px;
+        }
+        .info {
+          margin-top: 10px;
+          h3,
+          p {
+            color: #9fa3b2;
+            font-size: 16px;
+          }
+          p {
+            font-size: 10px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<div class="wrapper">
+  <div class="container-fluid">
+    <div *ngFor="let item of summaryClients" class="details d-flex align-items-center justify-content-between gap-2">
+      <div class="d-flex justify-content-between total-order">
+        <div class="text-center">
+          Total Orders
+          <p class="bold">{{item.total_orders}}</p>
+        </div>
+        <div class="text-center">
+          Total Items
+          <p class="bold">{{item.total_items }}</p>
+        </div>
+      </div>
+      <div class="text-center">
+        Total Amount
+        <p class="bold text-center"> {{item.total_amount}}</p>
+      </div>
+      <div class="text-center">
+        Avg order size
+        <p class="bold">{{currency}} {{item.avg_order_size_amount }}</p>
+      </div>
+      <div class="text-center">
+        Total Refund
+        <p class="bold">{{currency}} {{item.total_refund}}</p>
+      </div>
+    </div>
+    <div class="orders p-3 my-4 bg-white shadow my-2 w-100" *ngFor="let order of orderClients">
+      <div class="order-info d-flex align-items-center justify-content-between">
+        <div class="order-name">
+          <h4>Order {{ order?.id }}</h4>
+          <p class="date">Placed {{ order?.created_at | date:'mediumDate' }}</p>
+        </div>
+        <div class="order-status">
+          <h5 class="status"
+            [class.pending]="order.status?.label == 'Pending' || order.status?.label == 'Pending payment'"
+            [class.pending-falied]="order.status?.label == 'Payment_failed'"
+            [class.processing]="order.status?.label == 'Processing'"
+            [class.delivery]="order.status?.label == 'Delivered'"
+            [class.return]="order.status?.label == 'Return_request'"
+            [class.ready-ship]="order.status?.label == 'Returned'"
+            [class.out_for_return]="order.status?.label == 'Out_for_return'"
+            [class.cancled]="order.status?.label == 'Canceled'" [class.complete]="order.status?.label == 'Complete'"
+            [class.closed]="order.status?.label == 'Closed'">
+            {{ order.status?.label }}
+          </h5>
+          <p class="items-qty">
+            {{ order.shipment_items[0].requested_quantity }}
+
+            Items
+          </p>
+        </div>
+      </div>
+      <div class="order-summary pt-2 d-flex align-items-center justify-content-between">
+        <div class="amount d-flex align-items-center justify-content-start gap-2">
+          <p class="total">Total Amount</p>
+          <p class="price">{{currency}} {{ order.total_price }}</p>
+        </div>
+        <div (click)="viewOrderDetails(order?.id)" style="color: #5e2d77; font-size: 14px"
+          class="btn m-0 p-0 d-flex align-items-center justify-content-center">
+          View Details
+          <i class="fa-solid fa-angle-right ms-2"></i>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="orderClients.length == 0">
+      <div class="notFound d-flex align-items-center justify-content-center" style="height: 40vh">
+        Not result
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+
+<app-loading [loader]="loader"></app-loading>

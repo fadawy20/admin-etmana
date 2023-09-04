@@ -1,0 +1,19 @@
+::ng-deep {
+    .cancel {
+        background: transparent;
+        color: #0F183D;
+        border-color: #0F183D;
+        margin: 10px 0px;
+        // width: 100%;
+        border-radius: 10px;
+        font-weight: 600 !important;
+        .p-button-label {
+            font-weight: 600;
+        }
+        &:enabled:hover {
+            background: #0F183D !important;
+            color: white;
+            border-color: #0F183D;
+        }
+    }
+}

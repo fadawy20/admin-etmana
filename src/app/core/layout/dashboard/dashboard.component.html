@@ -1,0 +1,73 @@
+<!-- <div class="side">
+  <mat-sidenav-container class="sidenav-container">
+    <app-header-dashboard
+      (toggleSideNav)="sidenav.toggle()"
+    ></app-header-dashboard>
+    <mat-icon>menu</mat-icon>
+    <mat-sidenav
+      #sidenav
+      [mode]="'side'"
+      [position]="'start'"
+      class="example-sidenav"
+      [opened]="opened"
+      [ngStyle]="{ 'width.em': 16 }"
+    >
+      <mat-nav-list>
+        <mat-nav-list>
+          <app-menu-list-item
+            *ngFor="let item of routes"
+            [item]="item"
+          ></app-menu-list-item>
+        </mat-nav-list>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <main class="page-content container-fluid">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div> -->
+
+<div class="side">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-icon>menu</mat-icon>
+    <mat-sidenav #sidenav [mode]="'side'" [position]="'start'" class="example-sidenav" [opened]="'true'"
+      [class.openMenue]="opened" [class.closeMenue]="!opened">
+
+      <div class="menu">
+        <button mat-icon-button class="menu-button" (click)="CloseSdieNav()" type="button" aria-label="Toggle sidenav">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+            <g id="Group_13543" data-name="Group 13543" transform="translate(0 28) rotate(-90)">
+              <rect id="Rectangle_2100" data-name="Rectangle 2100" width="28" height="28" rx="6" fill="#4c2460"
+                opacity="0" />
+              <g id="Icon_feather-menu" data-name="Icon feather-menu" transform="translate(29 5.5) rotate(90)">
+                <path id="Path_27715" data-name="Path 27715" d="M4.5,18h18" transform="translate(-5 -3)" fill="none"
+                  stroke="#0f183d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                <path id="Path_27716" data-name="Path 27716" d="M4.5,9h18" transform="translate(-5)" fill="none"
+                  stroke="#0f183d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                <path id="Path_27717" data-name="Path 27717" d="M4.5,27h18" transform="translate(-5 -6)" fill="none"
+                  stroke="#0f183d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" opacity="0.8" />
+              </g>
+            </g>
+          </svg>
+        </button>
+        <img src="../../../../assets/images/En_Logo_White-01.png" alt="etmana logo" class="header-logo" *ngIf="opened"
+          routerLink="/Dashboard" />
+        <span class="example-spacer"></span>
+      </div>
+
+      <mat-nav-list>
+        <app-menu-list-item *ngFor="let item of routes" [item]="item" [opened]="opened"
+          (onItemClick)="openMenue(item)"></app-menu-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content [ngStyle]="{ 'margin-left.px': contentMargin }" style="transition: all 0.2s ease">
+      <app-header-dashboard (toggleSideNav)="handleSideBarToggle($event)"></app-header-dashboard>
+      <main class="page-content container-fluid mt-5 pt-3">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

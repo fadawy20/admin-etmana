@@ -1,0 +1,77 @@
+<div class="wapper m-0 p-0">
+  <div class="mt-5 ms-1">
+    <app-screen-haeder
+      [firstLetter]="'T'"
+      [title]="'axes'"
+      [showFilter]="false"
+      [showCreateBtn]="false"
+    ></app-screen-haeder>
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="item p-3" *ngIf="!editModeegypt">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h2 class="title mb-4 ms-1">Egypt Taxes</h2>
+            </div>
+            <div>
+              <button class="editBtn btn" (click)="editegypt()">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Edite
+              </button>
+            </div>
+          </div>
+          <p class="text-muted">Tax Percentage</p>
+          <p class="fs-4 pt-4 num">{{ data?.egypt_tax }}%</p>
+        </div>
+        <div class="item p-3 saveRight" *ngIf="editModeegypt">
+          <h2 class="fw-bold title my-3">Egypt Taxes</h2>
+          <p class="text-muted">Tax Percentage%</p>
+          <input
+            placeholder="type here"
+            [(ngModel)]="data.egypt_tax"
+            type="text"
+            class="my-2 inputData w-100 form-control"
+          />
+          <div class="d-flex align-items-center justify-content-end w-100">
+            <button pButton type="button" label=" Save Taxes" [loading]="loadingIndicator" (click)="create()"
+            class="submit btn my-3 py-3"></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="item p-3" *ngIf="!editModesudia">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h2 class="title mb-4 ms-1">Suadi Arabia Taxes</h2>
+            </div>
+            <div>
+              <button class="editBtn btn" (click)="editsudia()">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Edite
+              </button>
+            </div>
+          </div>
+          <p class="text-muted">Tax Percentage</p>
+          <p class="fs-4 pt-4 num">{{ data?.saudi_arabia_tax }}%</p>
+        </div>
+        <div class="item p-3 saveRight" *ngIf="editModesudia">
+          <h2 class="fw-bold title my-3">Suadi Arabia Taxes</h2>
+          <p class="text-muted">Tax Percentage%</p>
+          <input
+            placeholder="type here"
+            type="text"
+            class="my-2 w-100 form-control"
+            [(ngModel)]="data.saudi_arabia_tax"
+          />
+          <div class="d-flex align-items-center justify-content-end w-100">
+            <button pButton type="button" label=" Save Taxes" [loading]="loadingIndicator" (click)="create()"
+            class="submit btn my-3 py-3"></button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p-toast></p-toast>

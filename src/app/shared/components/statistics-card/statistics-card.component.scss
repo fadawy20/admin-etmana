@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+.page-contain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7f3f1;
+  border: 0.75em solid white;
+  padding: 2em;
+  font-family: "Open Sans", sans-serif;
+}
+
+.data-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.5em;
+  background: white;
+  padding: 1.5rem;
+  box-shadow: 0 1.5em 2.5em -0.5em rgba(#000000, 0.1);
+  height: 130px;
+  transition: transform 0.45s ease, background 0.45s ease;
+  cursor: pointer;
+  h3 {
+    color: #2e3c40;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1;
+    padding-bottom: 0.5em;
+    // margin: 0 0 0.142857143em;
+    border-bottom: 2px solid #753bbd;
+    transition: color 0.45s ease, border 0.45s ease;
+  }
+
+  h4 {
+    color: #627084;
+    text-transform: uppercase;
+    font-size: 1.125em;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    // margin: 0 0 1.777777778em;
+    transition: color 0.45s ease;
+  }
+
+
+
+  &:hover {
+    background: #753bbd;
+    transform: scale(1.02);
+
+    h3 {
+      color: #ffffff;
+      border-bottom-color: #a754c4;
+    }
+
+    h4 {
+      color: #ffffff;
+    }
+
+    p {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@keyframes point {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(0.125em);
+  }
+}

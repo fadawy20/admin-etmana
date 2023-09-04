@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+  <g id="Group_15830" data-name="Group 15830" transform="translate(-232 -32)">
+    <g id="Group_14895" data-name="Group 14895" transform="translate(-457 -551)">
+      <rect id="Rectangle_27643" data-name="Rectangle 27643" width="38" height="38" rx="6" transform="translate(689 583)" fill="#efeaf1" opacity="0"/>
+    </g>
+    <g id="Icon_feather-copy" data-name="Icon feather-copy" transform="translate(236 36)">
+      <path id="Path_38001" data-name="Path 38001" d="M15.9,13.5h10.8a2.4,2.4,0,0,1,2.4,2.4v10.8a2.4,2.4,0,0,1-2.4,2.4H15.9a2.4,2.4,0,0,1-2.4-2.4V15.9A2.4,2.4,0,0,1,15.9,13.5Z" transform="translate(-2.106 -2.106)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Path_38002" data-name="Path 38002" d="M6.6,18.606H5.4a2.4,2.4,0,0,1-2.4-2.4V5.4A2.4,2.4,0,0,1,5.4,3h10.8a2.4,2.4,0,0,1,2.4,2.4V6.6" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

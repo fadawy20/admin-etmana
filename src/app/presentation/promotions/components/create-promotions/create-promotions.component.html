@@ -1,0 +1,178 @@
+<div class="wrapper">
+  <div class="header d-flex align-items-baseline justify-content-lg-start gap-2">
+    <div class="btn" (click)="backToList()">
+      <i class="fa-solid fs-4 fa-chevron-left"></i>
+    </div>
+    <h2 *ngIf="idPomotion == undefined; else elseblockText">
+      <span>C</span>REATE PROMOTION
+    </h2>
+    <ng-template #elseblockText>
+      <h2><span>E</span>DIT PROMOTION</h2>
+    </ng-template>
+
+    <div class="switch d-flex align-items-center ms-3">
+      <p-inputSwitch class="me-2" [(ngModel)]="promotionStatus"></p-inputSwitch>
+      <p class="lead" *ngIf="promotionStatus === true">Active</p>
+      <p class="lead" *ngIf="promotionStatus === false">in-Active</p>
+    </div>
+  </div>
+
+  <!-- general info Form -->
+  <div class="general-info shadow bg-white p-3 rounded-3 my-3">
+    <h4>General Info</h4>
+    <app-general-form #generarlForm [isPromoCode]="isPromoCode" [editPromotion]="editProm"
+      (sendRuleType)="sendRuleType($event)" (sendTargetCustomer)="sendTargetCustomer($event)"
+      (sumbittedForm)="sumbittedForm($event)"></app-general-form>
+  </div>
+  <!-- general info Form -->
+
+  <!-- condition Form -->
+  <div class="row">
+    <div [ngClass]="hasSpecificItem ? 'col-md-8' : 'col-md-12'">
+      <div class="Conditions shadow bg-white p-3 rounded-3 my-3">
+        <h4>Conditions Info</h4>
+        <div class="row">
+          <div class="col-md-12">
+            <form class="form" [formGroup]="conditionForm">
+              <div class="row">
+                <div class="col-md-4">
+                  <label>promotion Condition</label>
+                  <p-dropdown [disabled]="condition_type ? true : false" (onChange)="handleRuleTypeChange($event)"
+                    [options]="conditions" formControlName="condition" class="w-100"
+                    placeholder="Choose Condition Type..." optionLabel="name" [showClear]="false"></p-dropdown>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      conditionForm.get('condition')?.hasError('required')
+                    ">
+                    condition Type is required
+                  </small>
+                </div>
+                <div class="col-md-4">
+                  <label>Date From</label>
+                  <p-calendar [showIcon]="true" formControlName="start_date" placeholder="Date From..."></p-calendar>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      conditionForm.get('start_date')?.hasError('required')
+                    ">
+                    Start Date is required
+                  </small>
+                </div>
+                <div class="col-md-4">
+                  <label>Date To</label>
+                  <p-calendar [disabled]="has_dateOnClick == true" [showIcon]="true" formControlName="end_date"
+                    placeholder="Date To..."></p-calendar>
+                  <small class="text-danger" *ngIf="
+                      submitted &&
+                      conditionForm.get('end_date')?.hasError('required')
+                    ">
+                    end Date Type is required
+                  </small>
+                  <div class="d-flex mt-2 align-items-center justify-content-lg-start gap-3">
+                    <p-checkbox [ngModelOptions]="{standalone: true}" [binary]="true"
+                      (onChange)="handleEndDateExpiration($event)" label="Has no expiry date"
+                      [(ngModel)]="has_dateOnClick"></p-checkbox>
+                    <!-- <p class="fs-6 text-secondary fw-lighter"></p> -->
+                  </div>
+                </div>
+                <!-- x and y value -->
+                <div *ngIf="showXYvalues" class="col-md-4">
+                  <div class="mb-3">
+                    <label>Condition Value X</label>
+                    <input formControlName="x_value" type="text" placeholder="Condition Value X"
+                      class="form-control w-100" />
+                    <small class="text-danger" *ngIf="
+                        submitted &&
+                        conditionForm.get('x_value')?.hasError('required')
+                      ">
+                      x value required
+                    </small>
+                    <div *ngIf="
+                        (conditionForm.get('x_value')?.invalid &&
+                          conditionForm.get('x_value')?.touched) ||
+                        conditionForm.get('x_value')?.dirty
+                      ">
+                      <small class="text-danger" *ngIf="conditionForm.get('x_value')?.errors?.['pattern']">
+                        this field accepts numbers only
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="showXYvalues" class="col-md-4">
+                  <div class="mb-3">
+                    <label>Condition Value y</label>
+                    <input formControlName="y_value" type="text" placeholder="Condition Value y..."
+                      class="form-control w-100" />
+                    <small class="text-danger" *ngIf="
+                        submitted &&
+                        conditionForm.get('y_value')?.hasError('required')
+                      ">
+                      Y value required
+                    </small>
+                    <div *ngIf="
+                        (conditionForm.get('y_value')?.invalid &&
+                          conditionForm.get('y_value')?.touched) ||
+                        conditionForm.get('y_value')?.dirty
+                      ">
+                      <small class="text-danger" *ngIf="conditionForm.get('y_value')?.errors?.['pattern']">
+                        this field accepts numbers only
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <!-- x and y value -->
+                <div *ngIf="showAmount" class="col-md-4">
+                  <div class="mb-3">
+                    <label>{{ label }}</label>
+                    <input formControlName="amount" type="text" [placeholder]="label + '...'"
+                      class="form-control w-100" />
+                    <small class="text-danger" *ngIf="
+                        submitted &&
+                        conditionForm.get('amount')?.hasError('required')
+                      ">
+                      {{ label }} required
+                    </small>
+                    <div *ngIf="
+                        (conditionForm.get('amount')?.invalid &&
+                          conditionForm.get('amount')?.touched) ||
+                        conditionForm.get('amount')?.dirty
+                      ">
+                      <small class="text-danger" *ngIf="conditionForm.get('amount')?.errors?.['pattern']">
+                        this field accepts numbers only
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <div class="col-md-6"></div>
+          <div class="col-md-2">
+            <button (click)="Cancel()" class="cancel btn my-3 py-3">
+              Cancel
+            </button>
+          </div>
+          <div class="col-md-4">
+            <button *ngIf="idPomotion == undefined; else elseblockbutton" pButton type="button" label="Create"
+              [loading]="loadingIndicator" (click)="create()" class="submit btn my-3 py-3"></button>
+
+            <ng-template #elseblockbutton>
+              <button pButton type="button" label="Edit" [loading]="loadingIndicator" (click)="editPromotion()"
+                class="submit btn my-3 py-3"></button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <app-items (sendPromotableType)="getPromotableTybe($event)" (sendCatogries)="getCategories($event)"
+        [collections]="collections" (sendItems)="getItems($event)" [categoris]="files" [brands]="allBrands"></app-items>
+    </div>
+  </div>
+  <!-- condition Form -->
+</div>
+
+<p-toast></p-toast>

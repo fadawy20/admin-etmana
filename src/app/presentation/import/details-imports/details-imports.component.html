@@ -1,0 +1,117 @@
+<div class="wrapper">
+  <div class="my-4 d-flex justify-content-between">
+    <div>
+      <a class="d-flex" (click)="returnImports()">
+        <i class="fa-solid fs-5 fa-chevron-left"></i>
+        <span class="mx-3 fw-bold lead text-muted">Sheet Details</span>
+      </a>
+    </div>
+    <!-- <div style="margin-right: 6rem">
+      <button class="mx-2 cancel p-3 px-5 fw-bold" (click)="returnImports()">
+        Cancel
+      </button>
+      <button class="p-3 px-5 save fw-bold">Save import</button>
+    </div> -->
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 detailsImport py-4 ">
+    <div class="d-flex justify-content-between">
+      <div>
+        <h6 class="lead fs-4 mx-3 d-inline-block">Import Name</h6>
+        <!-- <span [style]="status === 'Success' ? SuccessStatus : faildStatus">
+          {{ importData?.status }}
+        </span> -->
+        <span class="new mx-3" *ngIf="importData?.status === 0"> New </span>
+        <span class="success mx-3" *ngIf="importData?.status === 1">
+          Success
+        </span>
+        <span class="faild mx-3" *ngIf="importData?.status === 2">
+          Failed
+        </span>
+      </div>
+      <!-- <div class="btnDeleted p-2" (click)="deleteItem(idImport)">
+        <i class="fa-solid fa-trash-can fs-5 mx-1"></i>
+        <span class="fs-6">Delete</span>
+      </div> -->
+    </div>
+    <div>
+      <div style="margin-left: 0.5rem; margin-top: 0.5rem">
+        <p class="text-muted px-2 fs-6">ID:{{ idImport }}</p>
+      </div>
+      <div>
+        <div class="d-flex justify-content-around my-4 listImported">
+          <div>
+            <p class="text-muted lead">Imported By</p>
+            <h4 class="lead my-1">{{ importData?.name }}</h4>
+          </div>
+          <div>
+            <p class="text-muted lead">Attribute Set</p>
+            <h4 class="lead my-1">{{ importData?.attribut_set }}</h4>
+          </div>
+          <div>
+            <p class="text-muted lead">Date Modified</p>
+            <!-- <h4 class="lead  my-1">{{importData.data_modified}}</h4> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <div class="my-4 d-flex" style="cursor: pointer" (click)="downloadFile()">
+        <i class="fa-solid fa-download text-black mx-2"></i>
+        <span class=" fs-6 fw-bold">DownLoad The Sheet</span>
+      </div>
+      <div>
+        <div class="upload-file position-relative px-4">
+          <span class="text-white p-3"
+            ><i class="fa-solid fa-upload pe-2"></i>Upload Again</span
+          >
+          <input
+            required
+            type="file"
+            (change)="onFileSelect($event)"
+            multiple
+            style="cursor: pointer"
+          />
+          <app-loading [loader]="loader"></app-loading>
+        </div>
+      </div>
+    </div>
+    <!-- Upload  -->
+
+    <div class="file-text text-center my-2">
+      <a class="text-muted fs-6 nameOfFile" [href]="nameOfFile">{{
+        nameOfFile
+      }}</a>
+    </div>
+
+    <!-- Upload  -->
+  </div>
+  <div class="col-md-6 according p-3">
+    <div class="fs-4 text-danger lead p-3">
+      <i class="fa-solid fa-circle-exclamation text-danger fs-5 mx-2"></i>
+      Admin Comment
+    </div>
+    <!-- <p-accordionTab>
+      <ng-template pTemplate="header">Header Content</ng-template>
+      <ng-template pTemplate="content">Body Content</ng-template>
+   </p-accordionTab> -->
+    <p-accordion>
+      <p-accordionTab [header]="error.key" *ngFor="let error of errorsMsg | keyvalue">
+        <ul>
+          <li *ngFor="let item of error.value" >{{item}}</li>
+        </ul>
+      </p-accordionTab>
+
+      <!-- <p-accordionTab [header]="error" *ngFor="let error of Comments.ids">
+        <div *ngFor="let msg of Comments.values">
+          <div *ngFor="let err of msg">
+            {{err}}
+          </div>
+      </div>
+     </p-accordionTab> -->
+
+    </p-accordion>
+  </div>
+</div>

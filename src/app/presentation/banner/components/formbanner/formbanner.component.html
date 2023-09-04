@@ -1,0 +1,85 @@
+<!-- <p>formslider works!</p> -->
+<form class="form" [formGroup]="formBanner">
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 class="fw-bold text-uppercase">Genaral Info</h3>
+    <div class="switch d-flex align-items-center ms-3">
+      <p-inputSwitch formControlName="is_active" class="me-2"
+        (onChange)="switchInputStatusBannner($event)"></p-inputSwitch>
+      <p class="lead" *ngIf="bannerStatus == true">Active</p>
+      <p class="lead" *ngIf="bannerStatus == false">in-Active</p>
+    </div>
+  </div>
+  <div class="row">
+    <!--Name slider -->
+    <div class="col-md-12">
+      <div class="mb-3">
+        <label> Title Name English</label>
+        <input formControlName="title_en" type="text" placeholder="Name..." class="form-control w-100" />
+        <small class="text-danger" *ngIf="submitted && formBanner.get('title_en')?.hasError('required')">
+          Title English is required
+        </small>
+      </div>
+      <div class="mb-3">
+        <label> Title Name Arabic</label>
+        <input formControlName="title_ar" type="text" placeholder="Name..." class="form-control w-100" />
+        <small class="text-danger" *ngIf="submitted && formBanner.get('title_ar')?.hasError('required')">
+          Title Arabic is required
+        </small>
+      </div>
+    </div>
+    <!--Type Slider-->
+    <div class="col-md-12">
+      <div class="mb-3">
+        <div>
+          <label>Type</label>
+        </div>
+        <p-dropdown formControlName="type" (onChange)="handleRuleTypeChangeType($event)" [options]="sliderType"
+          optionLabel="name" [showClear]="false"></p-dropdown>
+        <!-- <small class="text-danger" *ngIf="submitted && formBanner.get('type')?.hasError('required')">
+          Type is required
+        </small> -->
+      </div>
+    </div>
+    <!-- Page Url-->
+    <div class="col-md-12">
+      <div class="mb-3">
+        <div>
+          <label>Page URL</label>
+        </div>
+        <input formControlName="pageUrl" type="text" placeholder="page url..." class="form-control w-100" />
+
+        <small class="text-danger" *ngIf="submitted && formBanner.get('pageUrl')?.hasError('required')">
+          Page Url is required
+        </small>
+      </div>
+    </div>
+    <!-- Associate Web site-->
+    <div class="col-md-12">
+      <div class="mb-3">
+        <div>
+          <label>Associate Website</label>
+        </div>
+        <p-dropdown formControlName="associateWebsite" (onChange)="handleRuleTypeChangeAssociateWebsite($event)"
+          [options]="AssociateWebsite" placeholder="Select Associate Website" optionLabel="name"
+          [showClear]="false"></p-dropdown>
+        <small class="text-danger" *ngIf="submitted && formBanner.get('associateWebsite')?.hasError('required')">
+          Associate Website is required
+        </small>
+      </div>
+    </div>
+    <!--Location in the page-->
+    <div class="col-md-12">
+      <div class="mb-3">
+        <div>
+          <label>Location in the page</label>
+        </div>
+        <p-dropdown formControlName="locationInPage" (onChange)="handleRuleTypeChangeLocationPage($event)"
+          [options]="locationInThePage" placeholder="Select location" optionLabel="type"
+          [showClear]="false"></p-dropdown>
+        <small class="text-danger" *ngIf="submitted && formBanner.get('locationInPage')?.hasError('required')">
+          Location in the page is required
+        </small>
+      </div>
+    </div>
+  </div>
+</form>

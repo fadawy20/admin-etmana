@@ -1,0 +1,79 @@
+.wrapper1 {
+  padding: 1.5rem 0rem;
+  h2 {
+    color: #0e1740 !important;
+    font-size: 25px !important;
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif !important;
+    span {
+      position: relative;
+    }
+  }
+  //   .general-info,
+  //   .Conditions {
+  //     h4 {
+  //       color: #0e1740;
+  //       text-transform: uppercase;
+  //       font-size: 20px;
+  //       letter-spacing: 1px;
+  //     }
+  //   }
+}
+.toggle_type {
+  .save {
+    background-color: #5f2d79;
+    border: none;
+    width: 340%;
+  }
+}
+
+h2 span::after {
+  content: "";
+  background-color: #48a299;
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  left: 0%;
+  top: 100%;
+  border-radius: 5px;
+}
+
+label {
+  color: #0e1740 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.create-collection-input input {
+  width: 47%;
+}
+.create-collection-input label {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+label {
+  color: #0e1740 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.form-control {
+  line-height: 1.8 !important;
+}
+
+// this is will change width to 100%
+p-dropdown {
+  ::ng-deep {
+    .p-dropdown {
+      width: 100% !important;
+    }
+  }
+}
+
+small {
+  font-size: 90% !important;
+  font-weight: 600 !important;
+}

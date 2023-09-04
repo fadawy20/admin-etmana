@@ -1,0 +1,261 @@
+<section>
+  <div class="container-fluid ">
+    <!-- form -->
+    <form [formGroup]="shippingForm" class="row">
+      <div class="d-flex align-items-center justify-content-lg-start my-3">
+        <div class=" d-flex align-items-center">
+          <button class="ml-2 back" pButton type="button" icon="pi pi-chevron-left" iconPos="right"
+            (click)="navigate()"></button>
+          <h2 *ngIf="editShippingMode == false" class="m-0"><span>C</span>REATE NEW RULE</h2>
+          <h2 *ngIf="editShippingMode == true" class="m-0"><span>E</span>DIT RULE</h2>
+        </div>
+
+        <div class="switch d-flex align-items-center ms-3">
+          <p-inputSwitch formControlName="is_active" [(ngModel)]="Visibility" class="me-2"></p-inputSwitch>
+          <p class="lead" *ngIf="Visibility === true">
+            Active
+          </p>
+          <p class="lead" *ngIf="Visibility === false">
+            in-Active
+          </p>
+        </div>
+      </div>
+      <div class="card col-md-12 mb-4">
+        <h3 class="form-header mb-3">GENERAL INFO</h3>
+        <div class="row">
+          <div class="inputs-group col-md-4">
+            <label for="ruleName">Rule Name</label>
+            <br>
+            <input type="text" formControlName="name" placeholder="Enter Name" pInputText /><br>
+            <small class="text-danger" *ngIf="
+                      submitted &&
+                      shippingForm.get('name')?.hasError('required')
+                    ">
+              Name is required</small>
+          </div>
+          <div class="inputs-group col-md-4">
+            <label for="shippingFees">Shipping Fees</label>
+            <br>
+            <input type="number" placeholder="Enter Shipping Fees" formControlName="shipping_fees" pInputText /><br>
+            <small class="text-danger" *ngIf="
+              submitted &&
+              shippingForm.get('shipping_fees')?.hasError('required')
+            ">
+              Shipping Fees is required</small>
+          </div>
+          <div class="inputs-group col-md-4">
+            <label for="associateWebsite">Associate Website</label>
+            <br>
+            <p-dropdown placeholder="Select Country" [(ngModel)]="selectedOption" [options]="website"
+              (onChange)="getCountries(country.value)" #country formControlName="country_id"
+              optionLabel="name"></p-dropdown><br>
+            <small class="text-danger" *ngIf="
+               submitted &&
+               shippingForm.get('country_id')?.hasError('required')
+             ">
+              Associate Website is required</small>
+          </div>
+          <div class="inputs-group col-md-4">
+            <label for="ruleOrder">Rule Ordering</label>
+            <br>
+            <input type="number" placeholder="Enter Rule Ordering" formControlName="rule_ordering" pInputText /><br>
+            <small class="text-danger" *ngIf="
+               submitted &&
+               shippingForm.get('rule_ordering')?.hasError('required')
+             ">
+              Rule Ordering is required</small>
+          </div>
+          <div class="inputs-group col-md-4">
+            <label for="platform">Platform (Web/Mobile)</label>
+            <br>
+            <p-dropdown placeholder="Select Platform" [options]="platform" formControlName="platform"
+              optionLabel="name"></p-dropdown><br>
+            <small class="text-danger" *ngIf="
+               submitted &&
+               shippingForm.get('platform')?.hasError('required')
+             ">
+              Platform is required</small>
+          </div>
+        </div>
+
+      </div>
+      <div class=" col-md-6 mb-4">
+        <div class="card">
+          <h3 class="form-header mb-3">MINIMUM REQUIRMENTS</h3>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            formControlName="minimum_type">
+            <mat-radio-button class="example-radio-button" *ngFor="let minimumVal of minimumArray"
+              [value]="minimumVal.id">
+              {{minimumVal.name}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <small class="text-danger" *ngIf="
+               submitted &&
+               shippingForm.get('minimum_type')?.hasError('required')
+             ">
+            Minimum Requirments is required</small>
+
+
+          <input *ngIf="hideAmount" type="number" class="mt-2" formControlName="minimum_value"
+            placeholder="Type amount .." pInputText />
+          <br>
+          <small class="text-danger" *ngIf="
+               submitted &&
+               shippingForm.get('minimum_value')?.hasError('required')
+             ">
+            Amount is required</small>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+
+        <div class="card">
+          <h3 class="form-header mb-3">CUSTOMER ELIGIBILITY</h3>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            formControlName="customer_eligibility">
+            <mat-radio-button class="example-radio-button" (change)="checkingSpecificCustomer(eligibility.id)"
+              *ngFor="let eligibility of eligibilityArray" [value]="eligibility.id">
+              {{eligibility.name}}
+            </mat-radio-button>
+          </mat-radio-group><br>
+          <small class="text-danger" *ngIf="
+               submitted &&
+               shippingForm.get('customer_eligibility')?.hasError('required')
+             ">
+            Customer Eligibility is required</small>
+
+          <ng-select *ngIf="checkSpecificCustomer == true" [multiple]="true" formControlName="customers"
+            placeholder="Select Customer">
+            <ng-option class="mt-2" *ngFor="let item of customers" [value]="item.id">{{item.first_name}}
+              {{item.last_name}}</ng-option>
+          </ng-select>
+          <br>
+          <small class="text-danger" *ngIf="
+               submitted &&
+               shippingForm.get('customers')?.hasError('required')
+             ">
+            Customer is required</small>
+        </div>
+      </div>
+      <div class=" col-md-6 mb-4">
+
+        <div class="card">
+          <h3 class="form-header mb-3">USAGE LIMITS</h3>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+            formControlName="usage_limits">
+            <mat-radio-button *ngFor="let usageLimits of usageLimitsArray" name="usageLimit" [value]="usageLimits.id"
+              [checked]="shippingForm.get('usage_limits')?.value===usageLimits.id" class="example-radio-button">
+              {{usageLimits.name}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <br>
+          <small class="text-danger" *ngIf="
+               submitted &&
+               shippingForm.get('usage_limits')?.hasError('required')
+             ">
+            Usage Limit is required</small>
+
+        </div>
+      </div>
+      <div class=" col-md-6 mb-1">
+
+        <div class="card">
+          <h3 class="form-header mb-3">CITIES</h3>
+          <div class="mb-3">
+            <mat-checkbox [value]="cities" (change)="onCheckboxChange($event)" [(ngModel)]="checkCities"
+              (change)="checkCitiesFlag()" name="cities" class="example-margin" formControlName="applied_on_all_cities">
+              All Cities
+            </mat-checkbox>
+          </div>
+          <!-- this is for selected goven-->
+          <!-- <ng-select *ngIf="checkCities === false" (ngModelChange)="onSelectionChangeGovern($event)" class="mb-3"
+            [multiple]="true" formControlName="cities" placeholder="Select Govern">
+            <ng-option *ngFor="let item of allGovern" [value]="item.id">{{item.name}}</ng-option>
+          </ng-select> -->
+          <ng-select *ngIf="checkCities === false" (change)="onSelectionChangeGovern($event)"  class="mb-3"
+            [multiple]="true" placeholder="Select Govern">
+            <ng-option *ngFor="let item of allGovern" [value]="item.id">{{item.name}}</ng-option>
+          </ng-select>
+          <!-- this is for selected goven-->
+          <!-- this is for selected all Cities when choose eg or sa-->
+          <ng-select *ngIf="checkCities === false" [multiple]="true" formControlName="cities" placeholder="Select City">
+            <ng-option *ngFor="let item of cities" [value]="item.id">{{item.name? item.name : item.name_ar}}</ng-option>
+          </ng-select>
+          <!-- this is for selected all Cities when choose eg or sa-->
+          <!-- this is for selected  Cities when for govern-->
+
+          <!-- <ng-select *ngIf="checkCitiesofSelectedCountry === true" [multiple]="true" formControlName="cities"
+            placeholder="Select City">
+            <ng-option *ngFor="let item of allCitiesOfGovern" [value]="item.id">{{item.name}}</ng-option>
+          </ng-select> -->
+          <!-- this is for selected  Cities when for govern-->
+
+          <br>
+          <small class="text-danger" *ngIf="
+          submitted &&
+          shippingForm.get('cities')?.hasError('required')
+          ">
+            Cities is required</small>
+        </div>
+        <!-- this is for selected Cities-->
+      </div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <h3 class="form-header mb-3">ACTIVE DATES</h3>
+          <div class="row">
+            <div class="col-md-6 ">
+              <p-calendar formControlName="date_from" [showIcon]="true" placeholder="Date From"></p-calendar>
+              <br>
+              <small class="text-danger" *ngIf="
+                     submitted &&
+                     shippingForm.get('date_from')?.hasError('required')
+                   ">
+                Date is required</small>
+            </div>
+            <div class="col-md-6">
+              <p-calendar [disabled]="hasExpiry===true" formControlName="date_to" [showIcon]="true"
+                placeholder="Date To"></p-calendar>
+              <br>
+              <small class="text-danger" *ngIf="
+                     submitted &&
+                     shippingForm.get('date_to')?.hasError('required')
+                   ">
+                Date is required</small>
+            </div>
+          </div>
+          <div class="text-end mt-2">
+            <mat-checkbox [(ngModel)]="hasExpiry" [ngModelOptions]="{standalone: true}" name="expiry"
+              class="example-margin">
+              Has no expiry date
+
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="btns text-end my-3">
+        <button class="btn-cancel-footer btn mx-2" (click)="navigate()">
+          CANCEL
+        </button>
+        <button class="btn-create-footer btn mx-2 " (click)="handleCreateOrEdit()">
+          <div *ngIf="Loading == true " class="loader m-auto"></div>
+          {{Loading == false&&editShippingMode==false? 'CREATE':'EDIT'}}
+
+        </button>
+      </div>
+    </form>
+
+  </div>
+</section>
+
+<!-- button create shipping
+   <div class="btns text-end mt-2">
+          <button  class="btn-cancel btn me-2">{{'Profile.Cancel' | translate}}</button>
+
+          <button  class="btn-save btn">
+            <div *ngIf="Loading == true " class="loader m-auto"></div>
+            {{Loading == false? 'SAVE NEW PASSWORD':''}}
+
+          </button>
+        </div>
+ -->

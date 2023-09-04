@@ -1,0 +1,149 @@
+<div class="wrapper">
+
+    <h2><span>P</span>ERMISSION GRUOP</h2>
+
+
+  <div class="header">
+    <div  class="allSearch">
+      <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+      <input type="text" #ColumnVal pInputText size="50" placeholder="Search"
+        (input)="search(ColumnVal.value)" [(ngModel)]="searchValue" style="width:auto">
+    </div>
+    <div class="header-Btns">
+      <!-- create -->
+      <div  class="crud">
+        <button class="ml-2 create text-white" pButton type="button" icon="pi pi-plus-circle"
+          label="Create" iconPos="right"
+          routerLink="/Dashboard/permissionGroup/create-Group"></button>
+
+      </div>
+      <div   class="d-flex align-items-center
+        justify-content-end">
+        <button  class="setting-btn" pButton type="button"
+          icon="pi pi-filter" label="Filter" (click)="this.showFilterField=!this.showFilterField"
+          iconPos="left"></button>
+
+        <div  class="vertical_lign"></div>
+        <button  class="setting-btn" pButton type="button"
+          icon="pi pi-sort-amount-down" label="Sort"
+          iconPos="left"></button>
+        <div  class="vertical_lign"></div>
+        <button  class="setting-btn" pButton type="button"
+          icon="pi pi-cog" label="Columns" iconPos="left"></button>
+      </div>
+      <!-- create -->
+
+  </div>
+
+
+</div>
+  <form *ngIf="showFilterField" [formGroup]="filterField">
+    <div class="row my-3">
+      <div class="col-md-4 d-flex align-items-center gap-3" *ngFor="let item of ['name']">
+        <div class="w-100">
+          <label for="">{{item ==='name' ? 'Name': ''}}</label><br>
+          <input type="text" [formControlName]="item" class="w-100" pInputText  [placeholder]="
+          item ==='name' ? 'Name': ''
+          "
+           >
+        </div>
+      </div>
+      <!-- <div class="col-md-4">
+        <label >Status Active</label><br>
+        <p-dropdown [options]="visibility" formControlName="is_active"  placeholder="Chosse Status" optionLabel="name"></p-dropdown>
+      </div> -->
+    </div>
+    <div class=" d-flex justify-content-end align-items-baseline gap-3">
+      <button type="submit" (click)="getFilterAction()" class="apply-filter btn">Apply Filter</button>
+      <button (click)="resetFormColumn()" class="cancel-filter btn">Reset</button>
+
+      </div>
+  </form>
+  <div class="dataTable mt-4 rounded bg-white shadow">
+    <p-table
+      id="myTable"
+      [columns]="tableHeader"
+      [loading]="loadingIndicator"
+      responsiveLayout="scroll"
+      [value]="data$ | async"
+      [rowHover]="true"
+      [resizableColumns]="true"
+      [globalFilterFields]="tableHeader"
+      #dataTable
+    >
+
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+        </tr>
+
+      </ng-template>
+
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+          </td>
+          <td>
+            {{ rowData.id }}
+          </td>
+          <td>
+            {{ rowData.name }}
+          </td>
+
+          <td>
+            <button class="btn-table">
+              {{ rowData.permissions_count }} Roles
+              <span style="margin-left: 2px">></span>
+            </button>
+          </td>
+          <td>
+            <button class="btn-table">
+              {{ rowData.users_count }} Users
+              <span style="margin-left: 2px">></span>
+            </button>
+          </td>
+          <td>
+            {{ rowData.created_at }}
+          </td>
+          <td class="d-flex justify-content-evenly mt-1">
+            <img
+              (click)="DeleteHandler(rowData)"
+              style="width: 25px; cursor: pointer"
+              src="assets/images/Group 13645.svg"
+              alt=""
+            />
+            <img
+              (click)="editHandler(rowData)"
+              style="width: 25px; cursor: pointer"
+              src="assets/images/Group 13750.svg"
+              alt=""
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <!-- <p-paginator
+      appendTo="body"
+      class="p-0 m-0 paginator w-100 d-flex justify-content-end"
+      [rows]="5"
+      #p
+      (onPageChange)="handleOrdersPageSize($event)"
+      [rowsPerPageOptions]="[5, 15, 50, 100]"
+      [totalRecords]="totalItems"
+    ></p-paginator> -->
+  </div>
+  <p-toast></p-toast>
+
+  <p-confirmDialog
+    [style]="{ width: '30vw' }"
+    [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+    [baseZIndex]="10000"
+  >
+  </p-confirmDialog>
+</div>

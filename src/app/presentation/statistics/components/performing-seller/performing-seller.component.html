@@ -1,0 +1,52 @@
+<div class="seller inventor">
+  <div class="info">
+    <h4 class="head d-flex justify-content-between">
+      <div class="first">
+        High performing Sellers
+        <span>{{ sellers.length }} seller</span>
+      </div>
+      <div class="d-flex justify-content-between w-50 me-3">
+        <span *ngIf="sellers.length > 0">Total Items</span>
+        <span class="me-3" *ngIf="sellers.length > 0">Total Price</span>
+      </div>
+    </h4>
+
+    <div class="content">
+      <ul class="px-0" *ngIf="sellers.length > 0; else elseBlock">
+        <li class="d-flex justify-content-between" *ngFor="let seller of sellers">
+          <div class="left">
+            <div class="image">
+              <span>{{ seller.name }}</span>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between w-50 me-2">
+            <div class="">{{ seller.total_items | number }} Items</div>
+            <div class="me-3">{{currency}} {{ seller.total_price | number }}</div>
+
+
+          </div>
+        </li>
+      </ul>
+      <ng-template #elseBlock>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="info">
+              <div>
+                <h3>No Sellers</h3>
+                <p>
+                  There is no Selers now ! <br />
+                  You will find here all Selers soon.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="images">
+              <img src="../../../../../assets/images/Group 15721.svg" alt="" />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

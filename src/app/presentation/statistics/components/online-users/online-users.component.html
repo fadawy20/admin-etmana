@@ -1,0 +1,11 @@
+<div class="online-user inventor">
+  <h4>Online Users</h4>
+  <div class="content">
+    <ul class="d-flex p-0">
+      <li *ngFor="let online of onlineUsers">
+        {{ online.name }}
+        <p>{{ online.num }}</p>
+      </li>
+    </ul>
+  </div>
+</div>

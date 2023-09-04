@@ -1,0 +1,775 @@
+<div class="wrapper">
+  <div class="d-flex align-items-center">
+    <div class="header mx-2 my-2 col-md-9">
+      <h2 style="font-size: 22px !important">
+        <p class="back px-3 m-0" (click)="backToOrder()">
+          <i class="fa-solid fa-angle-left"></i>
+        </p>
+        <span>O</span>REDER DETAILS
+      </h2>
+    </div>
+    <div class="toggle_type">
+      <button (click)="check()" class="save" pButton type="button" label="Save"></button>
+    </div>
+  </div>
+  <section class="content" *ngFor="let item of ordersDetails">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="order-details mb-4">
+          <div class="info d-flex align-items-center">
+            <div class="order-status col-md-5">
+              <div class="select m-0 p-0" [class.out-delevery]="item.status.name == 'OUT_FOR_DELIVERY'"
+                [class.complete]="
+                  item.status.name == 'PARTIALLY_DELIVERED' ||
+                  item.status.name == 'COMPLETE'
+                  || item.status.name == 'OUT_FOR_DELIVERY'
+                " [class.delivery]="item.status.name == 'DELIVERED'" [class.pending]="
+                  item.status.name == 'PENDING' ||
+                  item.status.name == 'OUT_FOR_RETURN'
+                " [class.pending-payment]="
+                  item.status.name == 'PENDING_PAYMENT' ||
+                  item.status.name == 'PENDING_SELLERS_CONFIRMATION'
+                " [class.validate]="item.status.name == 'VALIDATED'" [class.ready-ship]="
+                  item.status.name == 'READY_TO_SHIP' ||
+                  item.status.name == 'RETURNED'
+                " [class.logistics]="
+                  item.status.name == 'LOGISTICS_ISSUE' ||
+                  item.status.name == 'SELLER_ISSUE' ||
+                  item.status.name == 'CUSTOMER_ISSUE'
+                " [class.partisaly-return]="
+                  item.status.name == 'PARTIALLY_RETURNED'
+                " [class.within-rto]="item.status.name == 'WITHIN_RTO'" [class.rto]="item.status.name == 'RTO'"
+                [class.cancled]="item.status.name == 'CANCELED'" [class.closed]="item.status.name == 'CLOSED'"
+                [class.return]="item.status.name == 'RETURN_REQUEST'"
+                [class.pending-falied]="item.status.name == 'PAYMENT_FAILED'"
+                [class.return]="item.status.name == 'COMPLETE_PARTIAL_REFUND'">
+                <br />
+                <p-dropdown [options]="status" optionLabel="label" (onChange)="getStatusValue($event)"
+                  [(ngModel)]="selectedItem"></p-dropdown>
+              </div>
+              <p *ngIf="orderLogs.length > 0">
+                Latest edit by <span> {{lastComment?.user?.first_name}} {{lastComment?.user?.last_name}} </span> -
+                ID.{{lastComment.id}} - {{lastComment?.user_type}}
+              </p>
+            </div>
+            <div class="order-header offset-md-2 col-md-5">
+              <h3 class="m-0">Order {{ item?.serial_number }}</h3>
+              <a *ngIf="
+                  item.status.name === 'DELIVERED' ||
+                  item.status.name === 'COMPLETE'
+                " [href]="item.invoice" class="invoice text-decoration-none" type="button" target="_blank">
+                <img src="assets/images/vuesax-linear-document-text.svg" alt="" />
+                Order Invoice
+              </a>
+              <div class="created">
+                <span>Placed on {{ item.created_at | date : "MMM d, yyy" }}</span>
+                <!-- <span class="ms-2">{{ item.shipment_items.length }} items</span> -->
+              </div>
+            </div>
+
+
+          </div>
+
+          <!-- THIS IS FOR CANCELED-->
+          <div *ngIf=" selectedItem.name === 'CANCELED'" style="margin: 0px 18px;">
+            <p class="m-0" style=" color: #7f828e;
+            font-size: 12px;">* RTO Reasons</p>
+            <div class="dropdown-style">
+              <p-dropdown [(ngModel)]="selectedCityForTest" (onChange)="getTest($event)"
+                [options]="updateArrayCancelAndRto" optionLabel="description_en"></p-dropdown>
+            </div>
+          </div>
+          <!-- ThIS IS FOR RTO  -->
+          <div *ngIf="selectedItem.name === 'RTO'" style="margin: 0px 18px;">
+            <p class="m-0" style=" color: #7f828e;
+            font-size: 12px;">* RTO Reasons</p>
+            <div class="dropdown-style">
+              <p-dropdown [(ngModel)]="selectedCityForTest" (onChange)="getTest($event)"
+                [options]="updateArrayCancelAndRto" optionLabel="description_en"></p-dropdown>
+            </div>
+          </div>
+          <div class="customer-info">
+            <h3 class="">Customer Profile</h3>
+            <div class="customer-deatails d-flex align-items-center justify-content-between">
+              <div class="information d-flex align-items-center" style="gap: 80px;">
+                <div class="name">
+                  <p>{{ client?.first_name }} {{ client?.last_name }}</p>
+                  <span>ID.{{ client?.id }}</span>
+                </div>
+                <div class="phone">{{ client?.phone }}
+                  <i style="color: #00a599" class="fa-solid fa-circle-check mx-2"></i>
+
+                </div>
+              </div>
+              <div class="orders" (click)="directToCustomerOrders(client.id)">
+                All Orders
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 38 38">
+                    <g id="Group_16189" data-name="Group 16189" transform="translate(38) rotate(90)">
+                      <rect id="Rectangle_2100" data-name="Rectangle 2100" width="38" height="38" rx="8" fill="#f5f9f9"
+                        opacity="0" />
+                      <path id="Path_3636" data-name="Path 3636" d="M10,10V0H0"
+                        transform="translate(11.929 22.015) rotate(-45)" fill="none" stroke="#583275"
+                        stroke-linecap="round" stroke-width="3" />
+                    </g>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="address">
+            <div class="head d-flex justify-content-between align-items-center mb-3">
+              <h3 class="m-0">Shipping Address</h3>
+              <div>
+                <button class="save" pButton type="button" (click)="handleEditAddressCustomer()">
+                  <img src="assets/images/Group 13750.svg" alt="" />
+                  <span>Edit</span>
+                </button>
+              </div>
+            </div>
+            <div class="address-info d-flex align-items-start">
+              <img src="assets/images/Group 15760.svg" alt="" />
+              <div class="info p-0 ps-2">
+                <div class="name">
+                  {{ customerAddress?.first_name }}
+                  {{ customerAddress?.last_name }}
+                </div>
+                <p>
+                  {{ customerAddress?.address_details }},
+                  {{ customerAddress?.city?.name }}
+                  {{ customerAddress?.governorate?.name }}
+                  {{ customerAddress?.country?.name }}
+                </p>
+                <div class="number">
+                  {{ customerAddress?.formatted_phone?.code }}-{{
+                  customerAddress?.formatted_phone?.number
+                  }}
+                  <i style="color: #00a599" class="fa-solid fa-circle-check mx-2"></i>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+
+
+
+        <!-- ==> This is new product show ==> -->
+        <div class="order-product mb-4">
+
+          <div class="d-flex justify-content-center" style="
+          margin-top: 15px;">
+            <div class="order_items" style="width: 95%;">Order Items</div>
+          </div>
+          <div class="orderAccordion " *ngFor="let product of collectingResult; let i = index">
+            <!-- <mat-accordion class="example-headers-align " multi> -->
+            <!-- Title content here -->
+            <!-- <mat-expansion-panel (click)="close()" [hideToggle]="product.related?.length==0"> -->
+            <!-- <mat-expansion-panel-header class="auto-fit-header"> -->
+            <div class="product w-100 ">
+
+
+              <!-- <ng-template > -->
+              <div style="margin-left: 14px; margin-top: 13px;" *ngIf="!product.related?.length==0" class="">
+                <span
+                  [ngClass]="{'spanProductStatus1' : item.status.label === 'Ordered' || item.status.label === 'Validated' || item.status.label === 'Ready to ship' || item.status.label === 'Canceled' , 'spanProductStatus2' : item.status.label === 'Pending' || item.status.label === 'Pending payment', 'spanProductStatus4' :item.status.label === 'RTO', 'spanProductStatus3' : item.status.label === 'Complete' || item.status.label === 'Delivered'   }"
+                  *ngFor="let item of product.related">1 item {{item.status.label}}</span>
+                <!-- <div class="new-awb d-flex justify-content-between align-items-center w-100 my-3">
+                  <span class="d-block">Sold By {{this.ordersDetails[0].shipments[0].seller.name}}</span>
+
+                  <button class="d-flex align-items-center my-btn rounded my-btn-grey border-0 mx-2">
+                    <div class="me-2">
+                      <i class="fa-solid fa-print"></i>
+                    </div>
+                    <div class="order-1">awb</div>
+                  </button>
+                </div> -->
+              </div>
+              <!-- </ng-template> -->
+
+              <div *ngIf="!product.related?.length==0" (click)="toggleOpenAndClose()"
+                [ngStyle]="{'transform' : showProductChild ? 'rotate(180deg)' : ''}" class="order_shippement">
+                <i class="fa-solid fa-chevron-up fa-rotate-180"></i>
+              </div>
+              <div *ngIf="!product.related?.length==0"
+                class="new-awb d-flex justify-content-between align-items-center  my-3 px-2">
+                <span class="d-block">Sold By
+                  {{this.ordersDetails[0].shipments[0].seller.name}}</span>
+
+                <button class="d-flex align-items-center my-btn rounded my-btn-grey border-0 my-3">
+                  <div class="me-2">
+                    <i class="fa-solid fa-print"></i>
+                  </div>
+                  <div class="order-1">awb</div>
+                </button>
+              </div>
+              <div>
+                <button *ngIf="product.related?.length==0"
+                  class="d-flex align-items-center my-btn rounded my-btn-grey border-0 " style="    margin-left: 90%;
+                margin-top: 40px;">
+                  <div class="me-2">
+                    <i class="fa-solid fa-print"></i>
+                  </div>
+                  <div class="order-1">awb</div>
+                </button>
+              </div>
+
+              <div class="info d-flex justify-content-between">
+                <div class="content m-0 d-flex gap-2">
+
+
+                  <div class="image">
+                    <img [src]="
+                        product.seller_variation?.variation?.images[0]?.url
+                        ? product.seller_variation?.variation?.images[0]?.url
+                        : product.seller_variation?.variation?.product
+                        ?.images[0]?.url
+                        " alt="" />
+                  </div>
+
+                  <div class="d-flex flex-column px-2">
+
+                    <div class="select m-0 p-0">
+                      <br />
+                      <p-dropdown id="statusDropDownMenu" (onChange)="getItemsId(product.id, $event)"
+                        [options]="statusItem" [(ngModel)]="selectedShipmentProduct" optionLabel="label">
+                        <ng-template pTemplate="selectedItem">
+
+                          <span class="shippment_status" *ngIf="show === true">{{product.status.label}}</span>
+                          <span class="shippment_status" *ngIf="show === false && getItemId== product.id">
+                            {{selectedShipmentProduct?.name}}</span>
+                          <span class="shippment_status" *ngIf="show === false && getItemId!== product.id">
+                            {{product.status.label}}</span>
+
+                        </ng-template>
+
+
+                      </p-dropdown>
+                    </div>
+
+                    <div class="details">
+                      <div class="detailsResbonceInfo">
+                        {{ product.seller_variation.variation.product.title_en }}
+                      </div>
+                      <div class="sku ">
+                        <span class="me-2">SKU</span>
+                        <span class="detailsResbonceInfo">
+                          {{ product.seller_variation.variation.sku }}
+
+                        </span>
+                      </div>
+                      <div class="qunatity ">
+                        <span class="me-2">Qty</span>
+                        <span class="detailsResbonceInfo">
+                          {{ product.requested_quantity }}
+                        </span>
+                      </div>
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="price" style="align-self: flex-end; font-size: 15px;">
+                  <span>{{currency}}</span> {{ product.price }}
+                </div>
+
+              </div>
+
+              <div>
+                <div style="padding: 0px 15px;" *ngIf="( itemShipmentStatus === 8) && getItemId=== product.id">
+                  <p class="m-0" style=" color: #7f828e;
+          font-size: 12px;">* RTO Reasons</p>
+                  <div class="dropdown-style">
+                    <p-dropdown (onChange)="getRtoReason($event)" [options]="updateArrayCancelAndRto"
+                      optionLabel="description_en"></p-dropdown>
+                  </div>
+                </div>
+                <div style="padding: 0px 15px;" *ngIf="(itemShipmentStatus === 11) && getItemId=== product.id">
+                  <p class="m-0" style=" color: #7f828e;
+          font-size: 12px;">* RTO Reasons</p>
+                  <div class="dropdown-style">
+                    <p-dropdown (onChange)="getRtoReason($event)" [options]="updateArrayCancelAndRto"
+                      optionLabel="description_en"></p-dropdown>
+                  </div>
+                </div>
+
+                <div style="padding: 0px 15px;" *ngIf="product.status.label=== 'RTO' && showWhenRto">
+                  <p class="m-0" style=" color: #7f828e;
+          font-size: 12px;">* RTO Reasons</p>
+                  <div class="dropdown-style">
+                    <p-dropdown (onChange)="getRtoReason($event, product.id, product.status.id)"
+                      [options]="updateArrayCancelAndRto" optionLabel="description_en" [(ngModel)]="foundReasonRto">
+
+                      <ng-template pTemplate="selectedItem">
+
+                        <span class="shippment_status"
+                          *ngIf="showReason === true">{{product.reason.description_en}}</span>
+                        <span class="shippment_status" *ngIf="showReason === false && idProduct == product.id ">
+                          {{foundReasonRto?.description_en}}</span>
+                        <span class="shippment_status" *ngIf="showReason === false && idProduct !== product.id ">
+                          {{product.reason.description_en}}</span>
+
+                      </ng-template>
+
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div style="padding: 0px 15px;" *ngIf="product.status.label=== 'Canceled'  && showWhenRto">
+                  <p class="m-0" style=" color: #7f828e;
+          font-size: 12px;">* RTO Reasons</p>
+                  <div class="dropdown-style">
+                    <p-dropdown (onChange)="getRtoReason($event, product.id, product.status.id)"
+                      [options]="updateArrayCancelAndRto" optionLabel="description_en"
+                      [(ngModel)]="foundReasonCancellation">
+                      <ng-template pTemplate="selectedItem">
+
+                        <span class="shippment_status"
+                          *ngIf="showReason === true">{{product.reason.description_en}}</span>
+                        <span class="shippment_status" *ngIf="showReason === false && idProduct == product.id">
+                          {{foundReasonCancellation?.description_en}}</span>
+                        <span class="shippment_status" *ngIf="showReason === false  && idProduct !== product.id ">
+                          {{product.reason.description_en}}</span>
+
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- </mat-expansion-panel-header> -->
+            <div style="background-color: #F5F9F9;" *ngIf="!product.related?.length==0 && showProductChild">
+              <div class="expansionProduct" *ngFor="let product of product.related">
+                <div class="product w-100 ">
+
+
+
+
+                  <div class="info d-flex justify-content-between">
+                    <div class="content m-0 d-flex gap-2">
+
+                      <div class="image">
+                        <img [src]="
+                          product.seller_variation?.variation?.images[0]?.url
+                          ? product.seller_variation?.variation?.images[0]?.url
+                          : product.seller_variation?.variation?.product
+                          ?.images[0]?.url
+                          " alt="" />
+                      </div>
+
+                      <div class="d-flex flex-column px-2">
+
+                        <div class="select m-0 p-0">
+                          <br />
+                          <p-dropdown id="statusDropDownMenu" (onChange)="getItemsId(product.id, $event)"
+                            [options]="statusItem" [(ngModel)]="selectedShipmentProduct" optionLabel="label">
+                            <ng-template pTemplate="selectedItem">
+
+                              <span class="shippment_status" *ngIf="show === true">{{product.status.label}}</span>
+                              <span class="shippment_status" *ngIf="show === false && getItemId== product.id">
+                                {{selectedShipmentProduct?.name}}</span>
+                              <span class="shippment_status" *ngIf="show === false && getItemId!== product.id">
+                                {{product.status.label}}</span>
+
+                            </ng-template>
+
+
+                          </p-dropdown>
+                        </div>
+
+                        <div class="details">
+                          <div class="detailsResbonceInfo">
+                            {{ product.seller_variation.variation.product.title_en }}
+                          </div>
+                          <div class="sku ">
+                            <span class="me-2">SKU</span>
+                            <span class="detailsResbonceInfo">
+                              {{ product.seller_variation.variation.sku }}
+
+                            </span>
+                          </div>
+                          <div class="qunatity ">
+                            <span class="me-2">Qty</span>
+                            <span class="detailsResbonceInfo">
+                              {{ product.quantity }}
+                            </span>
+                          </div>
+
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div class="price" style="align-self: flex-end; font-size: 15px;">
+                      <span>{{currency}}</span> {{ product.price }}
+                    </div>
+
+                  </div>
+
+                  <div>
+                    <div style="padding: 0px 15px;" *ngIf="( itemShipmentStatus === 8) && getItemId=== product.id">
+                      <p class="m-0" style=" color: #7f828e;
+            font-size: 12px;">* RTO Reasons</p>
+                      <div class="dropdown-style">
+                        <p-dropdown (onChange)="getRtoReason($event)" [options]="updateArrayCancelAndRto"
+                          optionLabel="description_en"></p-dropdown>
+                      </div>
+                    </div>
+                    <div style="padding: 0px 15px;" *ngIf="(itemShipmentStatus === 11) && getItemId=== product.id">
+                      <p class="m-0" style=" color: #7f828e;
+            font-size: 12px;">* RTO Reasons</p>
+                      <div class="dropdown-style">
+                        <p-dropdown (onChange)="getRtoReason($event)" [options]="updateArrayCancelAndRto"
+                          optionLabel="description_en"></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div style="padding: 0px 15px;" *ngIf="product.status.label=== 'RTO' && showWhenRto">
+                      <p class="m-0" style=" color: #7f828e;
+            font-size: 12px;">* RTO Reasons</p>
+                      <div class="dropdown-style">
+                        <p-dropdown (onChange)="getRtoReason($event, product.id, product.status.id)"
+                          [options]="updateArrayCancelAndRto" optionLabel="description_en" [(ngModel)]="foundReasonRto">
+
+                          <ng-template pTemplate="selectedItem">
+
+                            <span class="shippment_status"
+                              *ngIf="showReason === true">{{product.reason.description_en}}</span>
+                            <span class="shippment_status" *ngIf="showReason === false  && idProduct == product.id ">
+                              {{foundReasonRto?.description_en}}</span>
+                            <span class="shippment_status" *ngIf="showReason === false  && idProduct !== product.id ">
+                              {{product.reason.description_en}}</span>
+
+                          </ng-template>
+
+                        </p-dropdown>
+                      </div>
+                    </div>
+                    <div style="padding: 0px 15px;" *ngIf="product.status.label=== 'Canceled'  && showWhenRto">
+                      <p class="m-0" style=" color: #7f828e;
+            font-size: 12px;">* RTO Reasons</p>
+                      <div class="dropdown-style">
+                        <p-dropdown (onChange)="getRtoReason($event, product.id, product.status.id)"
+                          [options]="updateArrayCancelAndRto" optionLabel="description_en"
+                          [(ngModel)]="foundReasonCancellation">
+                          <ng-template pTemplate="selectedItem">
+
+                            <span class="shippment_status"
+                              *ngIf="showReason === true">{{product.reason.description_en}}</span>
+                            <span class="shippment_status" *ngIf="showReason === false  && idProduct == product.id">
+                              {{foundReasonCancellation?.description_en}}</span>
+                            <span class="shippment_status" *ngIf="showReason === false  && idProduct !== product.id">
+                              {{product.reason.description_en}}</span>
+
+                          </ng-template>
+                        </p-dropdown>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- </mat-expansion-panel> -->
+            <!-- </mat-accordion> -->
+          </div>
+        </div>
+
+        <!-- ==> This is new product show ==> -->
+
+
+
+        <div class="payment mb-4">
+          <h3 class="order_items">Payment Method</h3>
+          <div class="content m-0 p-3">
+            <img src="assets/images/empty-wallet-tick.svg" alt="" />
+            <span class="ms-3">{{ item.payment_info }}</span>
+          </div>
+        </div>
+        <div class="order-summary mb-4">
+          <h3 class="summary order_items">Order Summary</h3>
+          <h3 class="my-2">Promo Code</h3>
+          <div class="applied">
+            <div class="d-flex justify-content-between">
+              <p>
+                {{
+                item.promocode?.code
+                ? item.promocode?.code
+                : "The order not have promo code"
+                }}
+              </p>
+              <div *ngIf="item.promocode?.code" class="is-apply">
+                <span class="me-2">Applied</span>
+                <img src="assets/images/Icon ionic-ios-checkmark.svg" alt="" />
+              </div>
+            </div>
+          </div>
+          <div class="detalis-price mt-3">
+            <ul class="p-0">
+              <li class="d-flex justify-content-between">
+                <div class="title">
+                  Subtotal / {{ item.total_requested_quantity }} items
+                </div>
+                <div class="price">{{currency}} {{ item.subtotal }}</div>
+              </li>
+              <li class="d-flex justify-content-between">
+                <div class="title">Shipping <span>Details</span></div>
+                <div class="price Shipping">
+                  + {{currency}} {{ item.delivery_price }}
+                </div>
+              </li>
+
+              <li class="d-flex justify-content-between" *ngIf="
+                  item.discount_details.length == 0 || !item.discount_details
+                ">
+                <div class="title">
+                  Discount Details {{ item.discount_details }}
+                </div>
+                <div class="price">- {{currency}} 0</div>
+              </li>
+              <li class="d-flex justify-content-between" *ngFor="let discount of item.discount_details">
+                <div class="title">Discount / {{ discount.name }}</div>
+                <div class="price">
+                  - {{currency}} {{ discount.discount.toFixed(2) }}
+                </div>
+              </li>
+              <li class="d-flex justify-content-between" *ngIf="item?.store_credit">
+                <div class="title">Store Credit</div>
+                <div class="price">
+                  - {{currency}} {{ item?.store_credit.toFixed(2) }}
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="total d-flex justify-content-between mt-3">
+            <div class="title">Total <span>Incl. Tax</span></div>
+            <div class="price">{{currency}} {{ item.total_price }}</div>
+          </div>
+        </div>
+        <div class="comment">
+          <mat-expansion-panel style="background-color: #F5F5F7;" (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h3 class="m-0">Add Comment</h3>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="form">
+              <textarea class="mb-3" [(ngModel)]="commentVal" maxlength="300">
+              </textarea>
+              <div class="apply d-flex justify-content-end">
+                <div *ngIf="false" class="attach ps-3">
+                  <img src="assets/images/Icon material-attach-file.svg" alt="" />
+                  <span>Attach file</span>
+                </div>
+                <button (click)="updateComment()">Apply</button>
+              </div>
+            </div>
+            <!-- <hr> -->
+            <div class="comment-user" *ngFor="let comment of commentsArr">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span>{{ comment.user?.first_name }}
+                  {{ comment.user?.last_name }}</span>
+                <p class="text-muted">
+                  {{ comment.created_at | date : "MMM d, YYYY" }}
+                </p>
+              </div>
+              <p class="text-muted">
+                ID:{{ comment.id }} / {{ comment.user_type }}
+              </p>
+              <p>{{ comment.notes }}</p>
+            </div>
+          </mat-expansion-panel>
+
+
+        </div>
+
+      </div>
+      <div class="col-md-4">
+        <div class="store-credit mb-4">
+          <div class="refund d-flex justify-content-between">
+            <div class="title mt-2">Store Credit</div>
+
+            <div *ngIf="item?.status?.label != 'Canceled' && item?.status?.label != 'Complete'  ''" class="ref">
+              <button (click)="storeCreditOrderId(item?.serial_number)"
+                [routerLink]="'/Dashboard/credit/create-credit'">
+                Refund
+              </button>
+            </div>
+          </div>
+          <div *ngIf="item.store_credit > 0" class="refund-description d-flex justify-content-between">
+            <div class="head">
+              <p>Refund</p>
+              <span>Placed on Dec 2, 2022</span>
+            </div>
+            <div class="ref">
+              <div>+{{currency}} 279.00</div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="false" class="order-history">
+          <div class="d-flex justify-content-between align-items-baseline report">
+            <h3 style="padding: 15px 0px; padding-bottom: 0">Order History</h3>
+            <div class="report-seet mb-3">
+              <svg id="vuesax_linear_document-text" data-name="vuesax/linear/document-text"
+                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <g id="document-text">
+                  <path id="Vector"
+                    d="M19.98,7.992v5c0,5-2,6.993-6.993,6.993H6.993c-5,0-6.993-2-6.993-6.993V6.993C0,2,2,0,6.993,0h5"
+                    transform="translate(2.01 2.01)" fill="none" stroke="#573273" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="1.5" />
+                  <path id="Vector-2" data-name="Vector" d="M8.04,8.04H4.02C1,8.04,0,7.035,0,4.02V0Z"
+                    transform="translate(13.95 2.01)" fill="none" stroke="#573273" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="1.5" />
+                  <path id="Vector-3" data-name="Vector" d="M0,0H6.03" transform="translate(6.988 13)" fill="none"
+                    stroke="#573273" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                  <path id="Vector-4" data-name="Vector" d="M0,0H4.02" transform="translate(6.993 17)" fill="none"
+                    stroke="#573273" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                  <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" fill="none" opacity="0" />
+                </g>
+              </svg>
+              <span>Report Seet</span>
+            </div>
+          </div>
+          <div class="my-3 comment-history" *ngFor="let com of item.order_logs">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span>hesham</span>
+              <p class="text-muted">
+                {{ com.created_at | date : "MMM d, YYYY" }}
+              </p>
+            </div>
+            <p class="text-muted">ID:{{ com.id }} / Account Manager</p>
+            <p>{{ com.notes }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<p-dialog [(visible)]="display" [modal]="true" [draggable]="false" [header]="'Edit Address'" [style]="{ width: '40vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000">
+  <!-- [closable]="" -->
+
+  <div class="new-address">
+    <!-- new address content form-->
+
+    <form [formGroup]="newAddressForm">
+      <mat-form-field class="example-full-width w-50 px-2 position-relative">
+        <mat-label>Governorates</mat-label>
+        <mat-select placeholder="Select your governorate" formControlName="governorate_id">
+          <mat-option *ngFor="let gov of governs" [value]="gov.id" (onSelectionChange)="getCities(gov.id)">{{ gov.name
+            }}</mat-option>
+        </mat-select>
+        <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+            submitted &&
+            newAddressForm.get('governorate_id')?.hasError('required')
+          ">
+          Governorate is required</small>
+      </mat-form-field>
+      <mat-form-field class="example-full-width position-relative w-50 px-2">
+        <mat-label>City</mat-label>
+        <mat-select placeholder="Select your City" formControlName="city_id">
+          <mat-option *ngFor="let city of cities" [value]="city.id">{{
+            city.name
+            }}</mat-option>
+        </mat-select>
+        <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+            submitted && newAddressForm.get('city_id')?.hasError('required')
+          ">
+          City is required</small>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Additional Address Details</mat-label>
+        <input matInput placeholder="Building no,Floor no,Flat no" formControlName="address_details" />
+      </mat-form-field>
+      <small class="text-danger" *ngIf="
+          submitted &&
+          newAddressForm.get('address_details')?.hasError('required')
+        ">
+        Additional Address is required</small>
+
+      <h3 class="my-2" style="font-weight: 600; font-size: 14px">
+        Personal Info
+      </h3>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="w-100">
+          <mat-form-field class="example-full-width px-2 w-25 position-relative">
+            <mat-label>Code</mat-label>
+            <input matInput placeholder="Code" formControlName="phoneCode" readonly />
+            <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                submitted &&
+                newAddressForm.get('phoneCode')?.hasError('required')
+              ">
+              required</small>
+          </mat-form-field>
+          <!-- formControlName -->
+          <!-- formControlName -->
+          <mat-form-field class="example-full-width px-1 w-75 position-relative">
+            <mat-label>Phone</mat-label>
+            <input matInput placeholder="phoneNumber" formControlName="phoneNumber" />
+            <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                submitted &&
+                newAddressForm.get('phoneNumber')?.hasError('required')
+              ">
+              phone Number is required</small>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <mat-form-field class="example-full-width position-relative" style="width: 45%; margin-right: 20px">
+          <mat-label>First Name</mat-label>
+          <input matInput placeholder="First Name" formControlName="first_name" />
+          <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+              submitted &&
+              newAddressForm.get('first_name')?.hasError('required')
+            ">
+            First Name is required</small>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width position-relative" style="width: 45%">
+          <mat-label>Last Name</mat-label>
+          <input matInput placeholder="Last Name" formControlName="last_name" />
+          <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+              submitted && newAddressForm.get('last_name')?.hasError('required')
+            ">
+            Last Name is required</small>
+        </mat-form-field>
+      </div>
+
+      <div class="d-flex justify-content-end align-items-center my-4">
+        <div *ngIf="false" class="text-muted d-flex align-items-center">
+          <input type="checkbox" class="me-2" formControlName="setAddress" />
+          <span class="" style="font-size: 12px">Set as Selected Address</span>
+        </div>
+        <div class="">
+          <button class="btn cancel-address" (click)="cancelNewAddress()">
+            Cancel
+          </button>
+          <button class="btn save-address" type="submit" (click)="setCustomerNewAddress()">
+            Edit Address
+          </button>
+        </div>
+      </div>
+    </form>
+    <!--  -->
+  </div>
+</p-dialog>
+
+<p-toast></p-toast>

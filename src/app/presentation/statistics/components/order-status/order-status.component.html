@@ -1,0 +1,69 @@
+<div class="order inventor">
+  <h4 class="d-flex  justify-content-between header-status">
+    <div>Order Status</div>
+    <div class="d-flex justify-content-between w-50 me-3">
+      <span>Total Items</span>
+      <span>Total Price</span>
+    </div>
+
+  </h4>
+  <div class="content">
+    <ul class="px-0">
+      <ng-container *ngIf="orderStatus.length > 0; else elseBlock">
+        <li
+          class="d-flex justify-content-between"
+          [class.out-delevery]="order.name == 'OUT_FOR_DELIVERY'"
+          [class.complete]="
+            order.name == 'PARTIALLY_DELIVERED' || order.name == 'COMPLETE'
+          "
+          [class.delivery]="order.name == 'DELIVERED'"
+          [class.pending]="
+            order.name == 'PENDING' || order.name == 'OUT_FOR_RETURN'
+          "
+          [class.pending-payment]="
+            order.name == 'PENDING_PAYMENT' ||
+            order.name == 'PENDING_SELLERS_CONFIRMATION'
+          "
+          [class.validate]="order.name == 'VALIDATED'"
+          [class.ready-ship]="
+            order.name == 'READY_TO_SHIP' || order.name == 'RETURNED'
+          "
+          [class.logistics]="
+            order.name == 'LOGISTICS_ISSUE' ||
+            order.name == 'SELLER_ISSUE' ||
+            order.name == 'CUSTOMER_ISSUE'
+          "
+          [class.partisaly-return]="order.name == 'PARTIALLY_RETURNED'"
+          [class.within-rto]="order.name == 'WITHIN_RTO'"
+          [class.rto]="order.name == 'RTO'"
+          [class.cancled]="order.name == 'CANCELED'"
+          [class.closed]="order.name == 'CLOSED'"
+          [class.return]="order.name == 'RETURN_REQUEST'"
+          [class.pending-falied]="order.name == 'PAYMENT_FAILED'"
+          [class.return]="order.name == 'COMPLETE_PARTIAL_REFUND'"
+          *ngFor="let order of orderStatus"
+        >
+          <a href="javascript:void(0)">{{ order.label }}</a>
+          <div class="d-flex justify-content-between w-50">
+            <span>{{ order.count | number }}</span>
+            <span>{{ order.amount | number }}</span>
+          </div>
+
+        </li>
+      </ng-container>
+      <ng-template #elseBlock>
+        <div class="images">
+          <img
+            src="../../../../../assets/images/Empty-pana.svg"
+            alt=""
+            srcset=""
+          />
+          <div class="info">
+            <h3 class="mb-0">No Orders</h3>
+            <p>you can start shopping now !</p>
+          </div>
+        </div>
+      </ng-template>
+    </ul>
+  </div>
+</div>

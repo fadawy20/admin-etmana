@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "etmananative": {
+      "hosting": {
+        "etmana": [
+          "etmananative"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "etmananative"
+  }
+}

@@ -1,0 +1,11 @@
+<svg id="Group_15774" data-name="Group 15774" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_13645" data-name="Group 13645">
+    <rect id="Rectangle_27540" data-name="Rectangle 27540" width="24" height="24" fill="#9fa3b2" opacity="0"/>
+    <g id="Group_13752" data-name="Group 13752" transform="translate(6.105 3.996)">
+      <path id="Icon_material-delete" data-name="Icon material-delete" d="M8.369,18.4a1.742,1.742,0,0,0,1.737,1.737h6.949A1.742,1.742,0,0,0,18.793,18.4V7.975H8.369ZM19.661,5.369h-3.04L15.752,4.5H11.409l-.869.869H7.5V7.106H19.661Z" transform="translate(-7.5 -4.5)" fill="#d92059"/>
+      <line id="Line_112" data-name="Line 112" y2="10.032" transform="translate(3.04 3.34)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+      <line id="Line_114" data-name="Line 114" y2="6.691" transform="translate(6.081 3.34)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+      <line id="Line_113" data-name="Line 113" y2="10.032" transform="translate(9.121 3.34)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

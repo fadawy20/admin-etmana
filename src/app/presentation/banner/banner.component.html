@@ -1,0 +1,16 @@
+<div class="wrapper">
+  <app-screen-haeder [pageName]="'BANNER'" (CreateHandler)="openCreateDialog($event)" [firstLetter]="'B'"
+    [title]="'ANNER'">
+
+  </app-screen-haeder>
+</div>
+
+<app-data-table [tableHeaders]="tableHeader" [showActionCol]="true" [showDetailsAction]="false"
+  [showDeleteAction]="true" [showEditAction]="true" [totalItems]="length" [loadingIndicator]="loadingIndicator"
+  [tableColumn]="tableHeader" [tableData]="data$ | async" (isEditBtnClicked)="EditHandler($event)"
+  (isDeleteBtnClicked)="handleDeleteBanner($event)" #table1></app-data-table>
+
+<p-toast></p-toast>
+
+<p-confirmDialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000">
+</p-confirmDialog>

@@ -1,0 +1,786 @@
+<div class="create-order">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h4 class="txt-header mt-3">
+        <!-- <button (click)="backToOrder()" class="border-0 bg-transparent">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button> -->
+        <span style="border-bottom: 2px solid #00a599">C</span> REATE NEW ORDER
+      </h4>
+      <div class="row">
+        <div class="col-md-7 all-content">
+          <div class="selesct-product my-2">
+            <div class="header-form" style=" border: 3px solid #eee;
+      box-shadow: 3px 11px 10px #7f828d1a;">
+              <div class="my-2">
+                <h4>Please Select Products</h4>
+              </div>
+              <!-- form Products Search -->
+              <form class="form-search d-flex justify-content-center">
+                <!-- Product Name input -->
+                <input type="text" [(ngModel)]="ProductNameValue" [ngModelOptions]="{ standalone: true }"
+                  (keyup)="checkProductSearchValue()" placeholder="Product Name" #ProductName />
+                <!-- Product SKU input -->
+                <input type="text" #ProductSKU [(ngModel)]="ProductSKUValue" (keyup)="checkProductSearchValue()"
+                  [ngModelOptions]="{ standalone: true }" placeholder="SKU" />
+
+                <!-- Product Brand input -->
+                <mat-form-field class="select-form border-0">
+                  <mat-select class=" " msInfiniteScroll (infiniteScroll)="handleBrandScrollEvent()"
+                    [complete]="brandNext === null" [(ngModel)]="ProductBrandValue"
+                    (valueChange)="checkProductSearchValue()" [ngModelOptions]="{ standalone: true }" #ProductBrand
+                    placeholder="Brand">
+                    <mat-option *ngFor="let option of brandsData" [value]="option.id">{{ option.title_en }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <!-- Button Search -->
+                <button (click)="
+                    searchInProducts(
+                      ProductName.value,
+                      ProductSKU.value,
+                      ProductBrand.value
+                    )
+                  " class="btn btn-form-search mx-1">
+                  Search
+                </button>
+                <!-- Button Search -->
+
+                <!-- Button Clear All Value of Search -->
+                <button (click)="ClearAllValueSearch()"
+                  class="btn btn-form-clear d-flex justify-content-center align-items-center">
+                  <i class="fa-solid fa-trash mx-2"></i>
+                  <span style="font-size: 14px">Clear</span>
+                </button>
+                <!-- Button Clear All Value of Search -->
+              </form>
+              <div class="dataTable mt-4 rounded bg-white shadow">
+                <!-- Table List Products -->
+                <p-table id="myTable" [columns]="tableHeader" [loading]="loadingIndicator"
+                  [value]="productData$ | async" responsiveLayout="scroll" [rowHover]="true" [resizableColumns]="true"
+                  (selectionChange)="onSelectionChange($event)" [(selection)]="Products" #dataTable>
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th style="width: 3rem">
+                        <!-- <p-tableHeaderCheckbox></p-tableHeaderCheckbox> -->
+                      </th>
+                      <th *ngFor="let col of columns">
+                        {{ col.header }}
+                      </th>
+
+                      <th *ngIf="showImage">{{ imageHeader }}</th>
+                      <th pFrozenColumn *ngIf="showActionCol" class="p-0">
+                        <span *ngIf="selectedProducts.length === 0">
+                          Actions
+                        </span>
+                        <span *ngIf="selectedProducts.length !== 0">
+                          <button pButton class="deleteButton" type="button" icon="pi pi-trash" iconPos="left"
+                            label="Delete"></button>
+                        </span>
+                      </th>
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-rowData>
+                    <tr>
+                      <td>
+                        <div style="
+                            width: 25px;
+                            height: 25px;
+                            border: none;
+                            border-radius: 8px;
+                            margin: auto;
+                            overflow: hidden;
+                            background-color: #e2e1e1;
+                          ">
+                          <input style="width: 100%; height: 100%" [style.opacity]="
+                              allIdProductSelected.includes(rowData?.id) ? 1 : 0
+                            " *ngIf="rowData.stock == true" type="checkbox" [checked]="
+                              allIdProductSelected.includes(rowData?.id)
+                            " (change)="changeChecked(rowData)" />
+                        </div>
+                        <!-- <p-tableCheckbox
+                          *ngIf="rowData.stock == true"
+                          [value]="rowData"
+                        ></p-tableCheckbox> -->
+                        <small *ngIf="rowData.stock == false" class="text-danger"
+                          style="font-size: 10px; font-weight: 600">Out stock</small>
+                      </td>
+                      <td>
+                        {{ rowData.sku }}
+                      </td>
+                      <td>
+                        <div class="d-flex justify-content-center prod-img">
+                          <img [src]="rowData.image?.url" alt="Logo" />
+                        </div>
+                      </td>
+                      <td>
+                        {{ rowData.name }}
+                      </td>
+                      <td>
+                        {{ rowData.brand }}
+                      </td>
+                      <td>
+                        {{
+                        rowData.sale_price
+                        ? rowData.sale_price
+                        : rowData.minPrice
+                        }}
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <!-- Table List Products -->
+                <div class="d-flex align-items-center">
+                  <!-- Button Show products Selected to review-->
+                  <button *ngIf="false" class="btn btn-add-item ms-2" (click)="addProductToReview()">
+                    Add Item
+                  </button>
+                  <!-- Button Show products Selected to review -->
+                  <!-- paginator Products -->
+                  <p-paginator appendTo="body" class="paginator" [rows]="5" #p
+                    (onPageChange)="handleProductsPageSize($event)" [totalRecords]="totalItems">
+                  </p-paginator>
+                  <!-- paginator Products -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- shipping  show adress selected only-->
+
+          <!-- Goes from orders-->
+          <div *ngIf="addressMode == true">
+            <div class=" " *ngFor="
+                let coustomerDetail of customerDetails | slice : 0 : 1;
+                let i = index
+              ">
+              <div *ngIf="
+                  coustomerDetail.is_default_shipping == 1 ||
+                  coustomerDetail.is_default_shipping == 0
+                " class="shipping-address mt-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h4 class="ms-2 mb-3" style="font-size: 14px">
+                    Shipping Address
+                  </h4>
+                  <button (click)="openChangeAddress()" class="btn">
+                    Change
+                  </button>
+                </div>
+
+                <div class="address-content">
+                  <h3 class="">
+                    <i class="fa-solid fa-location-dot mx-1 fw-bold"></i>
+                    {{ coustomerDetail?.country?.name }},{{
+                    coustomerDetail?.governorate?.name
+                    }},{{ coustomerDetail?.city?.name }}
+                  </h3>
+                  <h4 class="m-2">
+                    {{ coustomerDetail?.first_name }}
+                    {{ coustomerDetail?.last_name }}
+                  </h4>
+                  <h4 class="m-2">{{ coustomerDetail?.address_details }}</h4>
+                  <h4 class="m-2">
+                    {{ coustomerDetail?.phone }}
+                    <i style="color: #00a599" class="fa-solid fa-circle-check mx-2"></i>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Goes from orders-->
+
+          <!-- Goes from customers-->
+          <div *ngIf="addressMode == true">
+            <div class=" " *ngFor="
+                          let coustomerDetail of customerDetails2 | slice : 0 : 1;
+                          let i = index
+                        ">
+              <div *ngIf="
+                            coustomerDetail.is_default_shipping == 1 ||
+                            coustomerDetail.is_default_shipping == 0
+                          " class="shipping-address mt-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h4 class="ms-2 mb-3" style="font-size: 14px">
+                    Shipping Address
+                  </h4>
+                  <button (click)="openChangeAddress()" class="btn">
+                    Change
+                  </button>
+                </div>
+
+                <div class="address-content">
+                  <h3 class="">
+                    <i class="fa-solid fa-location-dot mx-1 fw-bold"></i>
+                    {{ coustomerDetail?.country?.name }},{{
+                    coustomerDetail?.governorate?.name
+                    }},{{ coustomerDetail?.city?.name }}
+                  </h3>
+                  <h4 class="m-2">
+                    {{ coustomerDetail?.first_name }}
+                    {{ coustomerDetail?.last_name }}
+                  </h4>
+                  <h4 class="m-2">{{ coustomerDetail?.address_details }}</h4>
+                  <h4 class="m-2">
+                    {{ coustomerDetail?.phone }}
+                    <i style="color: #00a599" class="fa-solid fa-circle-check mx-2"></i>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Goes from cusromers-->
+
+
+          <!-- shipping  show adress selected only-->
+          <!-- if no have address show form to save new address and is selected because have one address -->
+          <div *ngIf="addressMode == false" class="address-info p-4" style=" border: 3px solid #eee;
+      box-shadow: 3px 11px 10px #7f828d1a;">
+            <h3 class="fw-bolder">Address Info</h3>
+            <div class="address-form">
+              <form [formGroup]="addressForm">
+                <div class="d-flex justify-content-between align-items-center">
+                  <mat-form-field class="example-full-width position-relative">
+                    <mat-label>Country</mat-label>
+                    <mat-select (selectionChange)="getGovern()" [(ngModel)]="countryId"
+                      placeholder="Select your Country" formControlName="country_id">
+                      <mat-option *ngFor="let coun of country" [value]="coun.id">{{ coun.name }}
+                      </mat-option>
+                    </mat-select>
+                    <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                        submitted &&
+                        addressForm.get('country_id')?.hasError('required')
+                      ">
+                      Country is required</small>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width position-relative px-2">
+                    <mat-label>governorates</mat-label>
+                    <mat-select placeholder="Select your Governorate" formControlName="governorate_id">
+                      <mat-option *ngFor="let gov of governs" [value]="gov.id"
+                        (onSelectionChange)="getCities(gov.id)">{{ gov.name }}</mat-option>
+                    </mat-select>
+                    <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                        submitted &&
+                        addressForm.get('governorate_id')?.hasError('required')
+                      ">
+                      governorates is required</small>
+                  </mat-form-field>
+                  <mat-form-field class="example-full-width position-relative">
+                    <mat-label>City</mat-label>
+                    <mat-select placeholder="Select your City" formControlName="city_id">
+                      <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+                    </mat-select>
+                    <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                        submitted &&
+                        addressForm.get('city_id')?.hasError('required')
+                      ">
+                      City is required</small>
+                  </mat-form-field>
+                </div>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Additional Address Details</mat-label>
+                  <input matInput placeholder="Building no,Floor no,Flat no" formControlName="address_details" />
+                </mat-form-field>
+                <small class="text-danger" *ngIf="
+                    submitted &&
+                    addressForm.get('address_details')?.hasError('required')
+                  ">
+                  Additional Address is required</small>
+                <h3 class="my-2 fw-bolder">Personal Info</h3>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <mat-form-field class="example-full-width position-relative" style="width: 45%; margin-right: 20px">
+                    <mat-label>First Name</mat-label>
+                    <input matInput placeholder="First Name" formControlName="first_name" />
+                    <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                        submitted &&
+                        addressForm.get('first_name')?.hasError('required')
+                      ">
+                      First Name is required</small>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width position-relative" style="width: 45%">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput placeholder="Last Name" formControlName="last_name" />
+                    <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                        submitted &&
+                        addressForm.get('last_name')?.hasError('required')
+                      ">
+                      Last Name is required</small>
+                  </mat-form-field>
+                </div>
+                <div class="d-flex justify-content-between align-items-center position-relative">
+                  <div class="d-flex justify-content-between align-items-center" style="width: 45%">
+                    <mat-form-field class="example-full-width position-relative pe-1" style="width: 20%">
+                      <mat-label>Code</mat-label>
+                      <input matInput placeholder="Code" formControlName="phoneCode" readonly />
+
+                      <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                          submitted &&
+                          addressForm.get('phoneCode')?.hasError('required')
+                        ">
+                        required</small>
+                    </mat-form-field>
+
+                    <!-- formControlName -->
+                    <!-- formControlName -->
+                    <mat-form-field class="example-full-width position-relative">
+                      <mat-label>Phone</mat-label>
+                      <input matInput placeholder="phoneNumber" formControlName="phoneNumber" />
+                      <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                          submitted &&
+                          addressForm.get('phoneNumber')?.hasError('required')
+                        ">
+                        Phone is required</small>
+                    </mat-form-field>
+                  </div>
+
+                  <mat-form-field class="example-full-width" style="width: 45%">
+                    <mat-label>Additional Number</mat-label>
+                    <input matInput placeholder="Additional Number" formControlName="additonalNumber" />
+                  </mat-form-field>
+                </div>
+                <!-- [disabled]="addressForm.invalid" -->
+                <div class="text-end">
+                  <button (click)="setCustomerAddress()" class="btn btn-save-address">
+                    Save Address
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- if no have address show form to save new address and is selected because have one address -->
+          <!-- Credit order -->
+          <div *ngIf="walletBalance != 0" class="credit mt-4">
+            <h5>Your Etmana Credit</h5>
+            <div class="credit-check d-flex justify-content-between align-items-center">
+              <div class="d-flex justify-content-center align-items-center">
+                <!-- input check Credit -->
+                <input type="checkbox" #check [(ngModel)]="checkCredits"
+                  (change)="checkCredit(check); this.getOrderSummary()" />
+                <!-- input check Credit -->
+                <span class="span-check">Pay With Etmana Credit</span>
+              </div>
+              <p>
+                <span class="text-black-50">Your Balance</span>
+                <span class="span-cash mx-1">
+                  {{ walletBalance ? walletBalance : 0 }} {{currency}}</span>
+              </p>
+            </div>
+          </div>
+          <!-- Credit order -->
+          <!-- Payment Methods -->
+          <div class="payment my-3" style=" border: 3px solid #eee;
+      box-shadow: 3px 11px 10px #7f828d1a;">
+            <h4>Payment Method</h4>
+            <div class="" *ngFor="let pay of paymentMethods">
+              <div class="payment-check d-flex align-items-center justify-content-md-start">
+                <!-- input radio choose user select any payment -->
+                <input type="radio" name="paymentMethod" [checked]="pay.id === 1" (change)="getPaymentId(pay.id)" />
+                <!-- input radio choose user select any payment -->
+                <span class="span-check">{{ pay.name_en }}</span>
+              </div>
+            </div>
+          </div>
+          <!-- Payment Methods -->
+          <div>
+            <div class="order-summary" style=" border: 3px solid #eee;
+      box-shadow: 3px 11px 10px #7f828d1a;">
+              <h4>Order Summary</h4>
+              <p class="promo-code" *ngIf="promoCode">Promo Code</p>
+              <div class="input-group mb-3" *ngIf="promoCode">
+                <input type="text" class="form-control" [(ngModel)]="promoCodeVal" />
+                <div class="input-group-append">
+                  <button class="btn input-group-text h-100" (click)="checkCupon()">
+                    Apply
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="!promoCode" class="applied">
+                <div class="d-flex justify-content-between">
+                  <p>{{ promoCodeVal }}</p>
+                  <div class="is-apply">
+                    <span class="me-2">Applied</span>
+                    <img src="assets/images/Icon ionic-ios-checkmark.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+              <p *ngIf="!promoCode" style="font-size: 13px" class="text-danger my-3">
+                {{ msgPromoVal }}
+              </p>
+
+              <div class="d-flex justify-content-between align-items-center my-2 sub-total">
+                <p class="text-muted">
+                  Subtotal / {{ selectedProducts.length }} items
+                </p>
+                <p *ngIf="selectedProducts.length" class="text-muted">
+                  {{currency}} {{ orderSummaryDetails?.sub_total }}
+                </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center my-2 shipping-details">
+                <p class="text-muted">Shipping Details</p>
+                <p class="text-muted">{{currency}} {{ shippingDetails }}</p>
+              </div>
+              <div class="" *ngIf="orderSummaryDetails?.discount_details">
+                <div *ngFor="let disc of orderSummaryDetails?.discount_details"
+                  class="d-flex justify-content-between align-items-center my-2 shipping-details">
+                  <p class="text-muted">Discount {{ disc?.name }}</p>
+                  <p class="text-muted">{{currency}} {{ disc?.discount.toFixed(2) }}</p>
+                </div>
+              </div>
+              <div class="" *ngIf="
+                  !orderSummaryDetails?.discount_details ||
+                  orderSummaryDetails?.discount_details.length == 0
+                ">
+                <div class="d-flex justify-content-between align-items-center my-2 shipping-details">
+                  <p class="text-muted">Discount Detalis</p>
+                  <p class="text-muted">{{currency}} 0.00</p>
+                </div>
+              </div>
+              <hr />
+              <div class="d-flex justify-content-between align-items-center my-3 total">
+                <p class="text-muted">
+                  <span style="font-size: 18px; font-weight: 600">Total</span>
+                  <span style="font-size: 11px"> Incl. Tax</span>
+                </p>
+                <p *ngIf="orderSummaryDetails?.total" class="text-muted" style="font-size: 18px; font-weight: 500">
+                  {{currency}} {{ orderSummaryDetails?.total }}
+                </p>
+              </div>
+
+              <button class="btn btn-place-order d-flex justify-content-center align-items-center"
+                (click)="placeOrder()">
+                <div *ngIf="placeOrderLoading == true" class="loader"></div>
+                {{ placeOrderLoading == false ? "PLACE ORDER" : "" }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5 fix-rev position-relative">
+          <!-- Review show all products already selected and show in -->
+          <div class="review my-2">
+            <div class="d-flex justify-content-between align-items-center rev-header">
+              <p class="fw-bolder">Review Order</p>
+              <p class="text-muted">{{ selectedProducts.length }} ITEMS</p>
+            </div>
+
+            <div class="empty-review" *ngIf="!selectedProducts.length">
+              <span>+</span> Add Item
+            </div>
+
+            <div class="rev-content" [ngStyle]="
+                selectedProducts.length > 0
+                  ? { height: '400px', 'overflow-y': 'scroll' }
+                  : {}
+              ">
+              <div class="row my-1" *ngFor="let product of selectedProducts; let i = index">
+                <div class="col-md-3">
+                  <div class="d-flex justify-content-center align-items-center prod-img ps-2">
+                    <img [src]="product?.image" alt="Logo" />
+                  </div>
+                </div>
+                <div class="col-md-9 pe-0 m-0">
+                  <div class="d-flex justify-content-between align-items-center my-1">
+                    <div class="fw-bolder name-pro">{{ product?.name }}</div>
+                    <div class="">
+                      <span class="text-muted price-pro me-1">{{currency}}</span>
+                      <ng-container *ngIf="product.sale_price">
+                        <del class="me-1" style="font-size: 11px">{{
+                          product?.minPrice * product.quantity
+                          }}</del>
+                        <span class="fw-bolder" style="font-size: 12px">{{
+                          product?.sale_price * product.quantity
+                          }}</span>
+                      </ng-container>
+
+                      <ng-container *ngIf="!product.sale_price">
+                        <span class="fw-bolder" style="font-size: 12px">{{
+                          product?.minPrice * product.quantity
+                          }}</span>
+                      </ng-container>
+                    </div>
+                  </div>
+
+                  <div class="" *ngIf="product.variation">
+                    <span class="text-muted me-3" style="font-size: 10px">Product Details</span>
+                  </div>
+                  <div style="display: inline-flex" class="align-items-center" *ngFor="let item of product.variation">
+                    <div class="d-flex align-items-center my-2">
+                      <div class="text-muted mx-2" style="font-size: 10px" *ngIf="item.value">
+                        {{ item.value.code === null ? "Size" : "Color" }}
+                      </div>
+                      <span class="d-flex align-items-center">
+                        <div *ngIf="item.value.code !== null" class="color-order"
+                          [style.background-color]="item.value.code"></div>
+                        <div *ngIf="item.value.code !== null" class="mx-2 color-assign"
+                          style="font-weight: 600; font-size: 10px">
+                          {{ item.value.value_en }}
+                        </div>
+                      </span>
+
+                      <div *ngIf="item.value?.code === null" class="mx-2" style="font-weight: 600; font-size: 12px">
+                        {{ item.value?.value_en }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center my-1">
+                    <div class="">
+                      <span class="text-muted me-2" style="font-size: 10px">Product Quantity</span>
+                      <button class="btn-minus" (click)="minusQuantityProduct(product, i)">
+                        <i class="fa-solid fa-minus"></i>
+                      </button>
+                      <span class="fw-bolder mx-1" style="font-size: 11px">{{
+                        product.quantity
+                        }}</span>
+                      <button (click)="PlusQuantityProduct(i)" class="btn-plus">
+                        <i class="fa-solid fa-plus"></i>
+                      </button>
+                    </div>
+                    <div class="">
+                      <button (click)="RemoveProduct(i, product)" class="btn-remove">
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Review show all products already selected and show in -->
+        </div>
+      </div>
+    </div>
+    <!-- dialog show all address selected and not selected -->
+    <p-dialog [(visible)]="changeAddressMode" [modal]="true" [draggable]="false" [header]="
+        newAddrssMode == true
+          ? editAddressMode == true
+            ? 'Edit Address'
+            : 'Add a New Address'
+          : 'Shipping Address'
+      " [style]="{ width: '40vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000">
+      <!-- [closable]="" -->
+      <!--Goes From orders -->
+      <ng-container *ngIf="newAddrssMode == false">
+        <div class="shipping-address" *ngFor="let coustomerDetail of customerDetails; let i = index">
+          <!-- shipping address content-->
+          <div class="my-1" [ngClass]="
+              coustomerDetail.is_default_shipping == 1
+                ? 'address-content-select'
+                : 'address-content-notselect'
+            ">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="fw-bold">
+                <i class="fa-solid fa-location-dot mx-1" style="font-size: 20px" [ngStyle]="
+                    coustomerDetail.is_default_shipping == 1
+                      ? { color: '#00A599' }
+                      : { color: '#0E1740' }
+                  ">
+                </i>
+                <span style="font-size: 14px">{{ coustomerDetail?.country?.name }},{{
+                  coustomerDetail?.governorate?.name
+                  }},{{ coustomerDetail?.city?.name }}</span>
+                <span *ngIf="coustomerDetail.is_default_shipping == 1" class="mx-1 rounded-pill" style="
+                    background-color: #00a599;
+                    color: white;
+                    padding: 7px 15px 7px 11px;
+                    font-size: 10px;
+                  ">
+                  Selected</span>
+              </div>
+              <div class="">
+                <button class="edit-icon-address mx-1" (click)="handleEditAddressCustomer(coustomerDetail, i)">
+                  <i class="fa-solid fa-pen"></i> Edit
+                </button>
+                <button class="delete-icon-address" (click)="deleteAddressClient(coustomerDetail)">
+                  <i class="fa-solid fa-trash text-danger"></i>
+                </button>
+              </div>
+            </div>
+            <h5 class="m-2">
+              {{ coustomerDetail?.first_name }} {{ coustomerDetail?.last_name }}
+            </h5>
+            <h5 class="m-2">{{ coustomerDetail?.address_details }}</h5>
+            <h5 class="m-2">
+              {{ coustomerDetail?.phone }}
+              <i style="color: #00a599" class="fa-solid fa-circle-check mx-2"></i>
+            </h5>
+          </div>
+        </div>
+        <button class="btn adding" (click)="changeNewAddressMode()">
+          + Add a New Address
+        </button>
+      </ng-container>
+      <!--Goes From orders -->
+      <!--Goes From customer-->
+
+
+      <!--Goes From customer-->
+      <div *ngIf="newAddrssMode == true" class="new-address">
+        <!-- new address content form-->
+
+        <form [formGroup]="newAddressForm">
+          <mat-form-field class="example-full-width w-50 px-2 position-relative">
+            <mat-label>Governorates</mat-label>
+            <mat-select placeholder="Select your governorate" formControlName="governorate_id">
+              <mat-option *ngFor="let gov of governs" [value]="gov.id" (onSelectionChange)="getCities(gov.id)">{{
+                gov.name }}</mat-option>
+            </mat-select>
+            <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                submitted &&
+                addressForm.get('governorate_id')?.hasError('required')
+              ">
+              Governorate is required</small>
+          </mat-form-field>
+          <mat-form-field class="example-full-width position-relative w-50 px-2">
+            <mat-label>City</mat-label>
+            <mat-select placeholder="Select your City" formControlName="city_id">
+              <mat-option *ngFor="let city of cities" [value]="city.id">{{
+                city.name
+                }}</mat-option>
+            </mat-select>
+            <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                submitted && addressForm.get('city_id')?.hasError('required')
+              ">
+              City is required</small>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Additional Address Details</mat-label>
+            <input matInput placeholder="Building no,Floor no,Flat no" formControlName="address_details" />
+          </mat-form-field>
+          <small class="text-danger" *ngIf="
+              submitted &&
+              addressForm.get('address_details')?.hasError('required')
+            ">
+            Additional Address is required</small>
+
+          <h3 class="my-2" style="font-weight: 600; font-size: 14px">
+            Personal Info
+          </h3>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="w-100">
+              <mat-form-field class="example-full-width px-2 w-25 position-relative">
+                <mat-label>Code</mat-label>
+                <input matInput placeholder="Code" formControlName="phoneCode" readonly />
+                <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                    submitted &&
+                    addressForm.get('phoneCode')?.hasError('required')
+                  ">
+                  required</small>
+              </mat-form-field>
+              <!-- formControlName -->
+              <!-- formControlName -->
+              <mat-form-field class="example-full-width px-1 w-75 position-relative">
+                <mat-label>Phone</mat-label>
+                <input matInput placeholder="phoneNumber" formControlName="phoneNumber" />
+                <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                    submitted &&
+                    addressForm.get('phoneNumber')?.hasError('required')
+                  ">
+                  phone Number is required</small>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center my-3">
+            <mat-form-field class="example-full-width position-relative" style="width: 45%; margin-right: 20px">
+              <mat-label>First Name</mat-label>
+              <input matInput placeholder="First Name" formControlName="first_name" />
+              <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                  submitted &&
+                  addressForm.get('first_name')?.hasError('required')
+                ">
+                First Name is required</small>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width position-relative" style="width: 45%">
+              <mat-label>Last Name</mat-label>
+              <input matInput placeholder="Last Name" formControlName="last_name" />
+              <small class="text-danger position-absolute bottom-0 top-100 mt-2" style="left: 0" *ngIf="
+                  submitted &&
+                  addressForm.get('last_name')?.hasError('required')
+                ">
+                Last Name is required</small>
+            </mat-form-field>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center my-4">
+            <div class="text-muted d-flex align-items-center">
+              <input type="checkbox" class="me-2" formControlName="setAddress" />
+              <span class="" style="font-size: 12px">Set as Selected Address</span>
+            </div>
+            <div class="">
+              <button class="btn cancel-address" (click)="cancelNewAddress()">
+                Cancel
+              </button>
+              <button class="btn save-address" type="submit" (click)="setCustomerNewAddress()">
+                {{ editAddressMode == true ? "Edit Address" : "Save Address" }}
+              </button>
+            </div>
+          </div>
+        </form>
+        <!--  -->
+      </div>
+    </p-dialog>
+    <!-- dialog show all address selected and not selected -->
+    <!-- dialog select customer and show all customers -->
+    <p-dialog [(visible)]="visible" [modal]="true" [draggable]="false" [style]="{ width: '60vw' }" class="p-2"
+      [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000" [closeOnEscape]="true">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="m-0" style="font-size: 20px">PLEASE SELECT CUSTOMER</h3>
+        <button class="btn-header btn py-1" (click)="CreateCustomer()">
+          Create Customer
+        </button>
+      </div>
+
+      <div class="header-form-customer m-auto">
+        <form class="form-search d-flex">
+          <input type="text" [(ngModel)]="searchValue" #SearchValue
+            (keyup)="checkValueSearchCustomers(SearchValue.value)" [ngModelOptions]="{ standalone: true }"
+            class="form-control" placeholder="Id, Name, Phone Number" />
+
+          <button (click)="searchInClients(SearchValue.value)" class="btn btn-form-search">
+            Search
+          </button>
+          <button (click)="reset()" class="btn btn-form-clear d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-trash mx-2"></i>
+            <span style="font-size: 14px">Clear</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="dataTable mt-3 rounded bg-white shadow">
+        <p-table id="myTable" [value]="Costomersdata$ | async" selectionMode="single" [(selection)]="customerSelect"
+          (onRowSelect)="onRowSelectCustomer($event)" dataKey="id" [tableStyle]="{ width: '100%' }"
+          responsiveLayout="scroll" [resizableColumns]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Phone Number</th>
+              <th>Status</th>
+              <th>Date Modified</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-customer>
+            <tr [pSelectableRow]="customer" (click)="setVisible(false)">
+              <td>{{ customer.id }}</td>
+              <td>{{ customer.Name }}</td>
+              <td>{{ customer.phone }}</td>
+              <td>{{ customer.Status }}</td>
+              <td>
+                {{ customer.date_modified ? customer.date_modified : "__" }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <p-paginator appendTo="body" class="paginator d-flex justify-content-end" [rows]="5" #p [totalRecords]="length"
+          (onPageChange)="handleCustomersPageSize($event)" [rowsPerPageOptions]="[5, 15, 50, 100]"></p-paginator>
+      </div>
+    </p-dialog>
+    <!-- dialog select customer and show all customers -->
+  </div>
+</div>
+
+<p-toast></p-toast>
+<p-confirmDialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000">
+</p-confirmDialog>

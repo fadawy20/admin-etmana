@@ -1,0 +1,110 @@
+@mixin inputs-places {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  padding: 1rem;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .form {
+    .Full_Name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+
+  .filters {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+
+}
+
+.apply-filter
+{
+  background-color: #0F183D;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 11px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 9%;
+}
+.apply-filter:hover
+{
+  background-color: #0F183D;
+  color: #FFFFFF;
+  border:1px solid #0F183D;
+}
+.cancel-filter
+{
+  background-color: transparent;
+    color: #0F183D;
+    font-size: 13px;
+    padding: 10px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 6%;
+}
+.cancel-filter:hover
+{
+  background-color: transparent;
+  color: #0F183D;
+  border:1px solid #0F183D;
+}
+.export {
+  background-color: #fed8b17a;
+  border: none !important;
+  color: var(--darkRed);
+  font-weight: 200 !important;
+  transform: all 0.4s ease-in-out !important;
+  border-radius: 5px;
+}
+
+.export:hover {
+  background: var(--darkRed) !important;
+  color: #fff !important;
+}
+
+.reset {
+  background-color: #bbbbbb6c;
+  border: none !important;
+  color: #4e4e4e;
+  font-weight: 200 !important;
+  transform: all 0.4s ease-in-out !important;
+  border-radius: 5px;
+}
+
+.reset:hover {
+  background: transparent !important;
+  border-color: #4e4e4e !important;
+  color: #4e4e4e !important;
+}
+
+::ng-seep {
+  .mat-form-field {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    width: 100%;
+}
+}
+.col-md-4
+{
+  margin: 8px 0px;
+  label
+  {
+    margin: 2px;
+  }
+}

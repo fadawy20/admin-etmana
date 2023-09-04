@@ -1,0 +1,207 @@
+<div class="wrapper1">
+  <div class="d-flex align-items-center">
+    <div class="header mx-2 my-2 col-md-9 d-flex">
+      <div class="btn" (click)="backToList()">
+        <i class="fa-solid fs-4 fa-chevron-left"></i>
+      </div>
+      <h2 *ngIf="idCollection == undefined;else elseblockText">
+        <span>C</span>REATE NEW COLLECTION
+      </h2>
+      <ng-template #elseblockText>
+        <h2><span>E</span>DIT COLLECTION</h2>
+      </ng-template>
+
+    </div>
+    <div class="toggle_type">
+      <button (click)="handleCreateOrUpdate()" class="save" pButton type="button" label="Save"></button>
+    </div>
+
+
+  </div>
+
+
+  <!-- THIS IS GENERAL FORM-->
+  <div class="row">
+    <div class="col-md-5">
+      <div class="general-info shadow bg-white p-3 rounded-3 my-3">
+        <form class="form" [formGroup]="generalformCollection">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="fw-bold text-uppercase">Genaral Info</h3>
+            <div class="switch d-flex align-items-center ms-3">
+              <p-inputSwitch formControlName="is_active" class="me-2"
+                (onChange)="changeCollectionStatus($event)"></p-inputSwitch>
+              <p class="lead" *ngIf="collectionStatus ===true">Active</p>
+              <p class="lead" *ngIf="collectionStatus ===false">in-Active</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <!--Title english-->
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label>Title English</label>
+                <input formControlName="title_en" type="text" placeholder="Name..." class="form-control w-100" />
+                <small class="text-danger"
+                  *ngIf="submitted && generalformCollection.get('title_en')?.hasError('required')">
+                  Title English is required
+                </small>
+              </div>
+            </div>
+            <!--Title Arabic-->
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label>Title Arabic</label>
+                <input formControlName="title_ar" type="text" placeholder="Name..." class="form-control w-100" />
+                <small class="text-danger"
+                  *ngIf="submitted && generalformCollection.get('title_ar')?.hasError('required')">
+                  Title Arabic is required
+                </small>
+              </div>
+            </div>
+            <!--Type-->
+            <div class="col-md-12">
+              <div class="mb-3">
+                <div>
+                  <label>Type</label>
+                </div>
+                <p-dropdown formControlName="type" (onChange)="handleRuleTypeChangeType($event)"
+                  [options]="productListType" optionLabel="name" [showClear]="false"></p-dropdown>
+                <!-- <small class="text-danger" *ngIf="submitted && generalInfoFormSlider.get('type')?.hasError('required')">
+                  Type is required
+                </small> -->
+              </div>
+            </div>
+            <!-- Page Url-->
+            <div class="col-md-12">
+              <div class="mb-3">
+                <div>
+                  <label>Page URL</label>
+                </div>
+                <input formControlName="page_url" type="text" placeholder="page url..." class="form-control w-100" />
+
+                <small class="text-danger"
+                  *ngIf="submitted && generalformCollection.get('page_url')?.hasError('required')">
+                  pageUrl is required
+                </small>
+              </div>
+            </div>
+            <!-- Associate Web site-->
+            <div class="col-md-12">
+              <div class="mb-3">
+                <div>
+                  <label>Associate Website</label>
+                </div>
+                <p-dropdown formControlName="associateWebsite" (onChange)="handleRuleTypeChangeAssociateWebsite($event)"
+                  [options]="AssociateWebsite" placeholder="Select Associate Website" optionLabel="name"
+                  [showClear]="false"></p-dropdown>
+                <small class="text-danger"
+                  *ngIf="submitted && generalformCollection.get('associateWebsite')?.hasError('required')">
+                  Associate Website Type is required
+                </small>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <div>
+                  <label>Location in the page</label>
+                </div>
+                <p-dropdown formControlName="location_in_page" (onChange)="handleRuleTypeChangeLocationPage($event)"
+                  [options]="locationInThePage" placeholder="Select location" optionLabel="type"
+                  [showClear]="false"></p-dropdown>
+                <!-- <small class="text-danger" *ngIf="submitted && formBanner.get('locationInPage')?.hasError('required')">
+                  Rule Type is required
+                </small> -->
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <div>
+                  <label>Platform</label>
+                </div>
+                <p-dropdown formControlName="platform" (onChange)="handleRuleTypeChangePlatform($event)"
+                  [options]="platfroms" placeholder="Select location" optionLabel="name"
+                  [showClear]="false"></p-dropdown>
+                <small class="text-danger"
+                  *ngIf="submitted && generalformCollection.get('platform')?.hasError('required')">
+                  Rule Type is required
+                </small>
+              </div>
+            </div>
+            <div class="col-md-4 mt-3">
+              <label>Date From</label>
+              <p-calendar formControlName="date_from" [showIcon]="true" placeholder="Date From..."></p-calendar>
+              <small class="text-danger" *ngIf="
+                  submitted &&
+                  generalformCollection.get('date_from')?.hasError('required')
+                ">
+                Start Date is required
+              </small>
+            </div>
+            <div class="col-md-4 mt-3">
+              <label>Date To</label>
+              <p-calendar formControlName="date_to" [showIcon]="true" placeholder="Date To..."></p-calendar>
+              <small class="text-danger d-block" *ngIf="
+                  submitted &&
+                  generalformCollection.get('date_to')?.hasError('required')
+                ">
+                End Date is required
+              </small>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- THIS IS GENERAL FORM-->
+
+
+    <!-- THIS IS Select Products Items from-->
+    <div class=" col-md-7 general-info shadow bg-white p-3 rounded-3 my-3">
+      <form [formGroup]="productListItemsForm">
+        <div class="col-md-12">
+          <div class="mb-3">
+            <label>Title English</label>
+            <input formControlName="productList_title_en" type="text" placeholder="Name..."
+              class="form-control w-100" />
+            <small class="text-danger"
+              *ngIf="submitted && productListItemsForm.get('productList_title_en')?.hasError('required')">
+              Title English is required
+            </small>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="mb-3">
+            <label>Title Arabic</label>
+            <input formControlName="productList_title_ar" type="text" placeholder="Name..."
+              class="form-control w-100" />
+            <small class="text-danger"
+              *ngIf="submitted && productListItemsForm.get('productList_title_ar')?.hasError('required')">
+              Title Arabic is required
+            </small>
+          </div>
+        </div>
+
+      </form>
+      <app-items #itemsComponent (sendSelectedItem)="getSelectedItem($event)"
+        (sendPromotableType)="getPromotableTybe($event) " (sendCatogries)="getCategories($event)"
+        (sendItems)="getItems($event)" [brands]="allBrands" [updatedBrands]="brandsProductList"
+        [updatedCollection]="sentCollections" [collections]="collections"
+        (idsOfSelectedItems)="getIdsOfSelectedItems($event)"></app-items>
+      <!-- <div *ngIf="!loader" class="toggle_type col-md-3 mt-5">
+      <button  class="save" pButton type="button" label="Save"></button>
+    </div> -->
+    </div>
+  </div>
+
+  <p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
+
+
+</div>
+
+
+
+
+
+
+<!-- <app-newloading [loader]="loader"></app-newloading> -->

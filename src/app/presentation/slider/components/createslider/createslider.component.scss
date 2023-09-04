@@ -1,0 +1,415 @@
+// this is fn postion using @mixin instead of reapeting code */
+// to use this in your code you need to define .class or id ==> @include
+@mixin position {
+  display: flex;
+  align-items: center;
+}
+.wrapper1 {
+  padding: 1.5rem 0rem;
+  h2 {
+    color: #0e1740 !important;
+    font-size: 25px !important;
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif !important;
+    span {
+      position: relative;
+    }
+  }
+  //   .general-info,
+  //   .Conditions {
+  //     h4 {
+  //       color: #0e1740;
+  //       text-transform: uppercase;
+  //       font-size: 20px;
+  //       letter-spacing: 1px;
+  //     }
+  //   }
+}
+
+.toggle_type {
+  .save {
+    background-color: #5f2d79;
+    border: none;
+    width: 250%;
+  }
+}
+
+h2 span::after {
+  content: "";
+  background-color: #48a299;
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  left: 0%;
+  top: 100%;
+  border-radius: 5px;
+}
+
+label {
+  color: #0e1740 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+p-dropdown {
+  ::ng-deep {
+    .p-dropdown {
+      width: 100% !important;
+    }
+  }
+}
+
+.bottom {
+  margin-bottom: 130px;
+}
+
+.border-dashed {
+  border: 3px dashed darkgray;
+}
+
+small {
+  font-size: 90% !important;
+  font-weight: 600 !important;
+}
+
+.uploader,
+.uploader2 {
+  .label {
+    position: relative;
+    width: 100%;
+    height: 170px;
+    border-radius: 7px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    // background-color: #ebecef;
+    border: 2px dashed #c2cdda;
+    @include position;
+    justify-content: center;
+    .file-text {
+      p {
+        text-transform: capitalize;
+        font-size: 12px;
+        color: #9fa3b2;
+      }
+    }
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+  overflow: hidden;
+}
+
+.uploader #cancel-btn,
+.uploader #cancel-btn1,
+.uploader #cancel-btn2,
+.uploader #cancel-btn3 {
+  // position: absolute;
+  font-size: 20px;
+  // right: 50%;
+  // top: 50%;
+  z-index: 9;
+  color: #9658fe;
+  cursor: pointer;
+  display: none;
+  width: 10%;
+  // border: 2px solid red;
+  // border-radius: 5px;
+}
+// .uploader #cancel-btn span i {
+//   // border: 2px solid red;
+// }
+.uploader .layer {
+  width: 50px;
+  height: 50px;
+  display: none;
+  border-radius: 50%;
+  // border-radius: ;
+}
+// }
+.uploader .replaceLayer {
+  position: absolute;
+  top: 51%;
+  right: 59%;
+  width: 50px;
+  height: 50px;
+  display: none;
+  border-radius: 50%;
+  // border-radius: ;
+}
+.uploader #layerdata,
+.uploader #layerdata1,
+.uploader #layerdata2,
+.uploader #layerdata3 {
+  font-size: 20px;
+  // right: 50%;
+  // top: 50%;
+  z-index: 9;
+  // color: #9658fe;
+  cursor: pointer;
+  display: none;
+  width: 10%;
+}
+.uploader:hover #layerdata,
+.uploader:hover #layerdata1,
+.uploader:hover #layerdata2,
+.uploader:hover #layerdata3 {
+  display: block;
+}
+.uploader:hover img {
+  filter: blur(20px);
+}
+.uploader:hover #cancel-btn,
+.uploader:hover #cancel-btn1,
+.uploader:hover #cancel-btn2,
+.uploader:hover #cancel-btn3 {
+  display: block;
+}
+
+.uploader:hover .layer {
+  display: block;
+  background-color: white;
+}
+.uploader:hover .replaceLayer {
+  display: block;
+  background-color: white;
+}
+
+// THIS IS WHEN HOVER THAT IMAGE STYLE CHANGES //////////////////////////////////
+
+// .uploader .label:hover img {
+//   box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+
+// }
+
+// THIS IS WHEN HOVER THAT IMAGE STYLE CHANGES //////////////////////////////////
+
+// ::ng-deep {
+//   .p-dropdown {
+//     display: inline-flex;
+//     cursor: pointer;
+//     position: relative;
+//     -webkit-user-select: none;
+//     user-select: none;
+//     width: 100%;
+//     border-radius: 10px;
+//   }
+//   .p-calendar .p-inputtext {
+//     border: none !important;
+//     border-top: 1px solid #b7b9bb !important;
+//     border-bottom: 1px solid #b7b9bb !important;
+//     border-left: 1px solid #b7b9bb !important;
+//     background-color: transparent !important;
+//   }
+//   .p-calendar {
+//     width: 100% !important;
+//   }
+//   // .p-button {
+//   //   color: #000 !important;
+//   //   background-color: transparent !important;
+//   //   border: none !important;
+//   //   border-top: 1px solid #b7b9bb !important;
+//   //   border-right: 1px solid #b7b9bb !important;
+//   //   border-bottom: 1px solid #b7b9bb !important;
+//   // }
+//   .p-button:hover {
+//     color: #000;
+//   }
+// }
+
+// label {
+//   color: #0e1740 !important;
+//   font-size: 12px !important;
+//   padding: 7px 0px;
+//   font-weight: 600 !important;
+// }
+
+// .form-control {
+//   display: block;
+//   width: 100%;
+//   padding: 14px 0.75rem !important;
+//   border-radius: 10px;
+// }
+
+// .cancel,
+// .cancel:hover {
+//   border: 1px solid #0f183d;
+//   border-radius: 8px;
+//   color: #0f183d;
+//   font-size: 15px;
+//   font-weight: 400 !important;
+//   width: 100%;
+// }
+
+// .submit,
+// .submit:hover {
+//   background: #5f2d79 0% 0% no-repeat padding-box;
+//   border-radius: 8px;
+//   width: 100%;
+//   color: #ffff;
+// }
+
+// .uploader {
+//   .label {
+//     width: 170%;
+//     height: 150px;
+//     border-radius: 7px;
+//     transition: all 0.2s ease;
+//     border: 2px dashed #c2cdda;
+//     cursor: pointer;
+//     // background-color: #ebecef;
+//     @include position;
+//     justify-content: center;
+//     .file-text {
+//       p {
+//         text-transform: capitalize;
+//         font-size: 12px;
+//         color: #9fa3b2;
+//       }
+//     }
+//   }
+
+//   input[type="file"] {
+//     display: none;
+//   }
+// }
+
+// .uploader #cancel-btn {
+//   position: absolute;
+//   font-size: 20px;
+//   right: 15px;
+//   top: 15px;
+//   color: #9658fe;
+//   cursor: pointer;
+//   display: none;
+// }
+
+// .uploader:hover #cancel-btn{
+// display: block;
+// }
+
+.uploader.active {
+  border: none;
+}
+
+.uploader.active:hover #cancel-btn {
+  display: block;
+}
+
+.container {
+  /* height: 3px; */
+  width: 122%;
+  position: relative;
+  /* background-color: ; */
+}
+.container .wrapper {
+  position: relative;
+  // height: 105px;
+  background-color: #e74c3c;
+  width: 174%;
+  border-radius: 10px;
+  background: #fff;
+  border: 2px dashed #c2cdda;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.wrapper.active {
+  border: none;
+}
+.wrapper .image {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.wrapper .icon {
+  font-size: 100px;
+  color: #9658fe;
+}
+.wrapper .text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #5b5b7b;
+}
+.wrapper #cancel-btn,
+.wrapper #cancel-btn1,
+.wrapper #cancel-btn-mobile1,
+.wrapper #cancel-btn-mobile-2 {
+  position: absolute;
+  font-size: 20px;
+  right: 15px;
+  top: 15px;
+  color: #9658fe;
+  cursor: pointer;
+  display: none;
+}
+.wrapper.active:hover #cancel-btn,
+.wrapper.active:hover #cancel-btn1,
+.wrapper.active:hover #cancel-btn-mobile1,
+.wrapper.active:hover #cancel-btn-mobile-2 {
+  display: block;
+}
+.wrapper #cancel-btn i:hover,
+.wrapper #cancel-btn1 i:hover,
+.wrapper #cancel-btn-mobile1,
+.wrapper #cancel-btn-mobile-2 {
+  color: #e74c3c;
+}
+.wrapper .file-name {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 18px;
+  color: #fff;
+  display: none;
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+}
+.wrapper.active:hover .file-name {
+  display: block;
+}
+.container #custom-btn {
+  margin-top: 30px;
+  display: block;
+  width: 100%;
+  height: 50px;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3a8ffe 0%, #9658fe 100%);
+}
+
+.m {
+  margin-left: 13px;
+  margin-top: 10px;
+}
+
+.delete_button {
+  border-radius: 7px !important;
+  background-color: #ffcccb !important;
+  border-color: #ffcccb;
+  color: #dc143c;
+  padding: 9px !important;
+  font-size: 14px;
+}
+
+.highlighted {
+  background-color: red !important;
+}

@@ -1,0 +1,100 @@
+<div class="dataTable mt-4 rounded bg-white shadow">
+  <p-table
+    id="myTable"
+    [columns]="tableHeaders"
+    [loading]="loadingIndicator"
+    styleClass="p-datatable-striped"
+    [value]="tableData"
+    responsiveLayout="scroll"
+    [rowHover]="true"
+    [resizableColumns]="true"
+    [(selection)]="Products"
+    #dataTable
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData>
+      <tr>
+        <td>
+          <p-tableCheckbox
+            *ngIf="rowData.stock == true"
+            [value]="rowData"
+          ></p-tableCheckbox>
+          <small
+            *ngIf="rowData.stock == false"
+            class="text-danger"
+            style="font-size: 10px; font-weight: 600"
+            >Out stock</small
+          >
+        </td>
+        <td>
+          <span class="w-25 sku">{{ rowData.sku }}</span>
+        </td>
+        <td>
+          <div
+            class="d-flex align-items-center justify-content-center prod-img"
+          >
+            <img
+              style="width: 79px; height: 79px; object-fit: cover"
+              [src]="rowData.image"
+              class="py-1"
+              alt="Logo"
+            />
+          </div>
+        </td>
+        <td>
+          {{ rowData.name }}
+        </td>
+        <td>
+          {{ rowData.brand }}
+        </td>
+        <td>
+          {{ rowData.minPrice }}
+        </td>
+        <td>
+          {{ rowData.stock }}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length + 1">No records found</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <div
+    *ngIf="hidePagintation"
+    class="row d-flex justify-content-center align-items-center pagenator-export-wrapper"
+  >
+    <div class="col-md-3">
+      <button
+        class="btn btn-export d-flex align-items-center justify-content-center"
+        (click)="addItem()"
+      >
+        <h4 class="m-0">Add Item</h4>
+      </button>
+    </div>
+    <div class="col-md-9">
+      <p-paginator
+        appendTo="body"
+        class="paginator"
+        [rows]="5"
+        #p
+        (onPageChange)="setMyPagination($event)"
+        [totalRecords]="totalItems"
+        [rowsPerPageOptions]="[5, 15, 50, 100]"
+      >
+      </p-paginator>
+    </div>
+  </div>
+</div>

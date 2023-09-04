@@ -1,0 +1,164 @@
+.sales-funnel {
+  min-width: 66%;
+  padding: 10px;
+  h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba($color: #ccc, $alpha: 0.7);
+    padding-bottom: 8px;
+    ul {
+      list-style: none;
+      border: 1px solid rgba($color: #ccc, $alpha: 0.7);
+      padding: 5px;
+      border-radius: 8px;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      -ms-border-radius: 8px;
+      -o-border-radius: 8px;
+      align-items: c;
+      li {
+        padding: 0 10px;
+        margin-right: 5px;
+        cursor: pointer;
+        &:last-of-type {
+          margin-right: 0;
+        }
+        &.active {
+          color: #5f2d79;
+          background-color: #d3d3d3;
+          border-radius: 8px;
+          -webkit-border-radius: 8px;
+          -moz-border-radius: 8px;
+          -ms-border-radius: 8px;
+          -o-border-radius: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  .content {
+    padding-bottom: 8px;
+    ul {
+      list-style: none;
+      li {
+        overflow: hidden;
+        cursor: pointer;
+        display: inline-block;
+        width: calc(100% / 5);
+        height: 120px;
+        padding-top: 10px;
+        border-left: 1px solid rgba($color: #ccc, $alpha: 0.7);
+        transition: all ease-in-out 0.5s;
+        -webkit-transition: all ease-in-out 0.5s;
+        -moz-transition: all ease-in-out 0.5s;
+        -ms-transition: all ease-in-out 0.5s;
+        -o-transition: all ease-in-out 0.5s;
+
+        .head {
+          padding-left: 10px;
+          font-size: 12px;
+          font-weight: 500;
+        }
+        .number {
+          padding-left: 10px;
+          margin-top: 10px;
+          font-size: 22px;
+          font-weight: 600;
+        }
+        .image {
+          position: relative;
+          top: -10px;
+          display: none;
+        }
+
+        // .insights {
+        //   padding-left: 10px;
+        //   display: flex;
+        //   align-items: center;
+        //   justify-content: space-between;
+        //   width: 50%;
+        //   font-size: 10px;
+        //   opacity: 0;
+        //   .icons {
+        //     margin-left: 5px;
+        //   }
+        // }
+
+        &:hover {
+        background-color: var(--main-color);
+        color: #fff;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        .image {
+          display: block;
+          img {
+            position: relative;
+            width: 100%;
+            background-size: cover;
+          }
+          // .insights {
+          //   position: absolute;
+          //   bottom: 20px;
+          //   opacity: 1;
+          // }
+        }
+        .head {
+          font-size: 10px;
+        }
+        .number {
+          color: #fff;
+          transition: all ease-in-out 0.5s;
+          -webkit-transition: all ease-in-out 0.5s;
+          -moz-transition: all ease-in-out 0.5s;
+          -ms-transition: all ease-in-out 0.5s;
+          -o-transition: all ease-in-out 0.5s;
+          transform: translateY(-10px);
+          -webkit-transform: translateY(-10px);
+          -moz-transform: translateY(-10px);
+          -ms-transform: translateY(-10px);
+          -o-transform: translateY(-10px);
+        }
+      }
+      }
+      .active {
+        background-color: var(--main-color);
+        color: #fff;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+        .image {
+          display: block;
+          img {
+            position: relative;
+            width: 100%;
+            background-size: cover;
+          }
+        }
+        .head {
+          font-size: 10px;
+        }
+        .number {
+          color: #fff;
+          transition: all ease-in-out 0.5s;
+          -webkit-transition: all ease-in-out 0.5s;
+          -moz-transition: all ease-in-out 0.5s;
+          -ms-transition: all ease-in-out 0.5s;
+          -o-transition: all ease-in-out 0.5s;
+          transform: translateY(-10px);
+          -webkit-transform: translateY(-10px);
+          -moz-transform: translateY(-10px);
+          -ms-transform: translateY(-10px);
+          -o-transform: translateY(-10px);
+        }
+      }
+    }
+  }
+}

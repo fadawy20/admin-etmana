@@ -1,0 +1,17 @@
+.item-spinner {
+  background-color: rgba(211, 195, 195, 0.5) !important;
+  z-index: 55555 !important;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+
+.my-spinner .p-progress-spinner .p-progress-spinner-svg circle {
+  stroke: blue !important;
+  color: blue !important;
+}

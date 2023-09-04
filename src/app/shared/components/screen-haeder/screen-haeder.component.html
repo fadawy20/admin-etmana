@@ -1,0 +1,33 @@
+<h2>
+  <span>{{ firstLetter }}</span>{{ title }}
+</h2>
+<div class="header">
+  <div *ngIf="hide" class="allSearch">
+    <i class="pi pi-search" style="margin: 4px 4px 0 0"></i>
+    <input type="text" #ColumnVal pInputText size="50" placeholder="Search" [(ngModel)]="serchValue" style="width: auto"
+      (ngModelChange)="this.userQuestionUpdate.next($event)" />
+  </div>
+  <div class="header-Btns">
+    <!-- create -->
+    <div *ngIf="showCreateBtn" class="crud">
+      <button class="ml-2 create" pButton type="button" icon="pi pi-plus-circle" label="Create" iconPos="right"
+        (click)="openDialog()"></button>
+    </div>
+    <div *ngIf="title == 'MPORTS'" class="crud">
+      <button class="ml-2 update" pButton type="button" label="Update Product" (click)="openDialog1()"></button>
+    </div>
+    <!-- filter,sort,columns -->
+    <div *ngIf="hide" class="d-flex align-items-center justify-content-end">
+      <button class="setting-btn" pButton type="button" (click)="changeShowFilterField()" icon="pi pi-filter"
+        label="Filter" iconPos="left"></button>
+
+      <div *ngIf="hide" class="vertical_lign"></div>
+      <button *ngIf="hide" class="setting-btn" pButton type="button" icon="pi pi-sort-amount-down" label="Sort"
+        iconPos="left"></button>
+      <div *ngIf="hide" class="vertical_lign"></div>
+      <button *ngIf="hide" class="setting-btn" pButton type="button" icon="pi pi-cog" label="Columns"
+        iconPos="left"></button>
+    </div>
+    <!-- create -->
+  </div>
+</div>

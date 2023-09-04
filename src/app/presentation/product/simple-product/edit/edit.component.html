@@ -1,0 +1,233 @@
+<div class="wrapper">
+  <div class="header">
+    <div class="d-flex align-items-center justify-content-lg-start">
+      <div class=" d-flex">
+        <button class="ml-2 back" pButton type="button" icon="pi pi-chevron-left" iconPos="right"
+          (click)="navigate()"></button>
+        <h2><span>A</span>dd new products</h2>
+      </div>
+
+
+        <div class="switch d-flex align-items-center ms-3">
+          <p-inputSwitch class="me-2" [formControl]=" _SimpleProductFormService.productForm.get('is_active')"></p-inputSwitch>
+          <p class="lead"   *ngIf="
+          _SimpleProductFormService.productForm.get('is_active')?.value ===
+          true
+        ">
+            Active
+          </p>
+          <p class="lead"   *ngIf="
+          _SimpleProductFormService.productForm.get('is_active')?.value ===
+          false
+        ">
+            in-Active
+          </p>
+        </div>
+
+
+      <div class="setting">
+        <button type="button" id="dropdownMenuButton1" class="status_btn ms-2" data-bs-toggle="dropdown"
+          aria-expanded="false" [style.background-color]="backGroundColor" [style.color]="color">
+          <p class="userName d-flex">
+            {{Status}} <i class="fa-solid fa-chevron-down ps-2"></i>
+          </p>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li>
+            <button class="status_btn_flag w-100 text-dark d-flex justify-content-between align-items-center"
+              (click)="changeStatus(1)"> <span>New</span> <i class="pi pi-bookmark fs-5"></i>
+            </button>
+          </li>
+          <hr>
+          <li>
+            <button class="status_btn_flag w-100 text-primary d-flex justify-content-between align-items-center"
+              (click)="changeStatus(2)"> <span> Approved </span> <i class="pi pi-check-circle fs-5"></i>
+            </button>
+          </li>
+          <hr>
+          <li>
+            <button class="status_btn_flag w-100 text-success d-flex justify-content-between align-items-center"
+              (click)="changeStatus(4)"> <span> Published </span> <i class="pi pi-send fs-5"></i>
+            </button>
+          </li>
+          <hr>
+          <li>
+            <button class="status_btn_flag w-100 text-danger d-flex justify-content-between align-items-center"
+              (click)="changeStatus(3)"> <span> Rejected </span> <i class="pi pi-times-circle fs-5"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div *ngIf="rejectionStatus">
+      <button class="ml-2 rejectStatus btn" icon="pi pi-chevron-right" (click)="showRejectModel($event)" type="button"
+        label="Rejection reasons" iconPos="right"><i class="fa-solid fa-circle-exclamation mx-2"></i>Rejection reasons<i
+          class="fa-solid fa-chevron-right mx-2"></i></button>
+    </div>
+    <!-- <div class="toggle_type">
+      <button class="ml-2 simple" pButton type="button" icon="pi pi-chevron-down" label="Simple" iconPos="right"
+        (click)="btnCrud.toggle($event)"></button>
+      <p-menu #btnCrud name="label" [popup]="true" ngDefaultControl [model]="createItems" appendTo="body"></p-menu>
+    </div> -->
+  </div>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-4">
+        <!-- Upload  -->
+        <form id="file-upload-form" class="uploader">
+          <input id="file-upload" type="file" (change)="uploadCoverIamge($event)" />
+          <label class="label" for="file-upload" id="file-drag">
+            <img *ngIf="viewImage" [src]="url" class="w-100" style="height: 300px; object-fit: cover" />
+            <div class="file-text text-center">
+              <i class="pi pi-camera" style="font-size: 20px; color: #9fa3b2" *ngIf="!viewImage"></i>
+              <p *ngIf="!viewImage">upload your product cover here</p>
+            </div>
+          </label>
+        </form>
+        <!-- Upload  -->
+
+
+        <div class="covers">
+          <!-- Upload  -->
+          <form [hidden]="hideSubImages" id="file-upload-form" class="uploader">
+            <input id="file-upload1" type="file" (change)="uploadIamgeSub1($event)" />
+            <label class="label-cover" for="file-upload1" id="file-drag">
+              <img *ngIf="viewFirstSubImage" [src]="firstSubUrl" class="w-100" />
+              <div class="file-text text-center">
+                <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!viewFirstSubImage"></i>
+              </div>
+            </label>
+          </form>
+          <!-- Upload  -->
+
+          <!-- Upload  -->
+          <form [hidden]="hideSubImages" id="file-upload-form" class="uploader">
+            <input id="file-upload2" type="file" (change)="uploadIamgeSub2($event)" />
+            <label class="label-cover" for="file-upload2" id="file-drag">
+              <img *ngIf="viewSecondSubImage" [src]="secondSubUrl" class="w-100" />
+              <div class="file-text text-center">
+                <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!viewSecondSubImage"></i>
+              </div>
+            </label>
+          </form>
+          <!-- Upload  -->
+
+
+          <!-- Upload  -->
+          <form [hidden]="hideSubImages" id="file-upload-form" class="uploader">
+            <input id="file-upload3" type="file" (change)="uploadIamgeSub3($event)" />
+            <label class="label-cover" for="file-upload3" id="file-drag">
+              <img *ngIf="viewThirdSubImage" [src]="thirdSubUrl" class="w-100" />
+              <div class="file-text text-center">
+                <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!viewThirdSubImage"></i>
+              </div>
+            </label>
+          </form>
+          <!-- Upload  -->
+
+
+          <!-- Upload  -->
+          <form [hidden]="hideSubImages" id="file-upload-form" class="uploader">
+            <input id="file-upload4" type="file" (change)="uploadIamgeSub4($event)" />
+            <label class="label-cover" for="file-upload4" id="file-drag">
+              <img *ngIf="viewFourthSubImage" [src]="fourthSubUrl" class="w-100" />
+              <div class="file-text text-center">
+                <i class="pi pi-camera" style="font-size: 15px; color: #9fa3b2" *ngIf="!viewFourthSubImage"></i>
+              </div>
+            </label>
+          </form>
+          <!-- Upload  -->
+
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <!-- tabs buttons -->
+        <div class="tabs">
+          <button class="btn" [ngClass]="!_SimpleProductFormService.productForm.dirty && tabName === 'info' ? 'active' :
+             _SimpleProductFormService.productForm.dirty && tabName === 'info' ? 'active_filled' :
+             !_SimpleProductFormService.productForm.dirty && tabName !== 'info' ? '' : 'not_active_filled' "
+            (click)="clickTab('info')">
+            Product Info
+          </button>
+
+          <div class="hr"></div>
+          <button [disabled]="!isDisabled" class="btn" [ngClass]="!_SimpleProductFormService.fuilfilmentForm.dirty && tabName === 'fulifilment' ? 'active' :
+          _SimpleProductFormService.fuilfilmentForm.dirty && tabName === 'fulifilment' ? 'active_filled' :
+          !_SimpleProductFormService.fuilfilmentForm.dirty && tabName !== 'fulifilment' ? '' : 'not_active_filled' "
+            (click)="clickTab('fulifilment')">
+            Fulifilment
+          </button>
+
+          <div class="hr"></div>
+          <button [disabled]="!isDisabled" class="btn" (click)="clickTab('marketing')" [ngClass]="!_SimpleProductFormService.marketingForm.dirty && tabName === 'marketing' ? 'active' :
+          _SimpleProductFormService.marketingForm.dirty && tabName === 'marketing' ? 'active_filled' :
+          !_SimpleProductFormService.marketingForm.dirty && tabName !== 'marketing' ? '' : 'not_active_filled' ">
+            Marketing info
+          </button>
+
+        </div>
+        <!-- tabs buttons -->
+
+        <!-- info -->
+        <app-product-info-tab #info [variationId]="variationId" [productId]='productId' *ngIf="tabName === 'info'"
+          (handleFormSubmission)="submitedForm($event)" [submitted]="submitted" [images]="images"
+          (onCategoryScroll)="handleCategoriesScrollEvent()" [categoryData]="categoryData" [categoryNext]="categoryNext"
+          (onSellerScroll)="handleSellerScrollEvent()" [sellersData]="sellersData" [sellertNxet]="sellertNxet"
+          (onBrandScroll)="handleBrandScrollEvent()" [brandsData]="brandsData" [brandNext]="brandNext"
+          [attributeSetsData]="attributeSetsData" (onAttSetScroll)="handleScrollEvent()"
+          (handleTabName)="changeTabName($event)" (handleTabName)="changeTabName($event)"
+          [AttributesValues]="AttributesValues" (handleAttSetValues)="setValue($event)" [next]="next"
+          [ProductVisibility]='ProductVisibility'>
+        </app-product-info-tab>
+
+
+        <!-- info -->
+
+        <!-- fulfilment -->
+        <app-fulfilment-tap #info [productId]='productId' (handleTabName)="changeTabName($event)"
+          *ngIf="tabName === 'fulifilment'">
+        </app-fulfilment-tap>
+        <!-- fulfilment -->
+
+        <!-- markrting -->
+        <app-marketing-tap #info [productId]='productId' (onProductScroll)="handleProductScrollEvent()"
+          [productData]="productData" [productNext]='productNext' *ngIf="tabName === 'marketing'"></app-marketing-tap>
+        <!-- markrting -->
+
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<p-toast></p-toast>
+
+
+<p-dialog [style]="{ width: '50vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }" [baseZIndex]="10000"
+  [modal]="true" header="Are You Sure" [(visible)]="display" [draggable]="false" [closable]="false">
+  <h3 class="text-danger">Are you Sure You want to Reject This Item !</h3>
+  <div class="row">
+    <div class="col-md-6 my-2" *ngFor="let reason of allReasons">
+      <div class=" w-100 d-flex justify-content-between align-items-center ">
+        <p> {{reason.id}} : {{reason.description_en}}</p>
+        <p-checkbox [binary]="true" [(ngModel)]="reason.isSelected"></p-checkbox>
+      </div>
+      <hr>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width w-100" appearance="outline">
+        <mat-label>Other Commments</mat-label>
+        <textarea matInput placeholder="Other Commments..." [(ngModel)]="comment"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-6 float-end">
+      <div class="btns d-flex flex-row-reverse">
+        <app-add-button class="w-100" [title]="'Save '" (click)="submitRejection()">
+        </app-add-button>
+        <app-cancel-button class="w-100 mx-2" (click)="cancel()"></app-cancel-button>
+      </div>
+    </div>
+  </div>
+</p-dialog>

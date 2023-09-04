@@ -1,0 +1,13 @@
+.Delete {
+  border-radius: 7px !important;
+  background-color: #ffcccb !important;
+  border-color: #ffcccb;
+  color: #dc143c;
+  padding: 9px !important;
+  font-size: 14px;
+  &:enabled:hover {
+    background: transparent !important;
+    color: #dc143c;
+    border-color: #dc143c;
+  }
+}

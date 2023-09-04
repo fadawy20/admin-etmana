@@ -1,0 +1,329 @@
+@mixin inputs-places {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper {
+  padding: 1rem;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .form {
+    .Full_Name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+  .filters {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+  .cancel {
+    border: 1px solid #0f183d !important;
+    color: #000000 !important;
+    border-radius: 10px !important;
+    padding: 13px 1.25rem !important;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+  }
+  //   .Status__filter {
+  //     @include inputs-places;
+  //     margin: 0px 10px;
+  //     ::ng-deep p-inputSwitch {
+  //       padding: 0px 10px;
+  //     }
+  //     span {
+  //       color: rgba(192, 192, 192, 0.8) !important;
+  //     }
+  //     .active {
+  //       color: #4e4e4e !important;
+  //     }
+  //   }
+  // }
+}
+
+//   ::ng-deep {
+//     .p-calendar {
+//       width: 100% !important;
+//     }
+//     .p-dropdown {
+//       width: 100% !important;
+//     }
+//     .p-multiselect {
+//       width: 100%;
+//     }
+//     .p-multiselect .p-multiselect-label {
+//       display: flex !important;
+//       align-items: center;
+//     }
+//     .item-list {
+//       display: flex !important;
+//       align-items: center;
+//       gap: 10px;
+//       width: 100%;
+//     }
+//     .item-list-result{
+//       display: flex !important;
+//       align-items: center;
+//       gap: 5px;
+//     }
+//     .box {
+//       width: 20px;
+//       height: 20px;
+//     }
+//     //   .p-component, .p-component * {
+//     // }
+//   }
+.inputs {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.export {
+  background-color: #fed8b17a;
+  // border-color: var(--darkRed);
+  border: none !important;
+  color: var(--darkRed);
+  font-weight: 200 !important;
+  transform: all 0.4s ease-in-out !important;
+  border-radius: 5px;
+}
+
+.export:hover {
+  background: var(--darkRed) !important;
+  color: #fff !important;
+  // border-color: var(--darkRed) !important;
+}
+
+.reset {
+  background-color: #bbbbbb6c;
+  // border-color: var(--darkRed);
+  border: none !important;
+  color: #4e4e4e;
+  font-weight: 200 !important;
+  transform: all 0.4s ease-in-out !important;
+  border-radius: 5px;
+}
+
+.reset:hover {
+  background: transparent !important;
+  border-color: #4e4e4e !important;
+  color: #4e4e4e !important;
+  // border-color: var(--darkRed) !important;
+}
+
+.btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #acb0b4;
+  margin-top: 1rem;
+  h3 {
+    transition: all 0.4s ease;
+    font-weight: 300;
+  }
+}
+
+.btn {
+  transition: all 0.4s ease;
+}
+
+.btn-details:enabled:hover h3 {
+  color: #4e4e4e !important;
+}
+
+.btn-edit:enabled:hover h4 {
+  color: var(--mainColor) !important;
+}
+
+.btn-delete:enabled:hover h4 {
+  color: var(--darkRed) !important;
+}
+
+.btn-setting:enabled:hover h4 {
+  color: #09c !important;
+}
+
+.actions {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+
+:host ::ng-deep {
+  form .p-dropdown
+  {
+    width: 100% !important;
+  }
+  .myPanelClass {
+    margin-top: 30px !important;
+  }
+  .p-datatable-responsive-scroll > .p-datatable-wrapper {
+    overflow-x: auto;
+    min-height: 300px;
+  }
+  .p-datatable.p-datatable-striped .p-datatable-tbody > tr:nth-child(2n) {
+    background: #f7f7f7;
+  }
+  #myTable {
+    .p-datatable-thead {
+      background: #0e1740;
+    }
+    .p-datatable .p-datatable-thead > tr > th {
+      color: white;
+      text-transform: uppercase;
+    }
+    .p-datatable .p-datatable-thead > tr > th {
+      background: inherit;
+    }
+    td {
+      padding: 0.1em 20px !important;
+    }
+  }
+  .p-component-overlay {
+    background-color: rgba(204, 204, 204, 0.4);
+    transition-duration: 0.2s;
+  }
+  .p-datatable-wrapper {
+    border-radius: 20px;
+  }
+  // .add {
+  //     color: #0e1740;
+  //     border: 1px solid #0e1740;
+  //     background-color: white;
+  // }
+}
+
+@media screen and (max-width: 600px) {
+  :host ::ng-deep {
+    .p-datatable .p-datatable-thead > tr > th {
+      text-align: left;
+      padding: 1rem 1rem;
+      border: 1px solid #dee2e6;
+      border-width: 0 0 1px 0;
+      font-weight: 700;
+      color: #343a40;
+      background: #f8f9fa;
+      transition: box-shadow 0.2s;
+      font-size: 13px;
+    }
+  }
+}
+
+// background: var(--darkRed);
+// color: #ffffff;
+// border-color: var(--darkRed);
+// font-weight: 200 !important;
+::ng-deep {
+  .mat-form-field {
+    width: 100% !important;
+  }
+  .p-dropdown {
+    width: 100% !important;
+  }
+  .p-inputswitch {
+    float: right;
+  }
+  .myPanelClass {
+    margin-top: 30px !important;
+  }
+}
+.upload-file {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #00a599 !important;
+  border-radius: 8px;
+  position: relative;
+  margin: 10px 0 0;
+  text-align: center;
+  padding: 10px !important;
+  margin-right: 30px;
+  width: 41%;
+
+  input {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+.imguploaded {
+  width: 50px;
+  height: 50px;
+}
+#label {
+  color: #9fa3b2;
+}
+.texturl {
+  color: #9fa3b2;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 20px;
+}
+
+.uploadData {
+  border-bottom: 2px solid #eee !important;
+  padding-bottom: 0.4rem;
+}
+
+
+.apply-filter
+{
+  background-color: #0F183D;
+    color: #FFFFFF;
+    font-size: 12px;
+    padding: 11px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 9%;
+}
+.apply-filter:hover
+{
+  background-color: #0F183D;
+  color: #FFFFFF;
+  border:1px solid #0F183D;
+}
+.cancel-filter
+{
+  background-color: transparent;
+    color: #0F183D;
+    font-size: 13px;
+    padding: 10px 0px;
+    border: 1px solid #0F183D;
+    border-radius: 5px;
+    width: 6%;
+}
+.cancel-filter:hover
+{
+  background-color: transparent;
+  color: #0F183D;
+  border:1px solid #0F183D;
+}
+.col-md-4
+{
+  margin: 8px 0px;
+  label
+  {
+    margin: 2px;
+  }
+}

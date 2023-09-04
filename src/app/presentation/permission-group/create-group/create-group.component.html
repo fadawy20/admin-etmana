@@ -1,0 +1,316 @@
+<div class="wrapper">
+  <div class="d-flex align-items-center">
+    <div class="header mx-2 my-2">
+      <h2>
+        <p class="back px-3" (click)="backToRole()">
+          <i class="fa-solid fa-angle-left"></i>
+        </p>
+        <span>C</span>REATE PERMISSION GROUP
+      </h2>
+    </div>
+  </div>
+  <section class="content">
+    <div class="row mt-4">
+      <div class="col-md-7">
+        <div class="group-info p-3">
+          <div class="group-info-header">
+            <h3>GROUP INFO</h3>
+          </div>
+          <div class="group-info-con">
+            <form action="" [formGroup]="roleForm">
+              <div class="form-group">
+                <label class="px-1" for="groupName">Group name</label>
+                <input
+                  id="groupName"
+                  type="text"
+                  class="form-control"
+                  placeholder="Type here"
+                  formControlName="Group_name"
+                />
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    submitted &&
+                    roleForm.get('Group_name')?.hasError('required')
+                  "
+                >
+                  Name Group is Required
+                </small>
+              </div>
+
+              <div class="form-group mt-4 pb-2">
+                <label class="px-1">All Roles</label>
+                <br />
+                <p-dropdown
+                  placeholder="Select multiple Rule Permissions"
+                  [options]="allRole"
+                  (onChange)="chaning($event)"
+                  formControlName="Role_name"
+                  optionLabel="name"
+                ></p-dropdown
+                ><br />
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    submitted && roleForm.get('Role_name')?.hasError('required')
+                  "
+                >
+                  Role is required</small
+                >
+              </div>
+
+              <div class="role-content" *ngIf="roleForm.get('Role_name').value">
+                <ul class="p-0 m-0">
+                  <li class="d-flex justify-content-between p-2">
+                    <div class="role-name">All {{ roleName }}</div>
+                    <div class="icon" (click)="addAll(permissionRole)">
+                      <svg
+                        *ngIf="isChecked"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        width="28"
+                        height="28"
+                      >
+                        <g
+                          transform="translate(852.913 -963.534)"
+                          fill="#000000"
+                          class="color000 svgShape"
+                        >
+                          <circle
+                            style="marker: none"
+                            cx="-844.913"
+                            cy="971.534"
+                            r="7"
+                            fill="#e9eded"
+                            color="#000"
+                            overflow="visible"
+                            class="colore9eded svgShape"
+                          ></circle>
+                          <path
+                            fill="none"
+                            stroke="#5f2d79"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m-847.903 971.191 1.641 1.966 4.338-3.238"
+                            class="colorStroke25b39e svgStroke"
+                          ></path>
+                        </g>
+                      </svg>
+                      <svg
+                        *ngIf="!isChecked"
+                        id="Group_15774"
+                        data-name="Group 15774"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 32 32"
+                      >
+                        <g id="Group_13645" data-name="Group 13645">
+                          <rect
+                            id="Rectangle_27540"
+                            data-name="Rectangle 27540"
+                            width="32"
+                            height="32"
+                            rx="4"
+                            fill="#efeaf1"
+                          />
+                          <g
+                            id="Group_15814"
+                            data-name="Group 15814"
+                            transform="translate(10 10)"
+                          >
+                            <line
+                              id="Line_1003"
+                              data-name="Line 1003"
+                              x2="12"
+                              transform="translate(0 6)"
+                              fill="none"
+                              stroke="#583275"
+                              stroke-linecap="round"
+                              stroke-width="1.5"
+                            />
+                            <line
+                              id="Line_1004"
+                              data-name="Line 1004"
+                              x2="12"
+                              transform="translate(6) rotate(90)"
+                              fill="none"
+                              stroke="#583275"
+                              stroke-linecap="round"
+                              stroke-width="1.5"
+                            />
+                          </g>
+                        </g>
+                      </svg>
+                    </div>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between p-2"
+                    *ngFor="let item of permissionRole"
+                  >
+                    <div class="role-name">
+                      {{ item.name }}
+                    </div>
+                    <div class="icon" (click)="createPermission(item)">
+                      <svg
+                        id="Group_15774"
+                        data-name="Group 15774"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 32 32"
+                      >
+                        <g id="Group_13645" data-name="Group 13645">
+                          <rect
+                            id="Rectangle_27540"
+                            data-name="Rectangle 27540"
+                            width="32"
+                            height="32"
+                            rx="4"
+                            fill="#efeaf1"
+                          />
+                          <g
+                            id="Group_15814"
+                            data-name="Group 15814"
+                            transform="translate(10 10)"
+                          >
+                            <line
+                              id="Line_1003"
+                              data-name="Line 1003"
+                              x2="12"
+                              transform="translate(0 6)"
+                              fill="none"
+                              stroke="#583275"
+                              stroke-linecap="round"
+                              stroke-width="1.5"
+                            />
+                            <line
+                              id="Line_1004"
+                              data-name="Line 1004"
+                              x2="12"
+                              transform="translate(6) rotate(90)"
+                              fill="none"
+                              stroke="#583275"
+                              stroke-linecap="round"
+                              stroke-width="1.5"
+                            />
+                          </g>
+                        </g>
+                      </svg>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="group-name p-3">
+          <div class="content">
+            <h3 class="pb-2 d-flex justify-content-between">
+              <span>GROUP NAME</span>
+              <span *ngIf="showPermissionRole.length > 0">
+                {{ showPermissionRole.length }} Roles</span
+              >
+            </h3>
+            <div class="detalis">
+              <ul class="p-0 m-0">
+                <li
+                  class="d-flex justify-content-between p-2"
+                  *ngFor="let item of showPermissionRole"
+                >
+                  <div class="role-name">
+                    {{ item.name }}
+                  </div>
+                  <div class="icon" (click)="deletePermission(item.id)">
+                    <svg
+                      id="Group_15774"
+                      data-name="Group 15774"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <g id="Group_13645" data-name="Group 13645">
+                        <rect
+                          id="Rectangle_27540"
+                          data-name="Rectangle 27540"
+                          width="24"
+                          height="24"
+                          fill="#9fa3b2"
+                          opacity="0"
+                        />
+                        <g
+                          id="Group_13752"
+                          data-name="Group 13752"
+                          transform="translate(6.105 3.996)"
+                        >
+                          <path
+                            id="Icon_material-delete"
+                            data-name="Icon material-delete"
+                            d="M8.369,18.4a1.742,1.742,0,0,0,1.737,1.737h6.949A1.742,1.742,0,0,0,18.793,18.4V7.975H8.369ZM19.661,5.369h-3.04L15.752,4.5H11.409l-.869.869H7.5V7.106H19.661Z"
+                            transform="translate(-7.5 -4.5)"
+                            fill="#d92059"
+                          />
+                          <line
+                            id="Line_112"
+                            data-name="Line 112"
+                            y2="10.032"
+                            transform="translate(3.04 3.34)"
+                            fill="none"
+                            stroke="#fff"
+                            stroke-linecap="round"
+                            stroke-width="1"
+                          />
+                          <line
+                            id="Line_114"
+                            data-name="Line 114"
+                            y2="6.691"
+                            transform="translate(6.081 3.34)"
+                            fill="none"
+                            stroke="#fff"
+                            stroke-linecap="round"
+                            stroke-width="1"
+                          />
+                          <line
+                            id="Line_113"
+                            data-name="Line 113"
+                            y2="10.032"
+                            transform="translate(9.121 3.34)"
+                            fill="none"
+                            stroke="#fff"
+                            stroke-linecap="round"
+                            stroke-width="1"
+                          />
+                        </g>
+                      </g>
+                    </svg>
+                    <span>delete</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="action">
+            <div class="row">
+              <div class="col-5">
+                <button (click)="reset()">CANCEL</button>
+              </div>
+              <div class="col-7" *ngIf="idRole">
+                <button class="create" (click)="editRole()">Edit</button>
+              </div>
+              <div class="col-7" *ngIf="!idRole">
+                <button class="create" (click)="createRole()">CREATE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<p-toast></p-toast>

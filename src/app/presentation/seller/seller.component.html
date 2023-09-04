@@ -1,0 +1,39 @@
+<div class="wrapper">
+  <div class="my-3">
+    <app-screen-haeder (CreateHandler)="CreateSeller()" [firstLetter]="'S'" [title]="'ELLERS'"
+      (searchValue)="search($event)" [filterOfNames]="filterOfNames" (showFilterField2)="showFilterFieldFn($event)">
+    </app-screen-haeder>
+  </div>
+
+  <form *ngIf="showFilterField" [formGroup]="filterField">
+    <div class="row my-3">
+      <div class="col-md-4 d-flex align-items-center gap-3" *ngFor="let item of filterOfNames">
+        <div class="w-100">
+          <label for="">{{item ==='email' ? 'E-mail':''}}</label><br>
+          <input type="text" [formControlName]="item" class="w-100" pInputText [placeholder]="
+          item ==='email' ? 'E-mail':''
+          ">
+        </div>
+      </div>
+    </div>
+    <div class=" d-flex justify-content-end align-items-baseline gap-3">
+      <button type="submit" (click)="getFilterAction()" class="apply-filter btn">Apply Filter</button>
+      <button (click)="resetFormColumn()" class="cancel-filter btn">Reset</button>
+
+    </div>
+  </form>
+  <app-data-table [loadingIndicator]="loadingIndicator" (sendTablePageSize)="paginationHandler($event)"
+    (isEditBtnClicked)="EditHandler($event)" (isDeleteBtnClicked)="deleteHandler($event)" [showActionCol]="true"
+    [showDetailsAction]="false" [showDeleteAction]="true" [showEditAction]="true" [tableHeaders]="tableHeader"
+    [tableData]="data$ | async" [totalItems]="length" [page]="page" #table [tableColumn]="tableHeader"
+    (isBulkExportBtnClicked)="handleBulkExportedData($event)" (isStatusChanged)="changeActiveStatus($event)"
+    [showToggleStatus]="true" [tableColumn]="tableHeader">
+  </app-data-table>
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{ width: '30vw' }" [breakpoints]="{ '960px': '75vw', '640px': '97vw' }"
+    [baseZIndex]="10000">
+  </p-confirmDialog>
+
+
+
+</div>

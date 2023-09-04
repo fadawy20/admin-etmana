@@ -1,0 +1,58 @@
+<div class="promotion inventor">
+  <h4>Promotion</h4>
+
+  <div class="content">
+    <ng-container
+      *ngIf="
+        promotion.promocodes.length > 0 || promotion.promotions.length > 0;
+        else elseBlock
+      "
+    >
+      <mat-tab-group>
+        <mat-tab label="Offers">
+          <div class="offres">
+            <ul class="offre">
+              <li *ngFor="let offer of promotion.promotions">
+                <div class="d-flex justify-content-between">
+                  <a href="javascript:void(0)">{{ offer.promotion_name }}</a>
+                  <span>{{ offer.count | number }} Items</span>
+                </div>
+                <p>{{ offer.condition }}</p>
+              </li>
+            </ul>
+          </div>
+        </mat-tab>
+        <mat-tab label="Promo Codes">
+          <div class="offres">
+            <ul class="offre">
+              <li *ngFor="let promo of promotion.promocodes | slice : 0 : 12">
+                <div class="d-flex justify-content-between">
+                  <a href="javascript:void(0)">{{ promo.promotion_code }}</a>
+                  <span>{{ promo.count | number }}</span>
+                </div>
+                <p>{{ promo.condition }}</p>
+              </li>
+            </ul>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </ng-container>
+
+    <ng-template #elseBlock>
+      <div class="images">
+        <img
+          src="../../../../../assets/images/Discount-pana.svg"
+          alt=""
+          srcset=""
+        />
+        <div class="info">
+          <h3 class="mb-0">No offers</h3>
+          <p>
+            There is no offers now ! <br />
+            You will find here all offers soon.
+          </p>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

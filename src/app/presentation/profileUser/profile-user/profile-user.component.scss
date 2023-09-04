@@ -1,0 +1,84 @@
+.header {
+  div {
+    display: inline-block;
+    cursor: pointer;
+  }
+  span {
+    font-size: 20px;
+    &:first-of-type {
+      border-bottom: 3px solid #00a599;
+    }
+    // &:last-of-type {
+    //   font-size: 12px;
+    //   background-color: #00a599;
+    //   border-radius: 20px;
+    //   -webkit-border-radius: 20px;
+    //   -moz-border-radius: 20px;
+    //   -ms-border-radius: 20px;
+    //   -o-border-radius: 20px;
+    //   color: #fff;
+    //   margin-left: 10px;
+    //   padding: 5px 15px;
+    // }
+  }
+  .create-order {
+    padding: 10px 15px;
+    background-color: #5f2d79;
+    color: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border: none;
+    width: 200px;
+  }
+}
+
+.sidebar {
+  background-color: #f1f1f1;
+  padding: 10px;
+  transition: all ease-in-out 0.5s;
+  -webkit-transition: all ease-in-out 0.5s;
+  -moz-transition: all ease-in-out 0.5s;
+  -ms-transition: all ease-in-out 0.5s;
+  -o-transition: all ease-in-out 0.5s;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  a {
+    color: #aaa;
+    padding: 10px;
+    cursor: pointer;
+    span {
+      display: inline-block;
+      margin-left: 20px;
+    }
+    &:hover {
+      font-weight: bold;
+      color: #4c2460;
+      svg {
+        path {
+          stroke: #4c2460;
+        }
+      }
+    }
+    .icon {
+      display: none;
+    }
+  }
+  .active {
+    font-weight: bold;
+    color: #4c2460;
+    svg {
+      path {
+        stroke: #4c2460;
+      }
+    }
+    .icon {
+      display: block;
+    }
+  }
+}

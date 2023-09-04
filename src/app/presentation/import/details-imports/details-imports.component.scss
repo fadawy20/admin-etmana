@@ -1,0 +1,107 @@
+a{
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+.btnDeleted{
+  color: #ED2B8C;
+  background-color: rgb(241, 234, 234);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.detailsImport,.according{
+  background-color: white;
+  border-radius: 1rem;
+}
+.listImported{
+  border-bottom: .1rem solid #EEE;
+  padding-bottom: 2rem;
+}
+.btnUpload
+{
+  border-radius: .5rem;
+  background-color: rgb(23, 23, 97);
+  color: white;
+}
+
+.SuccessStatus{
+  color:green;
+  background-color:rgba(119, 196, 125, 0.5);
+}
+.cancel,.save{
+  background-color: none !important;
+  border: 1px solid blueviolet;
+  border-radius: .5rem;
+  color: white;
+}
+.cancel{
+  color: black;
+  border: 2px solid rgb(23, 23, 97);;
+  width: 10vw !important;
+}
+
+.save{
+  background-color: rgb(23, 23, 97);
+  color: white;
+}
+.cancel:hover{
+  background-color: none ;
+}
+.cancelbtn{
+margin-top: 7rem !important;
+}
+.nameOfFile{
+  text-decoration: underline !important;
+}
+
+
+.upload-file{
+  width: 100%;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #0e1740 !important;
+  border: 1px solid black;
+  border-radius: 8px;
+  position: relative;
+  margin: 16px 0 0;
+  text-align: center;
+  font-weight: bold;
+  padding-top: 2px;
+
+
+  input{
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+.new{
+  color:green;
+  background-color:rgba(119, 196, 125, 0.5);
+  border-radius:.5rem;
+  padding:.5rem
+}
+.success{
+background-color: #00A599;
+border-radius:.5rem;
+padding:.5rem;
+color:white;
+}
+.faild{
+  color:#ED2B8C;
+  background-color:#FBE8EE;
+  border-radius:.5rem;
+  padding:.5rem
+}
+
+

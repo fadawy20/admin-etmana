@@ -1,0 +1,99 @@
+.wrapper {
+  padding: 1.5rem 0rem;
+  h2 {
+    color: #0e1740 !important;
+    font-size: 25px !important;
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif !important;
+    span {
+      position: relative;
+    }
+  }
+  .general-info,
+  .Conditions {
+    h4 {
+      color: #0e1740;
+      text-transform: uppercase;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+  }
+}
+
+h2 span::after {
+  content: "";
+  background-color: #48a299;
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  left: 0%;
+  top: 100%;
+  border-radius: 5px;
+}
+
+::ng-deep {
+  .p-dropdown {
+    display: inline-flex;
+    cursor: pointer;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 100%;
+    border-radius: 10px;
+  }
+  .p-calendar .p-inputtext {
+    border: none !important;
+    border-top: 1px solid #b7b9bb !important;
+    border-bottom: 1px solid #b7b9bb !important;
+    border-left: 1px solid #b7b9bb !important;
+    background-color: transparent !important;
+  }
+  .p-calendar {
+    width: 100% !important;
+  }
+  // .p-button {
+  //   color: #000 !important;
+  //   background-color: transparent !important;
+  //   border: none !important;
+  //   border-top: 1px solid #b7b9bb !important;
+  //   border-right: 1px solid #b7b9bb !important;
+  //   border-bottom: 1px solid #b7b9bb !important;
+  // }
+  .p-button:hover {
+    color: #000;
+  }
+}
+
+label {
+  color: #0e1740 !important;
+  font-size: 12px !important;
+  padding: 7px 0px;
+  font-weight: 600 !important;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 14px 0.75rem !important;
+  border-radius: 10px;
+}
+
+.cancel,
+.cancel:hover {
+  border: 1px solid #0f183d;
+  border-radius: 8px;
+  color: #0f183d;
+  font-size: 15px;
+  font-weight: 400 !important;
+  width: 100%;
+}
+
+.submit,
+.submit:hover {
+  background: #5f2d79 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  width: 100%;
+  color: #ffff;
+}
