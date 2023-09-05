@@ -39,6 +39,8 @@ export class DataTableComponent implements OnInit {
   @Input() Message: string = 'Loading...';
   @Input() totalItems: any;
   @Input() page: any;
+  @Input() perPage: number = 50;
+
   @Input() image: any;
   @Input() showImage: boolean = false;
   @Input() imageHeader?: string;
@@ -51,6 +53,8 @@ export class DataTableComponent implements OnInit {
   @Input() viewStatus: boolean = false;
   @Input() hidePunlishOption: boolean = true;
   @Input() hidePagintation: boolean = true;
+  @Input() hideExport: boolean = true;
+
   @Input() selectedItems: any[] = [];
   // active or in-active status
   @Input() activeStatus: boolean = false;

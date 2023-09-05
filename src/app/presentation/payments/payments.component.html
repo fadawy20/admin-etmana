@@ -13,6 +13,9 @@
       <div class="col-md-3">
         <label class="mb-2 fw-bold">Sellers</label><br />
         <p-dropdown
+          #dropdownSellerId
+          [(ngModel)]="selectedSellerId"
+          [ngModelOptions]="{standalone: true}"
           [options]="sellers"
           placeholder="Choose Seller"
           optionLabel="name"
@@ -22,6 +25,9 @@
       <div class="col-md-3">
         <label class="mb-2 fw-bold">Is Validate</label><br />
         <p-dropdown
+          #dropdownIsValidated
+          [(ngModel)]="selectedIsValidated"
+          [ngModelOptions]="{standalone: true}"
           [options]="isValidatedValue"
           placeholder="Choose Is Validate"
           optionLabel="name"
@@ -30,11 +36,33 @@
       </div>
       <div class="col-md-3">
         <label class="mb-2 fw-bold">From</label><br />
-        <p-calendar formControlName="from_date" dateFormat="dd-mm-yy" [showIcon]="true"></p-calendar>
+        <!-- <p-calendar
+          formControlName="from_date"
+          dateFormat="dd-mm-yy"
+          [showIcon]="true"
+        ></p-calendar> -->
+        <input
+              type="date"
+              id="from_date"
+              [max]="maxDate"
+              formControlName="from_date"
+              class="form-control mt-2"
+            />
       </div>
       <div class="col-md-3">
         <label class="mb-2 fw-bold">To</label><br />
-        <p-calendar formControlName="to_date" dateFormat="dd-mm-yy" [showIcon]="true"></p-calendar>
+        <!-- <p-calendar
+          formControlName="to_date"
+          dateFormat="dd-mm-yy"
+          [showIcon]="true"
+        ></p-calendar> -->
+        <input
+              type="date"
+              id="to_date"
+              [max]="maxDate"
+              formControlName="to_date"
+              class="form-control mt-2"
+            />
       </div>
       <div class="row justify-content-end">
         <div class="col-md-3 d-flex justify-content-end align-items-end mt-3">
@@ -61,7 +89,7 @@
   <button
     *ngIf="showValidateBtn"
     type="submit"
-    (click)="validateItemsSeller()"
+    (click)="validateItemList()"
     class="btn-success btn"
   >
     validate items
@@ -74,9 +102,12 @@
     [tableData]="data$ | async"
     [totalItems]="length"
     [page]="page"
+    [perPage]="perPage"
     #table
     [tableColumn]="tableHeader"
+    (sendTablePageSize)="paginationHandler($event)"
     (itemsSelected)="itemsSelected($event)"
+    [hideExport]="false"
   >
   </app-data-table>
   <p-toast></p-toast>

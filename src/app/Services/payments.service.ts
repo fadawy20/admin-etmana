@@ -4,18 +4,23 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PaymentsService {
+  baseUrl: string = environment.baseUrl;
 
-  baseUrl: string = environment.baseUrl
-
-  constructor(private _HttpClient: HttpClient) { }
+  constructor(private _HttpClient: HttpClient) {}
 
   getPayments(params: any): Observable<any> {
-    return this._HttpClient.get(
-      `${this.baseUrl}admin/order/item-list`,
-      { params: params }
+    return this._HttpClient.get(`${this.baseUrl}admin/order/item-list`, {
+      params: params,
+    });
+  }
+
+  validateItemList(itemListIds: any): Observable<any> {
+    return this._HttpClient.post(
+      `${this.baseUrl}admin/order/update/item-list`,
+      itemListIds
     );
   }
 }

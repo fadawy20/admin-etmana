@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ScreenHaederComponent } from 'src/app/shared/components/screen-haeder/screen-haeder.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { Observable, Subscription, map, of } from 'rxjs';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Observable, Subscription, of } from 'rxjs';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SellerService } from 'src/app/Services/seller.service';
 import { PaymentsService } from 'src/app/Services/payments.service';
 import { HttpParams } from '@angular/common/http';
+import { Dropdown } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-payments',
@@ -16,6 +16,13 @@ import { HttpParams } from '@angular/common/http';
   styleUrls: ['./payments.component.scss'],
 })
 export class PaymentsComponent implements OnInit {
+  maxDate = new Date().toISOString().slice(0, 10);
+  @ViewChild('dropdownSellerId') dropdownSellerId!: Dropdown;
+  @ViewChild('dropdownIsValidated') dropdownIsValidated!: Dropdown;
+
+  selectedSellerId: any;
+  selectedIsValidated: any;
+
   subscription = new Subscription();
   paginationParams = new HttpParams();
   filterPaymentsParams = new HttpParams();
@@ -23,176 +30,63 @@ export class PaymentsComponent implements OnInit {
   loadingIndicator: boolean = false;
   showValidateBtn: boolean = false;
   selectedItems = [];
-  length: number = 0;
+  length: number = 5;
   page: number = 0;
+  perPage:number = 5;
   selectStatus: any;
   tableHeader = [
-    // { field: 'serial_number', header: 'Serial Number' },
-    { field: 'order_id', header: 'Order Number' },
-    { field: 'create_date', header: 'Date' },
+    { field: 'seller_name', header: 'Seller Name' },
+    { field: 'serial_number', header: 'Order Number' },
+    { field: 'created_at', header: 'Date' },
     { field: 'item_name', header: 'Item Name' },
-    { field: 'item_sku', header: 'Sku' },
+    { field: 'sku', header: 'Sku' },
     { field: 'status', header: 'Status' },
-    { field: 'sale_price', header: 'Price' },
-    { field: 'cost', header: 'Cost' },
-    { field: 'margin', header: 'Commission Percentage' },
-    { field: 'margin', header: 'Commission' },
+    { field: 'original_price', header: 'Original Price' },
+    { field: 'price', header: 'Price' },
+    { field: 'cost_price', header: 'Cost' },
+    { field: 'commission_percentage', header: 'Commission Percentage' },
+    { field: 'commission_amount', header: 'Commission' },
     { field: 'total_revenue', header: 'Total Revenue' },
-    { field: 'validated', header: 'Is Validated' },
+    { field: 'is_validated', header: 'Is Validated' },
   ];
-  payments = {
-    data: [
-      {
-        id: 1,
-        serial_number: 1254,
-        create_date: '16/9/1998',
-        order_id: 1235,
-        item_name: 'Test Bag',
-        item_sku: 'KK1245',
-        status: 'Delivered',
-        sale_price: 125,
-        cost: 100,
-        margin: '7%',
-        total_revenue: 1555,
-        validated: 'true',
-      },
-      {
-        id: 2,
-        serial_number: 1254,
-        create_date: '16/9/1998',
-        order_id: 1235,
-        item_name: 'Test Bag',
-        item_sku: 'KK1245',
-        status: 'Delivered',
-        sale_price: 125,
-        cost: 100,
-        margin: '7%',
-        total_revenue: 1555,
-        validated: 'true',
-      },
-      {
-        id: 3,
-        serial_number: 1254,
-        create_date: '16/9/1998',
-        order_id: 1235,
-        item_name: 'Test Bag',
-        item_sku: 'KK1245',
-        status: 'Delivered',
-        sale_price: 125,
-        cost: 100,
-        margin: '7%',
-        total_revenue: 1555,
-        validated: 'false',
-      },
-    ],
-    links: {
-      first: 'https://api-staging.etmana.com/api/admin/sellers?page=1',
-      last: 'https://api-staging.etmana.com/api/admin/sellers?page=2',
-      prev: null,
-      next: 'https://api-staging.etmana.com/api/admin/sellers?page=2',
-    },
-    meta: {
-      current_page: 1,
-      from: 1,
-      last_page: 2,
-      links: [
-        {
-          url: null,
-          label: '&laquo; Previous',
-          active: false,
-        },
-        {
-          url: 'https://api-staging.etmana.com/api/admin/sellers?page=1',
-          label: '1',
-          active: true,
-        },
-        {
-          url: 'https://api-staging.etmana.com/api/admin/sellers?page=2',
-          label: '2',
-          active: false,
-        },
-        {
-          url: 'https://api-staging.etmana.com/api/admin/sellers?page=2',
-          label: 'Next &raquo;',
-          active: false,
-        },
-      ],
-      path: 'https://api-staging.etmana.com/api/admin/sellers',
-      per_page: 50,
-      to: 50,
-      total: 100,
-    },
-  };
+  payments = [];
   filterField = this._FormBuilder.group({
     ['from_date']: [''],
     ['to_date']: [''],
     ['is_validate']: [],
     ['seller_id']: [],
   });
-  data$: Observable<any[]> = of(this.payments.data);
+  data$!: Observable<any[]>;
+
   sellers = [];
   isValidatedValue = [
-    { value: false, name: 'false' },
-    { value: true, name: 'true' },
+    { value: 0, name: 'false' },
+    { value: 1, name: 'true' },
   ];
 
-  get fromDate(){
+  get fromDate() {
     return this.filterField.get('from_date');
   }
-  get toDate(){
+  get toDate() {
     return this.filterField.get('to_date');
   }
-  get isValidated(){
+  get isValidated() {
     return this.filterField.get('is_validate');
   }
-  get sellerId(){
+  get sellerId() {
     return this.filterField.get('seller_id');
   }
 
   constructor(
     private _SellerService: SellerService,
     private _PaymentsService: PaymentsService,
-    private _FormBuilder:FormBuilder
+    private _FormBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.getAllSellers();
     this.getAllPayments();
   }
-
-  // get all Sellers
-  // get() {
-  //   this.loadingIndicator = true;
-  //   this.paginationParams = this.paginationParams.set('page', 1);
-  //   this.paginationParams = this.paginationParams.set('per_page', 50);
-
-  //   return this._SellServices.get(this.paginationParams).pipe(
-  //     map((Seller) => {
-  //       console.log(this.responseData, 'This is seller');
-
-  //       this.length = this.responseData.meta.total;
-  //       return Seller?.data?.map((seller: any) => {
-  //         // console.log(seller, 'This is seller 2');
-
-  //         // Seller.date_modified =this.datePipe.transform(Date(),)
-  //         return {
-  //           id: seller.id,
-  //           name_en: seller?.seller_info?.name_en,
-  //           name_ar: seller?.seller_info?.name_ar,
-  //           // commercial_name_en: seller.seller_info.commercial_name_en,
-  //           date_modified: this.datePipe.transform(
-  //             seller.date_modified,
-  //             'E  d  MMM  h:mm'
-  //           ),
-  //           status: seller.is_active,
-  //         };
-  //       });
-  //     }),
-  //     finalize(() => {
-  //       this.loadingIndicator = false;
-  //     })
-  //   );
-  // }
 
   getAllSellers() {
     this.loadingIndicator = false;
@@ -208,70 +102,104 @@ export class PaymentsComponent implements OnInit {
 
   getAllPayments() {
     this.loadingIndicator = false;
-    this.filterPaymentsParams = this.filterPaymentsParams.set('page', 1);
-    this.filterPaymentsParams = this.filterPaymentsParams.set('per_page', 50);
-    this.filterPaymentsParams = this.filterPaymentsParams.set('seller_id ', this.sellerId?.value || '');
-    this.filterPaymentsParams = this.filterPaymentsParams.set('from_date ', this.fromDate?.value || '');
-    this.filterPaymentsParams = this.filterPaymentsParams.set('to_date ', this.toDate?.value || '');
-    this.filterPaymentsParams = this.filterPaymentsParams.set('is_validate  ', this.isValidated?.value || '');
+    this.filterPaymentsParams = this.filterPaymentsParams.set('page', this.page);
+    this.filterPaymentsParams = this.filterPaymentsParams.set('per_page', this.perPage);
+    this.filterPaymentsParams = this.filterPaymentsParams.set(
+      'filters[seller_id]',
+      this.sellerId?.value || ''
+    );
+    this.filterPaymentsParams = this.filterPaymentsParams.set(
+      'filters[order_date_from]',
+      this.fromDate?.value || ''
+    );
+    this.filterPaymentsParams = this.filterPaymentsParams.set(
+      'filters[order_date_to]',
+      this.toDate?.value || ''
+    );
+    this.filterPaymentsParams = this.filterPaymentsParams.set(
+      'filters[is_validate]',
+      this.isValidated?.value || ''
+    );
 
-    console.log("filterField" , this.filterField.value);
+    console.log('filterField', this.filterField.value);
 
     this.subscription.add(
-      this._PaymentsService.getPayments(this.filterPaymentsParams).subscribe((res) => {
-        this.payments = res?.data;
-        this.loadingIndicator = false;
-      })
+      this._PaymentsService
+        .getPayments(this.filterPaymentsParams)
+        .subscribe((res) => {
+          this.payments = res?.data;
+          this.length = res.meta.total;
+          const updatedArray = this.payments.map((object: any) => {
+            if (object.is_validated === 0) {
+              return { ...object, is_validated: 'false' };
+            } else {
+              return { ...object, is_validated: 'true' };
+            }
+          });
+          console.log(updatedArray);
+
+          this.data$ = of(updatedArray);
+          this.loadingIndicator = false;
+        })
+    );
+  }
+
+  validateItemList() {
+    console.log('this.selectedItems', this.selectedItems);
+
+    const shipmentsIds = this.selectedItems.map((item:any) => item?.id)
+    this.subscription.add(
+      this._PaymentsService
+        .validateItemList({ ids: shipmentsIds})
+        .subscribe(() => {
+          this.getAllPayments();
+          this.showValidateBtn = false;
+        })
     );
   }
 
   getFilterAction() {
-    this.getAllPayments()
-    console.log("filterField" , this.filterField.value);
-
+    this.getAllPayments();
+    console.log('filterField', this.filterField.value);
   }
 
-  resetFormColumn() {}
+  resetFormColumn() {
+    this.dropdownSellerId.resetFilter();
 
-  test(selectedItem: any) {
-    console.log('a;sdlkasd');
-
-    this.selectedItems = selectedItem;
-    console.log(
-      'selectedItems',
-      selectedItem.map((item: { validated: any }) => item.validated)
-    );
-    this.showValidateBtn = selectedItem
-      .map((item: { validated: any }) => item.validated)
-      .find(false)
-      ? true
-      : false;
-  }
-  validateItemsSeller() {
-    console.log('this.selectedItems', this.selectedItems);
+    this.selectedSellerId = null; // Reset the selected option to null
+    this.selectedIsValidated = null; // Reset the selected option to null
+    this.filterField.reset();
+    this.getAllPayments();
   }
 
   itemsSelected(selectedItem: any) {
     this.selectedItems = selectedItem;
     if (this.selectedItems.length) {
       this.showValidateBtn = this.selectedItems
-        .map((item: { validated: any }) => item.validated)
-        .includes(true)
+        .map((item: { is_validated: any }) => item.is_validated)
+        .includes("true")
         ? false
         : true;
     } else {
-      this.showValidateBtn = false
+      this.showValidateBtn = false;
     }
   }
 
-  setIsValideValue(event:any){
-
-    this.isValidated?.setValue(event?.value?.value)
+  paginationHandler(value:any){
+    console.log("paginationHandler" , value);
+    this.page = value?.page;
+    this.perPage = value?.size;
+    this.getAllPayments()
   }
 
-  setSellerIdValue(event:any){
+  setIsValideValue(event: any) {
+    this.isValidated?.setValue(event?.value?.value);
+    console.log('this.isValidated', this.selectedIsValidated);
+  }
+
+  setSellerIdValue(event: any) {
     console.log(event?.value?.id);
 
-    this.sellerId?.setValue(event?.value?.id)
+    this.sellerId?.setValue(event?.value?.id);
   }
 }
